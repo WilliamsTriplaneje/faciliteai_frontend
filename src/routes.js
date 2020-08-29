@@ -1,7 +1,8 @@
 import React from 'react'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
-//IMPORTS
+//IMPORTS  
+
 import Login from './pages/Login/index'
 import Dashboard from './pages/Dasboard/index'
 
