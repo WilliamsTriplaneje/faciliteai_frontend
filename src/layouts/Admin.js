@@ -74,11 +74,11 @@ class Admin extends React.Component {
         <div className="main-content" ref="mainContent">
           <AdminNavbar
             {...this.props}
-            brandText={this.getBrandText(this.props.location.pathname)}
+            // brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to="/admin/index/" />
+            <Redirect from="*" to="/admin/index"/>
           </Switch>
           <Container fluid>
             {/* <AdminFooter /> */}

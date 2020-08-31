@@ -67,6 +67,7 @@ class Index extends React.Component {
         this.state.chartExample1Data === "data1" ? "data2" : "data1"
     });
   };
+  
   render() {
     return (
       <>

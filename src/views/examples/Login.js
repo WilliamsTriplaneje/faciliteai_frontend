@@ -50,9 +50,9 @@ class Login extends React.Component {
         providerPassword,
       });
       const { _id } = response.data
-      console.log(response.data);
-      window.location = `/admin/index/${_id}`
-      localStorage.setItem('providerId', _id)
+      await localStorage.setItem('providerId', _id)
+      window.location = `/admin/dashboard`
+
     } 
     return (
       <>

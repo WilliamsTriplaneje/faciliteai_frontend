@@ -167,7 +167,7 @@ class Sidebar extends React.Component {
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" >
+                <DropdownItem to="/admin/profile" >
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
@@ -175,7 +175,7 @@ class Sidebar extends React.Component {
                   <i className="ni ni-settings-gear-65" />
                   <span>Settings</span>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
+                <DropdownItem to="/admin/profile" tag={Link}>
                   <i className="ni ni-calendar-grid-58" />
                   <span>Activity</span>
                 </DropdownItem>
