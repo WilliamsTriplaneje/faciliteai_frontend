@@ -26,13 +26,14 @@ import "./assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
+import Login from "./pages/Login/index.js";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
-  {...rest}
+    {...rest}
     render={(props) =>
       isAuthenticated() ? (
-         <Component {...props}/>
+        <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />
       )
@@ -42,11 +43,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 ReactDOM.render(
   <BrowserRouter>
-  <Switch>
-    <PrivateRoute path="/admin" component={props => <AdminLayout {...props} />} />
-    <Route path="/auth" render={props => <AuthLayout {...props} />} />
-    <Redirect from="/" to="/auth/login" />
-  </Switch>
-</BrowserRouter>,
+    <Switch>
+      <PrivateRoute
+        path="/admin"
+        component={(props) => <AdminLayout {...props} />}
+      />
+      <Route path="/auth/login"  render={(props) => <AuthLayout {...props} />} />
+      {/* <Route path="/auth/login " component={(props) => <Login {...props} />} /> */}
+      <Redirect from="/" to="/auth/login" />
+    </Switch>
+  </BrowserRouter>,
   document.getElementById("root")
 );

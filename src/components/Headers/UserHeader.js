@@ -36,13 +36,9 @@ class UserHeader extends React.Component {
     return (
       <>
         <div
-          className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+          className="header pb-2 pt-2 pt-lg-4 d-flex align-items-center"
           style={{
-            minHeight: "600px",
-            backgroundImage:
-              "url(" +
-              require("../../assets/img/theme/profile-cover.jpg") +
-              ")",
+            minHeight: "400px",
             backgroundSize: "cover",
             backgroundPosition: "center top",
           }}

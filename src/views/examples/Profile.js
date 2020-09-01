@@ -51,7 +51,7 @@ class Profile extends React.Component {
       btnShow.style.display = "block";
 
       const servicesShow = document.getElementById("servicesShow");
-      servicesShow.style.display = 'grid'
+      servicesShow.style.display = "grid";
     } else {
       //GET DATA's
       this.setState({ dataProvider: response.data });
@@ -64,7 +64,7 @@ class Profile extends React.Component {
 
       //DISABLE EDIT SERVICES DIV
       const servicesShow = document.getElementById("servicesShow");
-      servicesShow.style.display = 'none'
+      servicesShow.style.display = "none";
     }
   }
   render() {
@@ -139,14 +139,14 @@ class Profile extends React.Component {
                       <i className="ni location_pin mr-2" />
                       {address.city} - {address.state}
                     </div>
-                    {/* <div className="h5 mt-4">
+                    <div className="h5 mt-4">
                       <i className="ni business_briefcase-24 mr-2" />
                       Category
                     </div>
                     <div>
                       <i className="ni education_hat mr-2" />
                       University of Computer Science
-                    </div> */}
+                    </div>
                     <hr className="my-4" />
                     <p>{dataProvider.description}</p>
                   </div>
@@ -174,6 +174,109 @@ class Profile extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <Form>
+                  <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Primeiro Nome
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-username"
+                              placeholder="Digite seu primeiro nome."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Sobrenome
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-email"
+                              placeholder="Digite o seu sobrenome."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                  <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              E-mail
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-username"
+                              placeholder="Digite seu e-mail pessoal."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Telefone / Whatsapp
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-email"
+                              placeholder="Digite o seu telefone."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                  <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              RG
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-username"
+                              placeholder="Digite seu RG."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              CPF
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-email"
+                              placeholder="Digite o seu CPF."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <hr className="my-4" />
                     <h6 className="heading-small text-muted mb-4">
                       Informações da empresa
                     </h6>
@@ -270,43 +373,89 @@ class Profile extends React.Component {
                     </h6>
                     <div className="pl-lg-4">
                       <Row>
-                        <Col md="12">
+                        <Col lg="5">
                           <FormGroup>
                             <label
                               className="form-control-label"
                               htmlFor="input-address"
                             >
-                              Endereço
+                              Logradouro
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              value={address.street}
                               placeholder="Digite o endereço de sua empresa"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="2">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Número
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-address"
+                              placeholder="Digite número"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="5">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Bairro
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-address"
+                              placeholder="Digite o nome do bairro"
                               type="text"
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                       <Row>
-                        <Col lg="4">
+                        <Col lg="5">
                           <FormGroup>
                             <label
                               className="form-control-label"
                               htmlFor="input-city"
                             >
-                              Cidade
+                              CEP
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-city"
-                              placeholder="Digite a cidade."
-                              value={address.city}
+                              placeholder="Digite seu CEP."
+                              type="number"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="5">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-country"
+                            >
+                              Cidade
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-country"
+                              placeholder="Digite o nome da sua cidade."
                               type="text"
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg="4">
+                        <Col lg="2">
                           <FormGroup>
                             <label
                               className="form-control-label"
@@ -316,31 +465,50 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              id="input-country"
-                              value={address.state}
-                              placeholder="Digite o estado"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-country"
-                            >
-                              CEP
-                            </label>
-                            <Input
-                              className="form-control-alternative"
                               id="input-postal-code"
-                              value={address.cep}
-                              placeholder="Digite o CEP"
+                              placeholder="Digite o seu estado"
                               type="number"
                             />
                           </FormGroup>
                         </Col>
                       </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Latitude / Maps
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-address"
+                              placeholder="Digite a latitude."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Longitude / Maps
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-address"
+                              placeholder="Digite a longitude."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <span style={{color: 'gray'}}>Informações de latitude e longitude, podem ser encontrados no
+                        Google Maps, veja como clicando <a href='#'>aqui</a>.
+                      </span>
                     </div>
                     {/* CONTACTS */}
                     <hr className="my-4" />
@@ -349,7 +517,7 @@ class Profile extends React.Component {
                     </h6>
                     <div className="pl-lg-4">
                       <Row>
-                        <Col md="12">
+                        <Col lg="6">
                           <FormGroup>
                             <label
                               className="form-control-label"
@@ -360,7 +528,22 @@ class Profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              value={contact.email}
+                              placeholder="Digite o endereço de sua empresa"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Telefone comercial
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
                             />
@@ -368,19 +551,34 @@ class Profile extends React.Component {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md="12">
+                        <Col lg="6">
                           <FormGroup>
                             <label
                               className="form-control-label"
                               htmlFor="input-address"
                             >
-                              Telefone Comercial
+                              Perfil Instagram
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              value={contact.phone}
-                              placeholder="Digite o endereço de sua empresa"
+                              placeholder="Cole o link do seu perfil do instagram."
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Página do Facebook
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              id="input-address"
+                              placeholder="Cole o link da sua página do facebook."
                               type="text"
                             />
                           </FormGroup>
@@ -389,24 +587,27 @@ class Profile extends React.Component {
                     </div>
                     <hr className="my-4" />
                     {/* Description */}
-                    <div id='servicesShow'>
+                    <div id="servicesShow">
                       <h6 className="heading-small text-muted mb-4">
-                        Serviços
+                        Anexos
                       </h6>
                       <div className="pl-lg-4">
                         <FormGroup>
-                          <label>Descrição dos serviços</label>
+                          <label>Envio imagens dos seguintes documentos. <strong>RG, CPF, Cartão CNPJ,
+                            comprovante de residência.</strong>  </label>
                           <Input
                             className="form-control-alternative"
                             placeholder="Fale sobre seus serviços."
                             rows="6"
-                            type="textarea"
+                            type="file"
                           />
                         </FormGroup>
+                        <span>Formatos aceitos: <strong>JPG, JPEG, PNG</strong>. Tamanho máximo: <strong>2MB.</strong></span>
                       </div>
                     </div>
                   </Form>
                   <Button
+                  style = {{background: '#0068e3' , border: 'none'}}
                     type="submit"
                     id="btnShow"
                     className="float-right"
@@ -415,7 +616,7 @@ class Profile extends React.Component {
                     onClick={(e) => e.preventDefault()}
                     size="md"
                   >
-                    Concluir
+                    Cadastrar
                   </Button>
                 </CardBody>
               </Card>
