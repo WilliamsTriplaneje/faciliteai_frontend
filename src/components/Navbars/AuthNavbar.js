@@ -52,7 +52,7 @@ class AdminNavbar extends React.Component {
                     <Link to="/">
                       <img
                         alt="..."
-                        src={require("assets/img/brand/logo.png")}
+                        src={require("./assets/img/brand/logo.png")}
                       />
                     </Link>
                   </Col>

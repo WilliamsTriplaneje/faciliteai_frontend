@@ -18,8 +18,6 @@
 import React from "react";
 import api from "../../services/api";
 
-
-
 // reactstrap components
 import {
   Button,
@@ -38,24 +36,28 @@ import {
 
 class Login extends React.Component {
   state = {
-    providerEmail: "",
-    providerPassword: "",
+    adminEmail: "",
+    adminPassword: "",
   };
   render() {
-    const { providerEmail } = this.state;
-    const { providerPassword } = this.state;
+    const { adminEmail } = this.state;
+    const { adminPassword } = this.state;
 
     async function handleLogin(e) {
       e.preventDefault();
-      const response = await api.post(`/login/provider`, {
-        providerEmail,
-        providerPassword,
+      const response = await api.post(`/login/admin`, {
+        adminEmail,
+        adminPassword,
       });
-      const { _id } = response.data
-      console.log(response.data);
-      window.location = `/dashboard/${_id}`
-      localStorage.setItem('providerId', _id)
-    } 
+      const { _id } = response.data;
+      const { isAdmin } = response.data;
+      if (isAdmin != false) {
+        await localStorage.setItem('AdminId', _id)
+        window.location = `/admin/painel`;
+      } else {
+        window.location = `/auth/admin`;
+      }
+    }
     return (
       <>
         <Col lg="5" md="7">
@@ -98,12 +100,12 @@ class Login extends React.Component {
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <p>
-                  <img alt="..." src={require("../../assets/img/brand/logo.png")} />
+                  <img
+                    alt="..."
+                    src={require("../../assets/img/brand/logo.png")}
+                  />
                 </p>
-                <p>
-                  Informe seu e-mail e senha para acessar o paínel
-                  administrativo.
-                </p>
+                <p>Paínel de administradores FaciliteAi</p>
               </div>
               <Form role="form" onSubmit={handleLogin}>
                 <FormGroup className="mb-3">
@@ -117,7 +119,9 @@ class Login extends React.Component {
                       placeholder="Digite seu e-mail"
                       type="email"
                       autoComplete="new-email"
-                      onChange={e => this.setState({providerEmail: e.target.value})}
+                      onChange={(e) =>
+                        this.setState({ adminEmail: e.target.value })
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
@@ -132,23 +136,21 @@ class Login extends React.Component {
                       placeholder="Digite sua senha"
                       type="password"
                       autoComplete="new-password"
-                      onChange={e => this.setState({providerPassword: e.target.value})}
+                      onChange={(e) =>
+                        this.setState({ adminPassword: e.target.value })
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
                 <div className="text-center">
-                  <Button
-                    className="my-4"
-                    color="primary"
-                    type="submit"
-                  >
+                  <Button className="my-4" color="primary" type="submit">
                     Entrar
                   </Button>
                 </div>
               </Form>
             </CardBody>
           </Card>
-          <Row className="mt-3">
+          {/* <Row className="mt-3">
             <Col xs="6">
               <a
                 className="text-light"
@@ -167,7 +169,7 @@ class Login extends React.Component {
                 <small>Criar minha conta.</small>
               </a>
             </Col>
-          </Row>
+          </Row> */}
         </Col>
       </>
     );

@@ -16,16 +16,25 @@
 
 */
 import Index from "./views/Index.js";
+import IndexAdmin from "./views/IndexAdmin.js";
 import Profile from "./views/examples/Profile.js";
 import Maps from "./views/examples/Maps.js";
 import Register from "./views/examples/Register.js";
 import Login from "./views/examples/Login.js";
+import LoginAdmin from "./views/examples/LoginAdmin";
 import Tables from "./views/examples/Tables.js";
-import Icons from "./views/examples/Icons.js";
+// import Icons from "./views/examples/Icons.js";
 
 var routes = [
   {
     path: "/dashboard",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: IndexAdmin,
+    layout: "/admin"
+  },
+  {
+    path: "/painel",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
@@ -47,7 +56,7 @@ var routes = [
   },
   {
     path: "/profile",
-    name: "User Profile",
+    name: "Minha Conta",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin"
@@ -64,6 +73,13 @@ var routes = [
     name: "Login",
     icon: "ni ni-key-25 text-info",
     component: Login,
+    layout: "/auth",
+  },
+  {
+    path: "/admin",
+    name: "LoginAdmin",
+    icon: "ni ni-key-25 text-info",
+    component: LoginAdmin,
     layout: "/auth",
   },
   {

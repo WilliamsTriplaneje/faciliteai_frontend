@@ -18,15 +18,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { isAuthenticated } from "./auth";
+import { isAuthenticated, isAdmin } from "./auth";
 
 import "./assets/plugins/nucleo/css/nucleo.css";
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
-import AdminLayout from "./layouts/Admin.js";
+import ProviderLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
-import Login from "./pages/Login/index.js";
+import AdminLayout from './LayoutAdmin/Admin'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -40,16 +40,20 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-
+    
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <PrivateRoute
         path="/admin"
+        component={(props) => <ProviderLayout {...props} />}
+      />
+      <PrivateRoute
+        path="/painel"
         component={(props) => <AdminLayout {...props} />}
       />
-      <Route path="/auth/login"  render={(props) => <AuthLayout {...props} />} />
-      {/* <Route path="/auth/login " component={(props) => <Login {...props} />} /> */}
+      <Route path="/auth/login" render={(props) => <AuthLayout {...props} />} />
+      <Route path="/auth/admin" render={(props) => <AuthLayout {...props} />} />
       <Redirect from="/" to="/auth/login" />
     </Switch>
   </BrowserRouter>,
