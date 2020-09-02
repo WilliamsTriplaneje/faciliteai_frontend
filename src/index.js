@@ -26,7 +26,6 @@ import "./assets/scss/argon-dashboard-react.scss";
 
 import ProviderLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
-import AdminLayout from './LayoutAdmin/Admin'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -48,12 +47,9 @@ ReactDOM.render(
         path="/admin"
         component={(props) => <ProviderLayout {...props} />}
       />
-      <PrivateRoute
-        path="/painel"
-        component={(props) => <AdminLayout {...props} />}
-      />
       <Route path="/auth/login" render={(props) => <AuthLayout {...props} />} />
       <Route path="/auth/admin" render={(props) => <AuthLayout {...props} />} />
+      <Route path="/auth/register" render={(props) => <AuthLayout {...props} />} />
       <Redirect from="/" to="/auth/login" />
     </Switch>
   </BrowserRouter>,

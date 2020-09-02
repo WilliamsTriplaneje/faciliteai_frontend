@@ -160,7 +160,7 @@ class Login extends React.Component {
               <a
                 className="text-light"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={() => window.location = '/auth/register'}
               >
                 <small>Criar minha conta.</small>
               </a>

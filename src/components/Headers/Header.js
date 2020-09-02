@@ -41,7 +41,7 @@ class Header extends React.Component {
                             Traffic
                           </CardTitle>
                           <span className="h2 font-weight-bold mb-0">
-                            350,897
+                            1000,000
                           </span>
                         </div>
                         <Col className="col-auto">
