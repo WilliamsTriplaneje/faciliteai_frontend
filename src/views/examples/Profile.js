@@ -17,6 +17,7 @@
 */
 import React from "react";
 import api from "../../services/api";
+import Swal from "sweetalert2";
 
 // reactstrap components
 import {
@@ -39,13 +40,49 @@ class Profile extends React.Component {
     dataProvider: {},
     address: {},
     contact: {},
+
+    provider: localStorage.getItem("providerId"),
+    firstName: "",
+    lastname: "",
+    pessoalEmail: "",
+    pessoalPhone: "",
+    rg: "",
+    cpf: "",
+    nameFantasy: "",
+    rSocial: "",
+    cnpj: "",
+    assignment: "",
+    address: {
+      street: "",
+      number: "",
+      neighborhood: "",
+      city: "",
+      state: "",
+      cep: "",
+      lat: "",
+      long: "",
+    },
+    contact: {
+      phone: "",
+      email: "",
+      instaPerfil: "",
+      facebookPage: "",
+    },
+    description: "",
+    isActive: false,
+
+    file: null,
   };
   async componentDidMount() {
     const providerId = localStorage.getItem("providerId");
     const response = await api.get(`/provider/${providerId}`);
     //VERIFY NULL
     if (response.data == null) {
-      alert("Está vazio");
+      Swal.fire({
+        icon: "warning",
+        title: "FaciliteAi",
+        text: "É necessário preencher os dados da sua empresa!",
+      });
 
       const btnShow = document.getElementById("btnShow");
       btnShow.style.display = "block";
@@ -53,24 +90,111 @@ class Profile extends React.Component {
       const servicesShow = document.getElementById("servicesShow");
       servicesShow.style.display = "grid";
     } else {
-      //GET DATA's
-      this.setState({ dataProvider: response.data });
-      this.setState({ address: response.data.address });
-      this.setState({ contact: response.data.contact });
+      if (response.data.isActive == false) {
+        await Swal.fire({
+          icon: "warning",
+          title: "FaciliteAi",
+          text: "Por favor aguarde a aprovação dos seus dados!",
+        });
+        window.location = "/admin/dashboard";
+        const btnShow = document.getElementById("btnShow");
+        btnShow.style.display = "none";
 
-      //DISABLE BUTTON
-      const btnShow = document.getElementById("btnShow");
-      btnShow.style.display = "none";
+        //DISABLE EDIT SERVICES DIV
+        const servicesShow = document.getElementById("servicesShow");
+        servicesShow.style.display = "none";
+      } else {
+        //GET DATA's
+        this.setState({ dataProvider: response.data });
+        this.setState({ address: response.data.address });
+        this.setState({ contact: response.data.contact });
 
-      //DISABLE EDIT SERVICES DIV
-      const servicesShow = document.getElementById("servicesShow");
-      servicesShow.style.display = "none";
+        //DISABLE BUTTON
+        const btnShow = document.getElementById("btnShow");
+        btnShow.style.display = "none";
+
+        //DISABLE EDIT SERVICES DIV
+        const servicesShow = document.getElementById("servicesShow");
+        servicesShow.style.display = "none";
+      }
     }
   }
+
   render() {
     const { dataProvider } = this.state;
     const { address } = this.state;
     const { contact } = this.state;
+
+    const { provider } = this.state;
+    const { firstName } = this.state;
+    const { lastname } = this.state;
+    const { pessoalEmail } = this.state;
+    const { pessoalPhone } = this.state;
+    const { rg } = this.state;
+    const { cpf } = this.state;
+    const { nameFantasy } = this.state;
+    const { rSocial } = this.state;
+    const { cnpj } = this.state;
+    const { assignment } = this.state;
+    const { street } = this.state;
+    const { number } = this.state;
+    const { neighborhood } = this.state;
+    const { city } = this.state;
+    const { state } = this.state;
+    const { cep } = this.state;
+    const { lat } = this.state;
+    const { long } = this.state;
+    const { phone } = this.state;
+    const { email } = this.state;
+    const { instaPerfil } = this.state;
+    const { facebookPage } = this.state;
+    const { description } = this.state;
+    const { isActive } = this.state;
+
+    async function handleRegister() {
+      try {
+        await api.post("/register/data", {
+          provider,
+          firstName,
+          lastname,
+          pessoalEmail,
+          pessoalPhone,
+          rg,
+          cpf,
+          nameFantasy,
+          rSocial,
+          cnpj,
+          assignment,
+          address: {
+            street,
+            number,
+            neighborhood,
+            city,
+            state,
+            cep,
+            lat,
+            long,
+          },
+          contact: {
+            phone,
+            email,
+            instaPerfil,
+            facebookPage,
+          },
+          description,
+          isActive,
+        });
+        await Swal.fire({
+          icon: "success",
+          title: "FaciliteAi",
+          text: "Seus dados foram enviados para aprovação",
+        });
+        window.location = "/admin/profile";
+      } catch (error) {
+        const { data } = error.response;
+        alert(data.error);
+      }
+    }
     return (
       <>
         <UserHeader />
@@ -173,110 +297,134 @@ class Profile extends React.Component {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <Form>
-                  <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              Primeiro Nome
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-username"
-                              placeholder="Digite seu primeiro nome."
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              Sobrenome
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-email"
-                              placeholder="Digite o seu sobrenome."
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                  <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              E-mail
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-username"
-                              placeholder="Digite seu e-mail pessoal."
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              Telefone / Whatsapp
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-email"
-                              placeholder="Digite o seu telefone."
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                  <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              RG
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-username"
-                              placeholder="Digite seu RG."
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              CPF
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-email"
-                              placeholder="Digite o seu CPF."
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <hr className="my-4" />
+                  <Form role="form">
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            Primeiro Nome
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            value = {dataProvider.firstName}
+                            placeholder="Digite seu primeiro nome."
+                            type="text"
+                            onChange={(e) =>
+                              this.setState({ firstName: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-email"
+                          >
+                            Sobrenome
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-email"
+                            placeholder="Digite o seu sobrenome."
+                            type="text"
+                            value = {dataProvider.lastname}
+                            onChange={(e) =>
+                              this.setState({ lastname: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            E-mail
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder="Digite seu e-mail pessoal."
+                            type="email"
+                            value = {dataProvider.pessoalEmail}
+                            onChange={(e) =>
+                              this.setState({ pessoalEmail: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-email"
+                          >
+                            Telefone / Whatsapp
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-email"
+                            placeholder="Digite o seu telefone."
+                            type="text"
+                            value = {dataProvider.pessoalPhone}
+                            onChange={(e) =>
+                              this.setState({ pessoalPhone: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username"
+                          >
+                            RG
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder="Digite seu RG."
+                            type="text"
+                            value = {dataProvider.rg}
+                            onChange={(e) =>
+                              this.setState({ rg: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-email"
+                          >
+                            CPF
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-email"
+                            placeholder="Digite o seu CPF."
+                            type="text"
+                            value = {dataProvider.cpf}
+                            onChange={(e) =>
+                              this.setState({ cpf: e.target.value })
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <hr className="my-4" />
                     <h6 className="heading-small text-muted mb-4">
                       Informações da empresa
                     </h6>
@@ -292,10 +440,13 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              value={dataProvider.nameFantasy}
                               id="input-username"
                               placeholder="Digite o nome fantasia da sua empresa."
                               type="text"
+                              value = {dataProvider.nameFantasy}
+                              onChange={(e) =>
+                                this.setState({ nameFantasy: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -313,6 +464,9 @@ class Profile extends React.Component {
                               id="input-email"
                               placeholder="Digite a razão social da sua empresa."
                               type="text"
+                              onChange={(e) =>
+                                this.setState({ rSocial: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -332,6 +486,9 @@ class Profile extends React.Component {
                               value={dataProvider.cnpj}
                               placeholder="Digite o CNPJ da sua empresa."
                               type="text"
+                              onChange={(e) =>
+                                this.setState({ cnpj: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -348,6 +505,10 @@ class Profile extends React.Component {
                               id="input-last-name"
                               placeholder="Last name"
                               type="select"
+                              value = {dataProvider.assignment}
+                              onChange={(e) =>
+                                this.setState({ assignment: e.target.value })
+                              }
                             >
                               <option>Selecionar</option>
                               <option>Sociedade Anônima</option>
@@ -386,6 +547,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
+                              value = {address.street}
+                              onChange={(e) =>
+                                this.setState({ street: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -418,6 +583,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o nome do bairro"
                               type="text"
+                              value = {address.neighborhood}
+                              onChange={(e) =>
+                                this.setState({ neighborhood: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -435,7 +604,11 @@ class Profile extends React.Component {
                               className="form-control-alternative"
                               id="input-city"
                               placeholder="Digite seu CEP."
-                              type="number"
+                              type="text"
+                              value = {address.cep}
+                              onChange={(e) =>
+                                this.setState({ cep: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -452,6 +625,10 @@ class Profile extends React.Component {
                               id="input-country"
                               placeholder="Digite o nome da sua cidade."
                               type="text"
+                              value = {address.city}
+                              onChange={(e) =>
+                                this.setState({ city: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -467,7 +644,11 @@ class Profile extends React.Component {
                               className="form-control-alternative"
                               id="input-postal-code"
                               placeholder="Digite o seu estado"
-                              type="number"
+                              type="text"
+                              value = {address.state}
+                              onChange={(e) =>
+                                this.setState({ state: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -486,6 +667,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite a latitude."
                               type="text"
+                              value = {address.lat}
+                              onChange={(e) =>
+                                this.setState({ lat: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -502,12 +687,18 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite a longitude."
                               type="text"
+                              value = {address.long}
+                              onChange={(e) =>
+                                this.setState({ long: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
                       </Row>
-                      <span style={{color: 'gray'}}>Informações de latitude e longitude, podem ser encontrados no
-                        Google Maps, veja como clicando <a href='#'>aqui</a>.
+                      <span style={{ color: "gray" }}>
+                        Informações de latitude e longitude, podem ser
+                        encontrados no Google Maps, veja como clicando{" "}
+                        <a href="#">aqui</a>.
                       </span>
                     </div>
                     {/* CONTACTS */}
@@ -530,6 +721,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
+                              value = {contact.email}
+                              onChange={(e) =>
+                                this.setState({ email: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -546,6 +741,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
+                              value = {contact.phone}
+                              onChange={(e) =>
+                                this.setState({ phone: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -564,6 +763,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Cole o link do seu perfil do instagram."
                               type="text"
+                              value = {contact.instaPerfil}
+                              onChange={(e) =>
+                                this.setState({ instaPerfil: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -580,6 +783,10 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Cole o link da sua página do facebook."
                               type="text"
+                              value = {contact.facebookPage}
+                              onChange={(e) =>
+                                this.setState({ facebookPage: e.target.value })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -587,14 +794,36 @@ class Profile extends React.Component {
                     </div>
                     <hr className="my-4" />
                     {/* Description */}
+
                     <div id="servicesShow">
-                      <h6 className="heading-small text-muted mb-4">
-                        Anexos
-                      </h6>
+                      <FormGroup encType="multipart/form-data">
+                        <label>
+                          <strong>Descrição da sua empresa.</strong>
+                        </label>
+                        <Input
+                          className="form-control-alternative"
+                          placeholder="Fale sobre sua empresa."
+                          rows="6"
+                          type="textarea"
+                          onChange={(e) =>
+                            this.setState({ description: e.target.value })
+                          }
+                        />
+                      </FormGroup>
+                      <h6 className="heading-small text-muted mb-4">Anexos</h6>
                       <div className="pl-lg-4">
+                        <span>
+                          Envio imagens dos seguintes documentos.{" "}
+                          <strong>
+                            RG, CPF, Cartão CNPJ, comprovante de residência.
+                          </strong>{" "}
+                          <hr className="my-4" />
+                        </span>
+
                         <FormGroup>
-                          <label>Envio imagens dos seguintes documentos. <strong>RG, CPF, Cartão CNPJ,
-                            comprovante de residência.</strong>  </label>
+                          <label>
+                            <strong>RG</strong>{" "}
+                          </label>
                           <Input
                             className="form-control-alternative"
                             placeholder="Fale sobre seus serviços."
@@ -602,19 +831,39 @@ class Profile extends React.Component {
                             type="file"
                           />
                         </FormGroup>
-                        <span>Formatos aceitos: <strong>JPG, JPEG, PNG</strong>. Tamanho máximo: <strong>2MB.</strong></span>
+                        <FormGroup encType="multipart/form-data">
+                          <label>
+                            <strong>Cartão CNPJ</strong>{" "}
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            placeholder="Fale sobre seus serviços."
+                            rows="6"
+                            type="file"
+                          />
+                        </FormGroup>
+                        <FormGroup encType="multipart/form-data">
+                          <label>
+                            <strong>CPF</strong>{" "}
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            placeholder="Fale sobre seus serviços."
+                            rows="6"
+                            type="file"
+                          />
+                        </FormGroup>
                       </div>
                     </div>
                   </Form>
                   <Button
-                  style = {{background: '#0068e3' , border: 'none'}}
-                    type="submit"
+                    style={{ background: "#0068e3", border: "none" }}
+                    type="button"
                     id="btnShow"
                     className="float-right"
                     color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
                     size="md"
+                    onClick={handleRegister}
                   >
                     Cadastrar
                   </Button>
