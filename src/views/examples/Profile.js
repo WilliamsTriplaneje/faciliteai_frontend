@@ -583,7 +583,7 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o nome do bairro"
                               type="text"
-                              value = {address.neighborhood}
+                              // value = {address.neighborhood}
                               onChange={(e) =>
                                 this.setState({ neighborhood: e.target.value })
                               }
@@ -605,7 +605,7 @@ class Profile extends React.Component {
                               id="input-city"
                               placeholder="Digite seu CEP."
                               type="text"
-                              value = {address.cep}
+                              // value = {address.cep}
                               onChange={(e) =>
                                 this.setState({ cep: e.target.value })
                               }
