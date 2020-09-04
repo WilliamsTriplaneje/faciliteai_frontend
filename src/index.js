@@ -21,7 +21,6 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdmin } from "./auth";
 
 import "./assets/plugins/nucleo/css/nucleo.css";
-// import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
 import ProviderLayout from "./layouts/Admin.js";
@@ -48,7 +47,6 @@ ReactDOM.render(
         component={(props) => <ProviderLayout {...props} />}
       />
       <Route path="/auth/login" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/auth/admin" render={(props) => <AuthLayout {...props} />} />
       <Route path="/auth/register" render={(props) => <AuthLayout {...props} />} />
       <Redirect from="/" to="/auth/login" />
     </Switch>
