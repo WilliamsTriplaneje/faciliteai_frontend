@@ -38,7 +38,7 @@ class Header extends React.Component {
                             tag="h5"
                             className="text-uppercase text-muted mb-0"
                           >
-                            Traffic
+                            serviços
                           </CardTitle>
                           <span className="h2 font-weight-bold mb-0">
                             1000,000
@@ -68,7 +68,7 @@ class Header extends React.Component {
                             tag="h5"
                             className="text-uppercase text-muted mb-0"
                           >
-                            New users
+                            contratantes
                           </CardTitle>
                           <span className="h2 font-weight-bold mb-0">
                             2,356

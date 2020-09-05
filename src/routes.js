@@ -17,7 +17,8 @@
 */
 import Index from "./views/Index.js";
 import Profile from "./views/examples/Profile.js";
-import Maps from "./views/examples/Maps.js";
+import ServicesRegister from "./views/examples/ServicesRegister"
+// import Maps from "./views/examples/Maps.js";
 import Register from "./views/examples/Register.js";
 import Login from "./views/examples/Login.js";
 import Tables from "./views/examples/Tables.js";
@@ -38,23 +39,23 @@ var routes = [
   //   component: Icons,
   //   layout: "/admin"
   // },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   icon: "ni ni-pin-3 text-orange",
+  //   component: Maps,
+  //   layout: "/admin"
+  // },
   {
     path: "/profile",
-    name: "Minha Conta",
+    name: "Meu negócio",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin"
   },  
   {
     path: "/tables",
-    name: "Tables",
+    name: "Meus serviços",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
     layout: "/admin"
@@ -72,6 +73,13 @@ var routes = [
     icon: "ni ni-circle-08 text-pink",
     component: Register,
     layout: "/auth"
+  },
+  {
+    path: "/new",
+    name: "Cadastrar Serviço",
+    icon: "ni ni-circle-08 text-pink",
+    component: ServicesRegister,
+    layout: "/admin"
   },
 ];
 export default routes;

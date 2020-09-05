@@ -81,7 +81,7 @@ class AdminNavbar extends React.Component {
                     <span className="avatar avatar-sm rounded-circle">
                       <img
                         alt="..."
-                        src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                        src={require("../../assets/img/theme/avatar-icon.png")}
                       />
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
@@ -95,9 +95,9 @@ class AdminNavbar extends React.Component {
                   <DropdownItem className="noti-title" header tag="div">
                     <h6 className="text-overflow m-0">Bem-vindo!</h6>
                   </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
+                  {/* <DropdownItem to="/admin/user-profile" tag={Link}>
                     <i className="ni ni-single-02" />
-                    <span>Meu Perfil</span>
+                    <span onClick = {()=> window.location = '/admin/profile'}>Meu Perfil</span>
                   </DropdownItem>
                   <DropdownItem to="/admin/user-profile" tag={Link}>
                     <i className="ni ni-settings-gear-65" />
@@ -111,7 +111,7 @@ class AdminNavbar extends React.Component {
                     <i className="ni ni-support-16" />
                     <span>Suporte</span>
                   </DropdownItem>
-                  <DropdownItem divider />
+                  <DropdownItem divider /> */}
                   <DropdownItem href="#pablo" onClick={logout}>
                     <i className="ni ni-user-run" />
                     <span>Logout</span>

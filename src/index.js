@@ -49,6 +49,7 @@ ReactDOM.render(
       />
       <Route path="/auth/login" render={(props) => <AuthLayout {...props} />} />
       <Route path="/auth/register" render={(props) => <AuthLayout {...props} />} />
+      <Route path="/auth/new" render={(props) => <AuthLayout {...props} />} />
       <Redirect from="/" to="/auth/login" />
     </Switch>
   </BrowserRouter>,
