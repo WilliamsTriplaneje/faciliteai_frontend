@@ -81,12 +81,9 @@ class Profile extends React.Component {
       console.log(response.data);
     }
 
-    async function handleSubcategory(sub) {
-      const response = await api.get(`/admin/subcategory/filter`, {
-        params: { category: workCategory },
-      });
-      console.log(response.data)
-      this.setState({subcategorys: response.data})
+    async function handleSubcategory(categoryId) {
+      const response = await api.get(`/admin/subcategory/filter?categoryId=${categoryId}`);
+      return response.data
     }
     
     return (
@@ -171,16 +168,18 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="select"
-                              onChange={(e) =>
-                                this.setState(
-                                  { workCategory: e.target.value },
-                                  handleSubcategory
-                                )
+                              onChange={async (e) =>
+                                {
+                                  this.setState({
+                                    workCategory: e.target.value,
+                                    subcategorys: await handleSubcategory(e.target.value)
+                                  })
+                                }
                               }
                             >
                               {" "}
                               <option>Selecionar</option>
-                              {categorys.map((all) => (
+                              {categorys && categorys.map((all) => (
                                 <option value={all._id}>{all.category}</option>
                               ))}
                             </Input>

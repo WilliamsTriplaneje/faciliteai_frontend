@@ -10,6 +10,7 @@
     "chart.js": "^2.9.3",
     "classnames": "^2.2.6",
     "express": "^4.17.1",
+    "form-data": "^3.0.0",
     "node-sass": "^4.14.1",
     "path": "^0.12.7",
     "react": "^16.13.1",
@@ -23,7 +24,7 @@
     "sweetalert2": "^9.17.1"
   },
   "scripts": {
-    "dev":"react-scripts start",
+    "dev": "react-scripts start",
     "start": "node server",
     "postinstall": "npm run build",
     "build": "react-scripts build",

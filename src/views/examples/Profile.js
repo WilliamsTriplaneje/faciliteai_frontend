@@ -18,6 +18,7 @@
 import React from "react";
 import api from "../../services/api";
 import Swal from "sweetalert2";
+import FormData from 'form-data'
 
 // reactstrap components
 import {
@@ -71,7 +72,9 @@ class Profile extends React.Component {
     description: "",
     isActive: false,
 
-    file: null,
+    rgFile: null,
+    cnpjFile: null,
+    cpfFile: null
   };
   async componentDidMount() {
     const providerId = localStorage.getItem("providerId");
@@ -151,6 +154,8 @@ class Profile extends React.Component {
     const { description } = this.state;
     const { isActive } = this.state;
 
+    const { rgFile, cnpjFile, cpfFile } = this.state;
+
     async function handleRegister() {
       try {
         await api.post("/register/data", {
@@ -183,7 +188,24 @@ class Profile extends React.Component {
           },
           description,
           isActive,
-        });
+        }
+        ).then(() => {
+          const data = new FormData();
+
+          data.append("cnpjFile", cnpjFile, cnpjFile.name);
+          data.append("cpfFile", cpfFile, cpfFile.name);
+          data.append("rgFile", rgFile, rgFile.name);
+          data.append("provider", provider);
+
+
+      
+          
+          api.put('/uploads/provider', data, {
+            headers: {
+              "Content-Type": `multipart/form-data; boundary=${data._boundary}`
+            }
+          })
+        })
         await Swal.fire({
           icon: "success",
           title: "FaciliteAi",
@@ -549,7 +571,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {address.street}
                               onChange={(e) =>
-                                this.setState({ street: e.target.value })
+                                this.setState({ address: {
+                                  ...address,
+                                  street: e.target.value
+                                } 
+                              })
                               }
                             />
                           </FormGroup>
@@ -583,10 +609,13 @@ class Profile extends React.Component {
                               id="input-address"
                               placeholder="Digite o nome do bairro"
                               type="text"
-                              // value = {address.neighborhood}
+                              value = {address.neighborhood}
                               onChange={(e) =>
-                                this.setState({ neighborhood: e.target.value })
-                              }
+                                this.setState({ address: {
+                                  ...address,
+                                  neighborhood: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -605,10 +634,13 @@ class Profile extends React.Component {
                               id="input-city"
                               placeholder="Digite seu CEP."
                               type="text"
-                              // value = {address.cep}
+                              value = {address.cep}
                               onChange={(e) =>
-                                this.setState({ cep: e.target.value })
-                              }
+                                this.setState({ address: {
+                                  ...address,
+                                  cep: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -627,8 +659,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {address.city}
                               onChange={(e) =>
-                                this.setState({ city: e.target.value })
-                              }
+                                this.setState({ address: {
+                                  ...address,
+                                  city: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -647,8 +682,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {address.state}
                               onChange={(e) =>
-                                this.setState({ state: e.target.value })
-                              }
+                                this.setState({ address: {
+                                  ...address,
+                                  state: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -669,8 +707,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {address.lat}
                               onChange={(e) =>
-                                this.setState({ lat: e.target.value })
-                              }
+                                this.setState({ address: {
+                                  ...address,
+                                  lat: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -689,8 +730,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {address.long}
                               onChange={(e) =>
-                                this.setState({ long: e.target.value })
-                              }
+                                this.setState({ address: {
+                                  ...address,
+                                  long: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -723,8 +767,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {contact.email}
                               onChange={(e) =>
-                                this.setState({ email: e.target.value })
-                              }
+                                this.setState({ contact: {
+                                  ...contact,
+                                  email: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -743,8 +790,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {contact.phone}
                               onChange={(e) =>
-                                this.setState({ phone: e.target.value })
-                              }
+                                this.setState({ contact: {
+                                  ...contact,
+                                  phone: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -765,8 +815,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {contact.instaPerfil}
                               onChange={(e) =>
-                                this.setState({ instaPerfil: e.target.value })
-                              }
+                                this.setState({ contact: {
+                                  ...contact,
+                                  instaPerfil: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -785,8 +838,11 @@ class Profile extends React.Component {
                               type="text"
                               value = {contact.facebookPage}
                               onChange={(e) =>
-                                this.setState({ facebookPage: e.target.value })
-                              }
+                                this.setState({ contact: {
+                                  ...contact,
+                                  facebookPage: e.target.value
+                                } 
+                              })}
                             />
                           </FormGroup>
                         </Col>
@@ -829,6 +885,12 @@ class Profile extends React.Component {
                             placeholder="Fale sobre seus serviços."
                             rows="6"
                             type="file"
+                            name="rgFile"
+                            onChange={(e) => {
+                              this.setState({
+                                rgFile: e.target.files[0]
+                              })
+                            }}
                           />
                         </FormGroup>
                         <FormGroup encType="multipart/form-data">
@@ -836,10 +898,17 @@ class Profile extends React.Component {
                             <strong>Cartão CNPJ</strong>{" "}
                           </label>
                           <Input
+                            id="cnpjFileInput"
                             className="form-control-alternative"
                             placeholder="Fale sobre seus serviços."
                             rows="6"
                             type="file"
+                            name="cnpjFile"
+                            onChange={(e) => {
+                              this.setState({
+                                cnpjFile: e.target.files[0]
+                              })
+                            }}
                           />
                         </FormGroup>
                         <FormGroup encType="multipart/form-data">
@@ -851,6 +920,12 @@ class Profile extends React.Component {
                             placeholder="Fale sobre seus serviços."
                             rows="6"
                             type="file"
+                            name="cpfFile"
+                            onChange={(e) => {
+                              this.setState({
+                                cpfFile: e.target.files[0]
+                              })
+                            }}
                           />
                         </FormGroup>
                       </div>
