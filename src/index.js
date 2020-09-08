@@ -27,7 +27,7 @@ import "./assets/scss/argon-dashboard-react.scss";
 import ProviderLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
@@ -43,8 +43,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <PrivateRoute
-        path="/admin"
+      <AuthenticatedRoute
+        path="/app"
         component={(props) => <ProviderLayout {...props} />}
       />
       <Route path="/auth/login" render={(props) => <AuthLayout {...props} />} />

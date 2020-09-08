@@ -23,7 +23,7 @@ import { Container } from "reactstrap";
 import AdminNavbar from "../components/Navbars/AdminNavbar.js";
 import AdminFooter from "../components/Footers/AdminFooter.js";
 import Sidebar from "../components/Sidebar/Sidebar.js";
-
+import { AUTHENTICATED_ROUTE_PREFIX } from '../config/Constants'
 import routes from "../routes";
 
 class Admin extends React.Component {
@@ -34,7 +34,7 @@ class Admin extends React.Component {
   }
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === `/${AUTHENTICATED_ROUTE_PREFIX}`) {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -66,7 +66,7 @@ class Admin extends React.Component {
           {...this.props}
           routes={routes}
           logo={{
-            innerLink: "/admin/index",
+            innerLink: `/${AUTHENTICATED_ROUTE_PREFIX}/index`,
             imgSrc: require("../assets/img/brand/logo.png"),
             imgAlt: "..."
           }}
@@ -78,7 +78,7 @@ class Admin extends React.Component {
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to="/admin/index"/>
+            <Redirect from="*" to={`/${AUTHENTICATED_ROUTE_PREFIX}/index`} />
           </Switch>
           <Container fluid>
             <AdminFooter />

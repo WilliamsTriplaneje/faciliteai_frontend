@@ -22,6 +22,7 @@ import ServicesRegister from "./views/examples/ServicesRegister"
 import Register from "./views/examples/Register.js";
 import Login from "./views/examples/Login.js";
 import Tables from "./views/examples/Tables.js";
+import { AUTHENTICATED_ROUTE_PREFIX } from './config/Constants'
 // import Icons from "./views/examples/Icons.js";
 
 var routes = [
@@ -30,7 +31,7 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: Index,
-    layout: "/admin"
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   // {
   //   path: "/icons",
@@ -51,14 +52,14 @@ var routes = [
     name: "Meu negócio",
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
-    layout: "/admin"
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },  
   {
     path: "/tables",
     name: "Meus serviços",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
-    layout: "/admin"
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   {
     path: "/login",
@@ -79,7 +80,7 @@ var routes = [
     name: "Cadastrar Serviço",
     icon: "ni ni-circle-08 text-pink",
     component: ServicesRegister,
-    layout: "/admin"
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
 ];
 export default routes;

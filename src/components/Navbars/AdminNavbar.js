@@ -18,6 +18,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
+import { logout as AuthLogout} from "../../auth";
 // reactstrap components
 import {
   DropdownMenu,
@@ -49,7 +50,7 @@ class AdminNavbar extends React.Component {
     const { provider } = this.state;
 
     function logout() {
-      localStorage.clear();
+      AuthLogout()
       window.location = "/auth/login";
     }
     return (

@@ -41,8 +41,6 @@ class Profile extends React.Component {
     dataProvider: {},
     address: {},
     contact: {},
-
-    provider: localStorage.getItem("providerId"),
     firstName: "",
     lastname: "",
     pessoalEmail: "",
@@ -53,6 +51,15 @@ class Profile extends React.Component {
     rSocial: "",
     cnpj: "",
     assignment: "",
+    // TODO Adaptar todas as informações apra serem colocadas dentro de responsible
+    responsible: {
+      name: '',
+      lastname: '',
+      phone: '',
+      rg: '',
+      cpf: '',
+      email: '',
+    },
     address: {
       street: "",
       number: "",
@@ -158,7 +165,7 @@ class Profile extends React.Component {
 
     async function handleRegister() {
       try {
-        await api.post("/register/data", {
+        await api.post("/companies", {
           provider,
           firstName,
           lastname,
@@ -189,18 +196,15 @@ class Profile extends React.Component {
           description,
           isActive,
         }
-        ).then(() => {
+        ).then((result) => {
           const data = new FormData();
+          const company = result.data;
 
           data.append("cnpjFile", cnpjFile, cnpjFile.name);
           data.append("cpfFile", cpfFile, cpfFile.name);
           data.append("rgFile", rgFile, rgFile.name);
-          data.append("provider", provider);
-
-
-      
           
-          api.put('/uploads/provider', data, {
+          api.put(`/companies/${company._id}/uploads`, data, {
             headers: {
               "Content-Type": `multipart/form-data; boundary=${data._boundary}`
             }

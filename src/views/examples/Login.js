@@ -17,6 +17,8 @@
 */
 import React from "react";
 import api from "../../services/api";
+import { setUser, setRoles, setToken } from "../../auth";
+
 
 // reactstrap components
 import {
@@ -45,13 +47,24 @@ class Login extends React.Component {
 
     async function handleLogin(e) {
       e.preventDefault();
-      const response = await api.post(`login/provider`, {
-        providerEmail,
-        providerPassword,
-      });
-      const { _id } = response.data
-      await localStorage.setItem('providerId', _id)
-      window.location = `/admin/dashboard`
+      await api.post(`login`, {
+        email: providerEmail,
+        password: providerPassword,
+      }).then(async (response) => {
+        const user = response.data
+        console.log()
+        setUser(user)
+        setRoles(user.roles)
+        setToken(user.token)
+
+        // if(user.role)
+        window.location = `/app/dashboard`
+      })
+      .catch((err) => {
+        // TODO Colocar SWA avisando do erro
+        console.log("Erro ao realizar login")
+      })
+      
 
     } 
     return (
