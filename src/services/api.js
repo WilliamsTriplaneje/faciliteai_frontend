@@ -16,15 +16,15 @@ api.interceptors.request.use((request) => {
   return request;
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  (err) => {
-      console.log(err);
-      if (err.response.status === 401) {
-          window.location = '/login'
-      }
-      throw err;
-  },
-);
+// api.interceptors.response.use(
+//   (response) => response,
+//   (err) => {
+//       console.log(err);
+//       if (err.response.status === 401) {
+//           window.location = '/login'
+//       }
+//       throw err;
+//   },
+// );
 
 export default api;

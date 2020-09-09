@@ -44,7 +44,7 @@ class AdminNavbar extends React.Component {
   async componentDidMount() {
     const providerId = localStorage.getItem("providerId");
     const response = await api.get(`/profile/${providerId}`);
-    this.setState({ provider: response.data });
+    // this.setState({ provider: response.data });
   }
   render() {
     const { provider } = this.state;

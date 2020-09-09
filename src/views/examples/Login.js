@@ -52,7 +52,6 @@ class Login extends React.Component {
         password: providerPassword,
       }).then(async (response) => {
         const user = response.data
-        console.log()
         setUser(user)
         setRoles(user.roles)
         setToken(user.token)
@@ -62,7 +61,7 @@ class Login extends React.Component {
       })
       .catch((err) => {
         // TODO Colocar SWA avisando do erro
-        console.log("Erro ao realizar login")
+        console.log(err)
       })
       
 
