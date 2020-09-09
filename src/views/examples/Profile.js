@@ -195,7 +195,7 @@ class Profile extends React.Component {
             cpfFile,
             cnpjFile,
           })
-          .then((result) => {
+          .then((result) => { 
             const data = new FormData();
             const company = result.data;
 
@@ -214,7 +214,7 @@ class Profile extends React.Component {
           title: "FaciliteAi",
           text: "Seus dados foram enviados para aprovação",
         });
-        window.location = "/admin/profile";
+        window.location = "/app/profile";
       } catch (error) {
         const { data } = error.response;
         alert(data.error);
