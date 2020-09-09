@@ -20,19 +20,16 @@ import api from "../../services/api";
 
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
+import { getUser } from "../../auth.js";
 
 class UserHeader extends React.Component {
   state = {
-    provider: {},
+    user: {},
   };
   //API DATA
-  async componentDidMount() {
-    const providerId = localStorage.getItem("providerId");
-    const response = await api.get(`/profile/${providerId}`);
-    
-  }
+
   render() {
-    const { provider } = this.state;
+    const { user } = this.state;
     return (
       <>
         <div
@@ -40,7 +37,7 @@ class UserHeader extends React.Component {
           style={{
             minHeight: "400px",
             backgroundPosition: "center top",
-            backgroundColor: '#0066da'
+            backgroundColor: "#0066da",
           }}
         >
           {/* Mask */}
@@ -50,12 +47,11 @@ class UserHeader extends React.Component {
             <Row>
               <Col lg="7" md="10">
                 <h1 className="display-2 text-white">
-                  Olá {provider.providerName}
+                  Olá {user.name}
                 </h1>
                 <p className="text-white mt-0 mb-5">
-                  Aqui estão todas as informações de sua empresa, algumas informações ficam
-                  visíveis aos seus contratantes.
-                  
+                  Aqui estão todas as informações de sua empresa, algumas
+                  informações ficam visíveis aos seus contratantes.
                 </p>
                 {/* <Button
                   color="info"

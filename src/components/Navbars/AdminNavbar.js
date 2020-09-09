@@ -18,7 +18,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { logout as AuthLogout} from "../../auth";
+import { logout as AuthLogout, getUser} from "../../auth";
+
 // reactstrap components
 import {
   DropdownMenu,
@@ -39,15 +40,11 @@ import {
 
 class AdminNavbar extends React.Component {
   state = {
-    provider: {},
+    user: getUser(),
   };
-  async componentDidMount() {
-    const providerId = localStorage.getItem("providerId");
-    const response = await api.get(`/profile/${providerId}`);
-    // this.setState({ provider: response.data });
-  }
+
   render() {
-    const { provider } = this.state;
+    const { user } = this.state;
 
     function logout() {
       AuthLogout()
@@ -60,7 +57,7 @@ class AdminNavbar extends React.Component {
           <Container fluid>
             <Link
               className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-              to={`/admin/index/${provider._id}`}
+              to={`/app/dashboard/${user._id}`}
             >
             Dashboard
             </Link>
@@ -88,7 +85,7 @@ class AdminNavbar extends React.Component {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        {provider.providerName +' '+ provider.providerLastname}
+                        {user.name +' '+ user.lastname}
                       </span>
                     </Media>
                   </Media>

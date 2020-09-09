@@ -38,10 +38,13 @@ import UserHeader from "../../components/Headers/UserHeader.js";
 
 class Profile extends React.Component {
   state = {
-    company: {},
-    responsible: {},
-    address: {},
-    contact: {},
+    //LISTAGEM PÓS REGISTRO APROVADO
+    nameFantasy: "",
+    rSocial: "",
+    cnpj: "",
+    assignment: "",
+    description: "",
+    isActive: true,
 
     responsible: {
       name: "",
@@ -51,10 +54,7 @@ class Profile extends React.Component {
       cpf: "",
       email: "",
     },
-    nameFantasy: "",
-    rSocial: "",
-    cnpj: "",
-    assignment: "",
+
     address: {
       street: "",
       number: "",
@@ -71,13 +71,22 @@ class Profile extends React.Component {
       instaPerfil: "",
       facebookPage: "",
     },
-    description: "",
-    isActive: false,
 
     rgFile: null,
     cnpjFile: null,
     cpfFile: null,
+
+    isInAnalysis: false,
+    isActive: false,
   };
+
+  isDisabled() {
+    const { isActive, isInAnalysis } = this.state;
+    if (!isActive && !isInAnalysis) {
+      return true;
+    }
+    return false;
+  }
   async componentDidMount() {
     const response = await api.get(`/companies`);
 
@@ -95,6 +104,11 @@ class Profile extends React.Component {
       const servicesShow = document.getElementById("servicesShow");
       servicesShow.style.display = "grid";
     } else {
+      this.setState({
+        isInAnalysis: response.data.isInAnalysis,
+        isActive: response.data.isActive,
+      });
+
       if (response.data.isInAnalysis == true) {
         await Swal.fire({
           icon: "warning",
@@ -110,7 +124,11 @@ class Profile extends React.Component {
         servicesShow.style.display = "none";
       } else {
         //GET DATA's
-        this.setState({ company: response.data });
+        this.setState({ nameFantasy: response.data.nameFantasy });
+        this.setState({ rSocial: response.data.rSocial });
+        this.setState({ cnpj: response.data.cnpj });
+        this.setState({ assignment: response.data.assignment });
+        this.setState({ description: response.data.description });
         this.setState({ responsible: response.data.responsible });
         this.setState({ address: response.data.address });
         this.setState({ contact: response.data.contact });
@@ -127,75 +145,32 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { company } = this.state;
     const { responsible } = this.state;
     const { address } = this.state;
     const { contact } = this.state;
-
-    const { name } = this.state;
-    const { lastname } = this.state;
-    const { email } = this.state;
-    const { phone } = this.state;
-    const { rg } = this.state;
-    const { cpf } = this.state;
     const { nameFantasy } = this.state;
     const { rSocial } = this.state;
     const { cnpj } = this.state;
     const { assignment } = this.state;
-    const { street } = this.state;
-    const { number } = this.state;
-    const { neighborhood } = this.state;
-    const { city } = this.state;
-    const { state } = this.state;
-    const { cep } = this.state;
-    const { lat } = this.state;
-    const { long } = this.state;
-    // const { phone } = this.state;
-    // const { email } = this.state;
-    const { instaPerfil } = this.state;
-    const { facebookPage } = this.state;
     const { description } = this.state;
 
-    const { rgFile, cnpjFile, cpfFile } = this.state;
+    const { rgFile, cnpjFile, cpfFile, isInAnalysis, isActive } = this.state;
 
-    async function handleRegister() {
+    async function handleRegister(e) {
+      e.preventDefault();
       try {
         await api
           .post("/companies", {
-            responsible: {
-              name,
-              lastname,
-              phone,
-              rg,
-              cpf,
-              email,
-            },
+            responsible,
             nameFantasy,
             rSocial,
             cnpj,
             assignment,
-            address: {
-              street,
-              number,
-              neighborhood,
-              city,
-              state,
-              cep,
-              lat,
-              long,
-            },
-            contact: {
-              phone,
-              email,
-              instaPerfil,
-              facebookPage,
-            },
+            address,
+            contact,
             description,
-            rgFile,
-            cpfFile,
-            cnpjFile,
           })
-          .then((result) => { 
+          .then((result) => {
             const data = new FormData();
             const company = result.data;
 
@@ -208,16 +183,18 @@ class Profile extends React.Component {
                 "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
               },
             });
+            console.log(company);
+            console.log(rgFile);
+            console.log(cnpjFile);
+            console.log(cpfFile);
           });
         await Swal.fire({
           icon: "success",
           title: "FaciliteAi",
           text: "Seus dados foram enviados para aprovação",
         });
-        window.location = "/app/profile";
-      } catch (error) {
-        const { data } = error.response;
-        alert(data.error);
+      } catch {
+        alert("Deu erro");
       }
     }
     return (
@@ -261,7 +238,7 @@ class Profile extends React.Component {
                     </div>
                   </Row>
                   <div className="text-center">
-                    <h3>{company.nameFantasy}</h3>
+                    <h3>{nameFantasy}</h3>
                     <div className="h5 font-weight-300">
                       <i className="ni location_pin mr-2" />
                       {address.city} - {address.state}
@@ -271,7 +248,7 @@ class Profile extends React.Component {
                       Category
                     </div>
                     <hr className="my-4" />
-                    <p>{company.description}</p>
+                    <p>{description}</p>
                   </div>
                 </CardBody>
               </Card>
@@ -296,7 +273,7 @@ class Profile extends React.Component {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <Form role="form">
+                  <Form role="form" onSubmit={handleRegister}>
                     <Row>
                       <Col lg="6">
                         <FormGroup>
@@ -309,6 +286,7 @@ class Profile extends React.Component {
                           <Input
                             className="form-control-alternative"
                             id="input-username"
+                            disabled={this.isDisabled}
                             value={responsible.name}
                             placeholder="Digite seu primeiro nome."
                             type="text"
@@ -333,6 +311,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            disabled={this.isDisabled}
                             id="input-email"
                             placeholder="Digite o seu sobrenome."
                             type="text"
@@ -361,6 +340,7 @@ class Profile extends React.Component {
                           <Input
                             className="form-control-alternative"
                             id="input-username"
+                            disabled={this.isDisabled}
                             placeholder="Digite seu e-mail pessoal."
                             type="email"
                             value={responsible.email}
@@ -386,6 +366,7 @@ class Profile extends React.Component {
                           <Input
                             className="form-control-alternative"
                             id="input-email"
+                            disabled={this.isDisabled}
                             placeholder="Digite o seu telefone."
                             type="text"
                             value={responsible.phone}
@@ -412,6 +393,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            disabled={this.isDisabled}
                             id="input-username"
                             placeholder="Digite seu RG."
                             type="text"
@@ -437,6 +419,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            disabled={this.isDisabled}
                             id="input-email"
                             placeholder="Digite o seu CPF."
                             type="text"
@@ -469,10 +452,11 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-username"
                               placeholder="Digite o nome fantasia da sua empresa."
                               type="text"
-                              value={company.nameFantasy}
+                              value={nameFantasy}
                               onChange={(e) =>
                                 this.setState({ nameFantasy: e.target.value })
                               }
@@ -489,7 +473,8 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              value={company.rSocial}
+                              disabled={this.isDisabled}
+                              value={rSocial}
                               id="input-email"
                               placeholder="Digite a razão social da sua empresa."
                               type="text"
@@ -511,8 +496,9 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-first-name"
-                              value={company.cnpj}
+                              value={cnpj}
                               placeholder="Digite o CNPJ da sua empresa."
                               type="text"
                               onChange={(e) =>
@@ -531,10 +517,11 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-last-name"
                               placeholder="Last name"
                               type="select"
-                              value={company.assignment}
+                              value={assignment}
                               onChange={(e) =>
                                 this.setState({ assignment: e.target.value })
                               }
@@ -573,6 +560,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
@@ -598,9 +586,19 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite número"
                               type="text"
+                              value={address.number}
+                              onChange={(e) =>
+                                this.setState({
+                                  address: {
+                                    ...address,
+                                    number: e.target.value,
+                                  },
+                                })
+                              }
                             />
                           </FormGroup>
                         </Col>
@@ -614,6 +612,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite o nome do bairro"
                               type="text"
@@ -641,6 +640,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-city"
                               placeholder="Digite seu CEP."
                               type="text"
@@ -666,6 +666,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-country"
                               placeholder="Digite o nome da sua cidade."
                               type="text"
@@ -691,6 +692,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-postal-code"
                               placeholder="Digite o seu estado"
                               type="text"
@@ -718,6 +720,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite a latitude."
                               type="text"
@@ -743,6 +746,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite a longitude."
                               type="text"
@@ -782,6 +786,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
@@ -807,6 +812,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
@@ -834,6 +840,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Cole o link do seu perfil do instagram."
                               type="text"
@@ -859,6 +866,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
+                              disabled={this.isDisabled}
                               id="input-address"
                               placeholder="Cole o link da sua página do facebook."
                               type="text"
@@ -886,6 +894,7 @@ class Profile extends React.Component {
                         </label>
                         <Input
                           className="form-control-alternative"
+                          disabled={this.isDisabled}
                           placeholder="Fale sobre sua empresa."
                           rows="6"
                           type="textarea"
@@ -910,6 +919,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            disabled={this.isDisabled}
                             placeholder="Fale sobre seus serviços."
                             rows="6"
                             type="file"
@@ -929,6 +939,7 @@ class Profile extends React.Component {
                             id="cnpjFileInput"
                             className="form-control-alternative"
                             placeholder="Fale sobre seus serviços."
+                            disabled={this.isDisabled}
                             rows="6"
                             type="file"
                             name="cnpjFile"
@@ -946,6 +957,7 @@ class Profile extends React.Component {
                           <Input
                             className="form-control-alternative"
                             placeholder="Fale sobre seus serviços."
+                            disabled={this.isDisabled}
                             rows="6"
                             type="file"
                             name="cpfFile"
@@ -958,18 +970,17 @@ class Profile extends React.Component {
                         </FormGroup>
                       </div>
                     </div>
+                    <Button
+                      style={{ background: "#0068e3", border: "none" }}
+                      type="submit"
+                      id="btnShow"
+                      className="float-right"
+                      color="default"
+                      size="md"
+                    >
+                      Cadastrar
+                    </Button>
                   </Form>
-                  <Button
-                    style={{ background: "#0068e3", border: "none" }}
-                    type="button"
-                    id="btnShow"
-                    className="float-right"
-                    color="default"
-                    size="md"
-                    onClick={handleRegister}
-                  >
-                    Cadastrar
-                  </Button>
                 </CardBody>
               </Card>
             </Col>
