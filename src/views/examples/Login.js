@@ -52,11 +52,12 @@ class Login extends React.Component {
         password: providerPassword,
       }).then(async (response) => {
         const user = response.data
+        console.log("Logado...")
         setUser(user)
         setRoles(user.roles)
         setToken(user.token)
 
-        // if(user.role)
+        console.log("Redirecionando...")
         window.location = `/app/dashboard`
       })
       .catch((err) => {

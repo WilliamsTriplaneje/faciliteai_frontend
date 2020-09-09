@@ -3,6 +3,11 @@ const { LOCAL_ROLE, LOCAL_TOKEN_ID, LOCAL_USER } = require('./config/Constants')
 function verifyRole (roles, role){
   return roles.indexOf(role) >= 0
 }
+
+export function canAccess (requestedRoles){
+  const userRoles = getRoles()
+  return requestedRoles.every((role) => userRoles.indexOf(role) >= 0)
+}
 export const isProvider = () => {
   return  verifyRole(getRoles(), 'provider')
 };

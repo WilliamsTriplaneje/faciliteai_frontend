@@ -51,6 +51,7 @@ class AdminNavbar extends React.Component {
 
     function logout() {
       AuthLogout()
+      console.log("Logout")
       window.location = "/auth/login";
     }
     return (

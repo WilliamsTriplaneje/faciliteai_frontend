@@ -38,6 +38,7 @@ import {
 class AdminNavbar extends React.Component {
   render() {
     function logout() {
+      console.log("Logout")
       localStorage.clear()
       window.location = '/auth/login'
     }

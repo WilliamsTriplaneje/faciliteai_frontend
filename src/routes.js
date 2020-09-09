@@ -23,6 +23,7 @@ import Register from "./views/examples/Register.js";
 import Login from "./views/examples/Login.js";
 import Tables from "./views/examples/Tables.js";
 import { AUTHENTICATED_ROUTE_PREFIX } from './config/Constants'
+import AuthenticatedRoute from './components/Auth/AuthenticatedRoute'
 // import Icons from "./views/examples/Icons.js";
 
 var routes = [
@@ -30,7 +31,7 @@ var routes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
-    component: Index,
+    component: AuthenticatedRoute(Index, ['provider']),
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   // {
@@ -48,17 +49,17 @@ var routes = [
   //   layout: "/admin"
   // },
   {
-    path: "/profile",
+    path: "/empresa",
     name: "Meu negócio",
     icon: "ni ni-single-02 text-yellow",
-    component: Profile,
+    component:  AuthenticatedRoute(Profile, ['provider']),
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },  
   {
-    path: "/tables",
+    path: "/servicos",
     name: "Meus serviços",
     icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
+    component: AuthenticatedRoute(Tables, ['provider']),
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   {
@@ -76,10 +77,10 @@ var routes = [
     layout: "/auth"
   },
   {
-    path: "/new",
+    path: "/cadastrar-servico",
     name: "Cadastrar Serviço",
     icon: "ni ni-circle-08 text-pink",
-    component: ServicesRegister,
+    component: AuthenticatedRoute(ServicesRegister, ['provider']),
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
 ];
