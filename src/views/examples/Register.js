@@ -36,26 +36,29 @@ import {
 
 class Register extends React.Component {
   state = {
-    providerName: "",
-    providerLastname: "",
-    providerEmail: "",
-    providerPassword: "",
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    roles: ["provider"],
   };
 
   render() {
-    const { providerEmail } = this.state;
-    const { providerPassword } = this.state;
-    const { providerName } = this.state;
-    const { providerLastname } = this.state;
+    const { name } = this.state;
+    const { lastname } = this.state;
+    const { email } = this.state;
+    const { password } = this.state;
+    const { roles } = this.state;
 
     async function handleRegister(e) {
       try {
         e.preventDefault();
-        const response = await api.post(`/register/provider`, {
-          providerName,
-          providerLastname,
-          providerEmail,
-          providerPassword,
+        await api.post(`/register`, {
+          name,
+          lastname,
+          email,
+          password,
+          roles,
         });
         window.location = `/auth/login`;
       } catch (error) {
@@ -67,41 +70,6 @@ class Register extends React.Component {
       <>
         <Col lg="6" md="8">
           <Card className="bg-secondary shadow border-0">
-            {/* <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-4">
-                <small>Sign up with</small>
-              </div>
-              <div className="text-center">
-                <Button
-                  className="btn-neutral btn-icon mr-4"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("../../assets/img/icons/common/github.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Github</span>
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("../../assets/img/icons/common/google.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Google</span>
-                </Button>
-              </div>
-            </CardHeader> */}
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <p>

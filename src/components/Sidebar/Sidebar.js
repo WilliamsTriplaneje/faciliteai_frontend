@@ -20,7 +20,8 @@ import React from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
-import api from "../../services/api";
+
+import {canAccess} from '../../auth'
 
 // reactstrap components
 import {
@@ -82,6 +83,9 @@ class Sidebar extends React.Component {
   // creates the links that appear in the left menu / Sidebar
   createLinks = (routes) => {
     return routes.map((prop, key) => {
+      if(!canAccess(prop.requestedRoles)){
+          return ('')
+      }
       if (
         prop.name != "Login" &&
         prop.name != "Register" &&

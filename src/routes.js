@@ -22,6 +22,11 @@ import ServicesRegister from "./views/examples/ServicesRegister"
 import Register from "./views/examples/Register.js";
 import Login from "./views/examples/Login.js";
 import Tables from "./views/examples/Tables.js";
+
+import List from './views/admin/Companys'
+import Approval from './views/admin/Approval'
+import AdminDash from './views/admin/Index'
+
 import { AUTHENTICATED_ROUTE_PREFIX } from './config/Constants'
 import AuthenticatedRoute from './components/Auth/AuthenticatedRoute'
 // import Icons from "./views/examples/Icons.js";
@@ -32,6 +37,7 @@ var routes = [
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
     component: AuthenticatedRoute(Index, ['provider']),
+    requestedRoles: ['provider'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   // {
@@ -51,37 +57,69 @@ var routes = [
   {
     path: "/empresa",
     name: "Meu negócio",
-    icon: "ni ni-single-02 text-yellow",
+    icon: "ni ni-single-02 text-blue",
     component:  AuthenticatedRoute(Profile, ['provider']),
+    requestedRoles: ['provider'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },  
   {
     path: "/servicos",
     name: "Meus serviços",
-    icon: "ni ni-bullet-list-67 text-red",
+    icon: "ni ni-bullet-list-67 text-blue",
     component: AuthenticatedRoute(Tables, ['provider']),
+    requestedRoles: ['provider'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   {
     path: "/login",
     name: "Login",
     icon: "ni ni-key-25 text-info",
+    requestedRoles: ['provider'],
     component: Login,
     layout: "/auth",
   },
   {
     path: "/register",
     name: "Register",
-    icon: "ni ni-circle-08 text-pink",
+    icon: "ni ni-circle-08 text-blue",
+    requestedRoles: ['provider'],
     component: Register,
     layout: "/auth"
   },
   {
     path: "/cadastrar-servico",
     name: "Cadastrar Serviço",
-    icon: "ni ni-circle-08 text-pink",
+    icon: "ni ni-circle-08 text-blue",
     component: AuthenticatedRoute(ServicesRegister, ['provider']),
+    requestedRoles: ['provider'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
+  //ROUTES FOR ADMIN
+
+  {
+    path: "/admin/dashboard",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: AuthenticatedRoute(AdminDash, ['master-admin']),
+    requestedRoles: ['master-admin'],
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+  },
+  {
+    path: "/listagem-empresas",
+    name: "Aprovar empresas",
+    icon: "ni ni-bullet-list-67 text-blue",
+    component: AuthenticatedRoute(List, ['master-admin']),
+    requestedRoles: ['master-admin'],
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+  },
+  {
+    path: "/approval/:id",
+    name: "Aprovar",
+    icon: "ni ni-circle-08 text-blue",
+    component: AuthenticatedRoute(Approval, ['master-admin']),
+    requestedRoles: ['master-admin'],
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+  },
+
 ];
 export default routes;

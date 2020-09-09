@@ -17,8 +17,7 @@
 */
 import React from "react";
 import api from "../../services/api";
-import { setUser, setRoles, setToken } from "../../auth";
-
+import { setUser, setRoles, setToken, getRoles } from "../../auth";
 
 // reactstrap components
 import {
@@ -47,26 +46,28 @@ class Login extends React.Component {
 
     async function handleLogin(e) {
       e.preventDefault();
-      await api.post(`login`, {
-        email: providerEmail,
-        password: providerPassword,
-      }).then(async (response) => {
-        const user = response.data
-        console.log("Logado...")
-        setUser(user)
-        setRoles(user.roles)
-        setToken(user.token)
+      await api
+        .post(`login`, {
+          email: providerEmail,
+          password: providerPassword,
+        })
+        .then(async (response) => {
+          const user = response.data;
+          setUser(user);
+          setRoles(user.roles);
+          setToken(user.token);
 
-        console.log("Redirecionando...")
-        window.location = `/app/dashboard`
-      })
-      .catch((err) => {
-        // TODO Colocar SWA avisando do erro
-        console.log(err)
-      })
-      
-
-    } 
+          if (getRoles() == "master-admin") {
+            window.location = `/app/admin/dashboard`;
+          } else {
+            window.location = `/app/dashboard`;
+          }
+        })
+        .catch((err) => {
+          // TODO Colocar SWA avisando do erro
+          console.log(err);
+        });
+    }
     return (
       <>
         <Col lg="5" md="7">
@@ -109,7 +110,10 @@ class Login extends React.Component {
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <p>
-                  <img alt="..." src={require("../../assets/img/brand/logo.png")} />
+                  <img
+                    alt="..."
+                    src={require("../../assets/img/brand/logo.png")}
+                  />
                 </p>
                 <p>
                   Informe seu e-mail e senha para acessar o paínel
@@ -128,7 +132,9 @@ class Login extends React.Component {
                       placeholder="Digite seu e-mail"
                       type="email"
                       autoComplete="new-email"
-                      onChange={e => this.setState({providerEmail: e.target.value})}
+                      onChange={(e) =>
+                        this.setState({ providerEmail: e.target.value })
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
@@ -143,16 +149,14 @@ class Login extends React.Component {
                       placeholder="Digite sua senha"
                       type="password"
                       autoComplete="new-password"
-                      onChange={e => this.setState({providerPassword: e.target.value})}
+                      onChange={(e) =>
+                        this.setState({ providerPassword: e.target.value })
+                      }
                     />
                   </InputGroup>
                 </FormGroup>
                 <div className="text-center">
-                  <Button
-                    className="my-4"
-                    color="primary"
-                    type="submit"
-                  >
+                  <Button className="my-4" color="primary" type="submit">
                     Entrar
                   </Button>
                 </div>
@@ -173,7 +177,7 @@ class Login extends React.Component {
               <a
                 className="text-light"
                 href="#pablo"
-                onClick={() => window.location = '/auth/register'}
+                onClick={() => (window.location = "/auth/register")}
               >
                 <small>Criar minha conta.</small>
               </a>
