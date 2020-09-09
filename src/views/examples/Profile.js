@@ -241,28 +241,6 @@ class Profile extends React.Component {
                     </div>
                   </Col>
                 </Row>
-                <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                  <div className="d-flex justify-content-between">
-                    {/* <Button
-                      className="mr-4"
-                      color="info"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Connect
-                    </Button>
-                    <Button
-                      className="float-right"
-                      color="default"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Message
-                    </Button> */}
-                  </div>
-                </CardHeader>
                 <CardBody className="pt-0 pt-md-4">
                   <Row>
                     <div className="col">
