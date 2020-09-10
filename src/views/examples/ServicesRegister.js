@@ -18,7 +18,7 @@
 import React from "react";
 import api from "../../services/api";
 import Swal from "sweetalert2";
-
+import { getUser} from "../../auth";
 // reactstrap components
 import {
   Button,
@@ -49,11 +49,24 @@ class Profile extends React.Component {
     subcategories: [],
   };
   async componentDidMount() {
+    const { _id } = getUser()
     await api.get("/categories").then((result) => {
       console.log("Categorias listadas com sucesso")
       this.setState({ categories: result.data });
     }).catch((err) => {
       console.log("Falha ao listar categorias!")
+      console.log(err)
+    })
+
+    await api.get(`/companies/users/${_id}`).then((result) => {
+      const company = result.data
+      console.log("Empresa do usuário obtida com sucesso")
+      this.setState({
+        companyId: company._id
+      })
+    })
+    .catch((err) => {
+      console.log("Erro ao obter empresa do usuário")
       console.log(err)
     })
     
@@ -71,7 +84,8 @@ class Profile extends React.Component {
     const { categories } = this.state;
     const { subcategories } = this.state;
 
-    async function handleRegister() {
+    async function handleRegister(e) {
+      e.preventDefault();
       await api.post("/services", {
         name,
         companyId,
@@ -80,8 +94,14 @@ class Profile extends React.Component {
         price,
         description,
         typePay,
-      }).then((result) => {
+      }).then(async (result) => {
         console.log("Serviço cadastrado com sucesso!")
+        await Swal.fire({
+          icon: "success",
+          title: "FaciliteAi",
+          text: "Serviço cadastrado com sucesso!",
+        });
+        window.location.reload();
       })
       .catch((err) => {
         console.log("Falha ao cadastrar serviço!")
@@ -237,7 +257,7 @@ class Profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              placeholder="Digite o endereço de sua empresa"
+                              placeholder="Digite o preço do serviço"
                               type="text"
                               onChange={(e) =>
                                 this.setState({ price: e.target.value })
@@ -256,7 +276,7 @@ class Profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              placeholder="Digite o endereço de sua empresa"
+                              placeholder="Selecione o tipo de cobrança"
                               type="select"
                               onChange={(e) =>
                                 this.setState({ typePay: e.target.value })
@@ -281,7 +301,7 @@ class Profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               id="input-address"
-                              placeholder="Digite o endereço de sua empresa"
+                              placeholder="Digite a descrição do serviço"
                               type="textarea"
                               onChange={(e) =>
                                 this.setState({
