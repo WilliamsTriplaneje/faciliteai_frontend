@@ -37,53 +37,67 @@ import UserHeader from "../../components/Headers/UserHeader.js";
 
 class Profile extends React.Component {
   state = {
-    workProvider: localStorage.getItem("providerId"),
-    workName: "",
-    workCategory: "",
-    workSubcategory: "",
-    value: "",
-    workDescription: "",
+    companyId: localStorage.getItem("providerId"),
+    name: "",
+    category: "",
+    subcategory: "",
+    price: 0,
+    description: "",
     typePay: "",
-    isActive: true,
 
-    categorys: [],
-    subcategorys: [],
+    categories: [],
+    subcategories: [],
   };
   async componentDidMount() {
-    const response = await api.get("/admin/categorys");
-    this.setState({ categorys: response.data });
+    await api.get("/categories").then((result) => {
+      console.log("Categorias listadas com sucesso")
+      this.setState({ categories: result.data });
+    }).catch((err) => {
+      console.log("Falha ao listar categorias!")
+      console.log(err)
+    })
+    
   }
 
   render() {
-    const { workName } = this.state;
-    const { workProvider } = this.state;
-    const { workCategory } = this.state;
-    const { workSubcategory } = this.state;
-    const { value } = this.state;
-    const { workDescription } = this.state;
+    const { name } = this.state;
+    const { companyId } = this.state;
+    const { category } = this.state;
+    const { subcategory } = this.state;
+    const { price } = this.state;
+    const { description } = this.state;
     const { typePay } = this.state;
-    const { isActive } = this.state;
 
-    const { categorys } = this.state;
-    const { subcategorys } = this.state;
+    const { categories } = this.state;
+    const { subcategories } = this.state;
 
     async function handleRegister() {
-      const response = await api.post("/register/work", {
-        workName,
-        workProvider,
-        workCategory,
-        workSubcategory,
-        value,
-        workDescription,
+      await api.post("/services", {
+        name,
+        companyId,
+        category,
+        subcategory,
+        price,
+        description,
         typePay,
-        isActive,
-      });
-      console.log(response.data);
+      }).then((result) => {
+        console.log("Serviço cadastrado com sucesso!")
+      })
+      .catch((err) => {
+        console.log("Falha ao cadastrar serviço!")
+        console.log(err)
+      })
     }
 
     async function handleSubcategory(categoryId) {
-      const response = await api.get(`/admin/subcategory/filter?categoryId=${categoryId}`);
-      return response.data
+      return await api.get(`/sub-categories?categoryId=${categoryId}`).then((result) => {
+        return result.data
+      })
+      .catch((err) => {
+        console.log(`Falha ao listar subcategorias da categoria ${categoryId}`)
+        console.log(err)
+        return []
+      })
     }
     
     return (
@@ -150,7 +164,7 @@ class Profile extends React.Component {
                               placeholder="Dê um nome para o seu serviço."
                               type="text"
                               onChange={(e) =>
-                                this.setState({ workName: e.target.value })
+                                this.setState({ name: e.target.value })
                               }
                             />
                           </FormGroup>
@@ -171,16 +185,16 @@ class Profile extends React.Component {
                               onChange={async (e) =>
                                 {
                                   this.setState({
-                                    workCategory: e.target.value,
-                                    subcategorys: await handleSubcategory(e.target.value)
+                                    category: e.target.value,
+                                    subcategories: await handleSubcategory(e.target.value)
                                   })
                                 }
                               }
                             >
                               {" "}
                               <option>Selecionar</option>
-                              {categorys && categorys.map((all) => (
-                                <option value={all._id}>{all.category}</option>
+                              {categories && categories.map((all) => (
+                                <option value={all._id}>{all.name}</option>
                               ))}
                             </Input>
                           </FormGroup>
@@ -191,7 +205,7 @@ class Profile extends React.Component {
                               className="form-control-label"
                               htmlFor="input-address"
                             >
-                              Nome do serviço
+                              Subcategoria
                             </label>
                             <Input
                               className="form-control-alternative"
@@ -200,13 +214,13 @@ class Profile extends React.Component {
                               type="select"
                               onChange={(e) =>
                                 this.setState({
-                                  workSubcategory: e.target.value,
+                                  subcategory: e.target.value,
                                 })
                               }
                             >
                               {" "}
-                              {subcategorys.map((all) => (
-                                <option>{all.subcategory}</option>
+                              {subcategories.map((all) => (
+                                <option>{all.name}</option>
                               ))}
                               <option>Selecionar</option>
                             </Input>
@@ -226,7 +240,7 @@ class Profile extends React.Component {
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
                               onChange={(e) =>
-                                this.setState({ value: e.target.value })
+                                this.setState({ price: e.target.value })
                               }
                             />
                           </FormGroup>
@@ -271,7 +285,7 @@ class Profile extends React.Component {
                               type="textarea"
                               onChange={(e) =>
                                 this.setState({
-                                  workDescription: e.target.value,
+                                  description: e.target.value,
                                 })
                               }
                             />
