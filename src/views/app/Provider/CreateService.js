@@ -16,9 +16,9 @@
 
 */
 import React from "react";
-import api from "../../services/api";
+import api from "../../../services/api";
 import Swal from "sweetalert2";
-import { getUser} from "../../auth";
+import { getUser} from "../../../auth";
 // reactstrap components
 import {
   Button,
@@ -33,11 +33,11 @@ import {
   Col,
 } from "reactstrap";
 // core components
-import UserHeader from "../../components/Headers/UserHeader.js";
+import UserHeader from "../../../components/Headers/UserHeader.js";
 
-class Profile extends React.Component {
+class CreateService extends React.Component {
   state = {
-    companyId: localStorage.getItem("providerId"),
+    companyId: "",
     name: "",
     category: "",
     subcategory: "",
@@ -47,6 +47,7 @@ class Profile extends React.Component {
 
     categories: [],
     subcategories: [],
+    lastServices : []
   };
   async componentDidMount() {
     const { _id } = getUser()
@@ -58,22 +59,37 @@ class Profile extends React.Component {
       console.log(err)
     })
 
-    await api.get(`/companies/users/${_id}`).then((result) => {
+    await api.get(`/companies/users/${_id}`).then(async (result) => {
       const company = result.data
       console.log("Empresa do usuário obtida com sucesso")
       this.setState({
         companyId: company._id
       })
+
+      await api.get(`/services/${company._id}/last`).then((result) => {
+        const services = result.data
+        console.log(`Últimos ${services.length} serviços obtidos com sucesso`)
+        this.setState({
+          lastServices: services
+        })
+      })
+      .catch((err) => {
+        console.log("Erro ao obter ultimos serviços cadastrados")
+        console.log(err)
+      })
+
     })
     .catch((err) => {
       console.log("Erro ao obter empresa do usuário")
       console.log(err)
     })
+
+    
     
   }
 
   render() {
-    const { name } = this.state;
+    const { name, lastServices } = this.state;
     const { companyId } = this.state;
     const { category } = this.state;
     const { subcategory } = this.state;
@@ -143,9 +159,14 @@ class Profile extends React.Component {
                     <div>
                       <i className="ni education_hat mr-2" />
                       <ul>
-                        <li>
-                          <a href="#"> Nome do serviço</a>
-                        </li>
+                        {lastServices && lastServices.map((service) => {
+                          return (
+                            <li key={'last-service' + service._id}>
+                              <a href="#">{service.name}</a>
+                            </li>
+                          )
+                        })}
+                       
                       </ul>
                     </div>
                   </div>
@@ -336,4 +357,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+export default CreateService;

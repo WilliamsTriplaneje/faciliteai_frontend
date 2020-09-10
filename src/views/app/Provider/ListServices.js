@@ -41,27 +41,48 @@ import {
 } from "reactstrap";
 // core components
 import Header from "../../../components/Headers/Header.js";
+import { getUser} from "../../../auth";
 
-class Tables extends React.Component {
+class ListServices extends React.Component {
   state = {
     companies: [],
+    companyId: '',
+    services: []
   };
   async componentDidMount() {
-    await api.get("/companies")
-      .then((result) => {
-        this.setState({ companies: result.data });
-        console.log(result.data)
+    const { _id } = getUser()
+    await api.get(`/companies/users/${_id}`).then(async (result) => {
+      const company = result.data
+      console.log("Empresa do usuário obtida com sucesso")
+      this.setState({
+        companyId: company._id
+      })
+
+      await api.get(`/services?companyId${company._id}`).then((result) => {
+        const services = result.data
+        console.log(`Últimos ${services.length} serviços obtidos com sucesso`)
+        this.setState({
+          services: services
+        })
       })
       .catch((err) => {
+        console.log("Erro ao obter ultimos serviços cadastrados")
         console.log(err)
       })
+
+    })
+    .catch((err) => {
+      console.log("Erro ao obter empresa do usuário")
+      console.log(err)
+    })
   }
   render() {
     function handleRead(id) {
       window.location = `/app/admin/aprovar-empresa/${id}`;
     }
 
-    const { companies } = this.state;
+    const { companies, services } = this.state;
+    
     return (
       <>
         <Header />
@@ -77,37 +98,37 @@ class Tables extends React.Component {
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">Nome da empresa</th>
-                      <th scope="col">CNPJ</th>
+                      <th scope="col">Nome do serviço</th>
+                      {/* <th scope="col">CNPJ</th> */}
                       <th scope="col">Status</th>
-                      <th scope="col">Prestador</th>
-                      <th scope="col">função</th>
+                      {/* <th scope="col">Prestador</th> */}
+                      {/* <th scope="col">função</th> */}
                       <th scope="col" />
                     </tr>
                   </thead>
-                  {companies.map((comp) => (
-                    <tbody key={comp._id}>
+                  {services && services.map((service) => (
+                    <tbody key={service._id}>
                       <tr>
                         <th scope="row">
                           <Media className="align-items-center">
                             <Media>
                               <span className="mb-0 text-sm">
-                                {comp.nameFantasy}
+                                {service.name}
                               </span>
                             </Media>
                           </Media>
                         </th>
-                        <td>{comp.cnpj}</td>
+                        {/* <td>{service.cnpj}</td> */}
                         <td>
                           <Badge color="" className="badge-dot mr-4">
                             <span>
-                              {comp.isActive === true ? (
+                              {service.isActive === true ? (
                                 <span
                                 style={{
                                   borderBottom: "2px solid #00e595 ",
                                 }}
                               >
-                                Conta Ativa
+                                Ativo
                               </span>
                               ) :(
                                   <span
@@ -115,14 +136,14 @@ class Tables extends React.Component {
                                         borderBottom: "2px solid #fb6340 ",
                                       }}
                                     >
-                                      Conta Inativa
+                                      Inativo
                                     </span>
                               )}
                             </span>
                           </Badge>
                         </td>
-                        <td>{comp.firstName}</td>
-                        <td>
+                        {/* <td>{service.firstName}</td> */}
+                        {/* <td>
                           <div className="d-flex align-items-center">
                             <div>
                               <Button
@@ -130,13 +151,13 @@ class Tables extends React.Component {
                                   background: "#00e595",
                                   color: "#fff",
                                 }}
-                                onClick={() => handleRead(comp._id)}
+                                onClick={() => handleRead(service._id)}
                               >
-                                Analisar pedido
+                                Analisar
                               </Button>
                             </div>
                           </div>
-                        </td>
+                        </td> */}
                         <td className="text-right">
                           <UncontrolledDropdown>
                             <DropdownToggle
@@ -236,4 +257,4 @@ class Tables extends React.Component {
   }
 }
 
-export default Tables;
+export default ListServices;

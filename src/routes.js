@@ -17,11 +17,11 @@
 */
 import Index from "./views/Index.js";
 import Profile from "./views/examples/Profile.js";
-import ServicesRegister from "./views/examples/ServicesRegister"
+import ServicesRegister from "./views/app/Provider/CreateService"
 // import Maps from "./views/examples/Maps.js";
 import Register from "./views/auth/Register.js";
 import Login from "./views/auth/Login.js";
-import Tables from "./views/examples/Tables.js";
+import CreateService from "./views/app/Provider/ListServices.js";
 
 import List from './views/app/admin/Companys'
 import Approval from './views/app/admin/Approval'
@@ -66,7 +66,7 @@ var routes = [
     path: "/servicos",
     name: "Meus serviços",
     icon: "ni ni-bullet-list-67 text-blue",
-    component: AuthenticatedRoute(Tables, ['provider']),
+    component: AuthenticatedRoute(CreateService, ['provider']),
     requestedRoles: ['provider'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
@@ -105,7 +105,7 @@ var routes = [
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   {
-    path: "/empresas",
+    path: "/admin/empresas",
     name: "Aprovar empresas",
     icon: "ni ni-bullet-list-67 text-blue",
     component: AuthenticatedRoute(List, ['master-admin']),
@@ -113,7 +113,7 @@ var routes = [
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   {
-    path: "/approval/:id",
+    path: "/admin/aprovar-empresa/:id",
     name: "Aprovar",
     icon: "ni ni-circle-08 text-blue",
     component: AuthenticatedRoute(Approval, ['master-admin']),

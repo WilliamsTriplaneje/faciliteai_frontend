@@ -35,8 +35,10 @@ import {
 // core components
 import UserHeader from "../../../components/Headers/UserHeader.js";
 
-class Profile extends React.Component {
+class Approval extends React.Component {
   state = {
+    companyId: '',
+    company: undefined,
     nameFantasy: "",
     rSocial: "",
     cnpj: "",
@@ -50,66 +52,89 @@ class Profile extends React.Component {
     rgUrl: "",
     cpfUrl: "",
     cnpjUrl: "",
-
+    logoUrl: "",
+    proofOfResidenceUrl: "",
     isInAnalysis: true,
     isActive: false,
+    isLoading: true
   };
   async componentDidMount() {
     const { id } = this.props.match.params;
-    localStorage.setItem("companyId", id);
-    const response = await api.get(`/admin/companies/show/${id}`);
+    this.setState({
+      companyId: id
+    })
+
+    await api.get(`/companies/${id}`).then((result) => {
+      const comp = result.data
+      this.setState({
+        company: comp,
+        isLoading: false
+      })
+      // this.setState({ nameFantasy: comp.nameFantasy });
+      // this.setState({ rSocial: comp.rSocial });
+      // this.setState({ cnpj: comp.cnpj });
+      // this.setState({ assignment: comp.assignment });
+      // this.setState({ description: comp.description });
+  
+      // this.setState({ responsible: comp.responsible });
+      // this.setState({ address: comp.address });
+      // this.setState({ contact: comp.contact });
+  
+      // this.setState({ rgUrl: comp.rgUrl });
+      // this.setState({ cpfUrl: comp.cpfUrl });
+      // this.setState({ 
+      //   cnpjUrl: comp.cnpjUrl,
+      //   logoUrl: comp.logoUrl,
+      //   proofOfResidenceUrl: comp.proofOfResidenceUrl
+      //  });
+    })
 
     //GET DATA's
-    this.setState({ nameFantasy: response.data.nameFantasy });
-    this.setState({ rSocial: response.data.rSocial });
-    this.setState({ cnpj: response.data.cnpj });
-    this.setState({ assignment: response.data.assignment });
-    this.setState({ description: response.data.description });
-
-    this.setState({ responsible: response.data.responsible });
-    this.setState({ address: response.data.address });
-    this.setState({ contact: response.data.contact });
-
-    this.setState({ rgUrl: response.data.rgUrl });
-    this.setState({ cpfUrl: response.data.cpfUrl });
-    this.setState({ cnpjUrl: response.data.cnpjUrl });
+    
 
   }
   render() {
-    const { nameFantasy } = this.state;
-    const { rSocial } = this.state;
-    const { cnpj } = this.state;
-    const { assignment } = this.state;
-    const { description } = this.state;
+    const { company, isLoading } = this.state;
+    
+    if(isLoading){
+      return (
+        <>
+        </>
+      )
+    }
+    const {responsible = {}, address= {}, contact= {}, companyId = ''} = company
+    const { nameFantasy, rSocial, cnpj, assignment, description } = company;
 
-    const { rgUrl } = this.state;
-    const { cpfUrl } = this.state;
-    const { cnpjUrl } = this.state;
+    const { 
+      rgUrl, cpfUrl, cnpjUrl, 
+      proofOfResidenceUrl, logoUrl 
+    } = company;
 
-    const { responsible } = this.state;
-    const { address } = this.state;
-    const { contact } = this.state;
-
-
+    console.log(company)
     async function approvalCompany() {
-      const companyId = localStorage.getItem("companyId");
-      await api.put(`/companies/approval/${companyId}`, {
-        isInAnalysis: false,
-        isActive: true,
-      });
-      await Swal.fire({
-        icon: "success",
-        title: "FaciliteAi",
-        text: `A empresa foi aprovada com sucesso !!`,
-      });
-      window.location = "/app/listagem-empresas";
+      await api.put(`/companies/${company._id}/approve`, {
+        isApproved: true,
+      }).then(async (result) => {
+        await Swal.fire({
+          icon: "success",
+          title: "FaciliteAi",
+          text: `A empresa foi aprovada com sucesso !!`,
+        });
+        window.location = "/app/admin/empresas";
+      }).catch((err) => {
+        console.log(`Falha ao aprovar empresa ${companyId}`)
+        console.log(err)
+      })
+
+      
     }
     function showRg() {
+      console.log(`Mostrando url: ${rgUrl}`)
       Swal.fire({
         imageUrl: `${rgUrl}`,
         imageHeight: 300,
         imageWidth: 300,
-        imageAlt: "A tall image",
+        imageAlt: "RG",
       });
     }
     function showCPF() {
@@ -117,7 +142,7 @@ class Profile extends React.Component {
         imageUrl: `${cpfUrl}`,
         imageHeight: 300,
         imageWidth: 300,
-        imageAlt: "A tall image",
+        imageAlt: "CPF",
       });
     }
     function showCNPJ() {
@@ -125,8 +150,33 @@ class Profile extends React.Component {
         imageUrl: `${cnpjUrl}`,
         imageHeight: 300,
         imageWidth: 300,
-        imageAlt: "A tall image",
+        imageAlt: "CNPJ",
       });
+    }
+
+    function showProofOfResidence() {
+      Swal.fire({
+        imageUrl: `${proofOfResidenceUrl}`,
+        imageHeight: 300,
+        imageWidth: 300,
+        imageAlt: "Comprovante de residencia",
+      });
+    }
+
+    function showLogo() {
+      Swal.fire({
+        imageUrl: `${logoUrl}`,
+        imageHeight: 300,
+        imageWidth: 300,
+        imageAlt: "Logo",
+      });
+    }
+
+    if(!company){
+      return (
+      <>
+      </>
+      )
     }
 
     return (
@@ -150,7 +200,10 @@ class Profile extends React.Component {
                   CPF
                 </Button>
                 <Button style={{ margin: 15 }} onClick={showCNPJ}>
-                  Cartão CNPJ
+                  CNPJ
+                </Button>
+                <Button style={{ margin: 15 }} onClick={showProofOfResidence}>
+                  Comp. de Residência
                 </Button>
               </Card>
             </Col>
@@ -179,7 +232,7 @@ class Profile extends React.Component {
                             id="input-username"
                             placeholder="Digite seu primeiro nome."
                             type="text"
-                            value={responsible.name}
+                            value={company.responsible.name}
                             disabled="true"
                           />
                         </FormGroup>
@@ -624,4 +677,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+export default Approval;
