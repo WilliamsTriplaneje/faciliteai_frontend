@@ -17,7 +17,7 @@
 */
 import React from "react";
 import api from "../../services/api";
-import { setUser, setRoles, setToken, getRoles } from "../../auth";
+import { setUser, setRoles, setToken, isAdmin, isMasterAdmin, isProvider } from "../../auth";
 
 // reactstrap components
 import {
@@ -57,10 +57,16 @@ class Login extends React.Component {
           setRoles(user.roles);
           setToken(user.token);
 
-          if (getRoles() == "master-admin") {
+          if (isAdmin()) {
             window.location = `/app/admin/dashboard`;
-          } else {
-            window.location = `/app/dashboard`;
+            return
+          }
+          if(isProvider){
+            // window.location = `/app/dashboard`;
+            window.location = `/app/empresa`;
+
+            
+            return
           }
         })
         .catch((err) => {

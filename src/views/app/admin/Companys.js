@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import api from "../../services/api";
+import api from "../../../services/api";
 
 // reactstrap components
 import {
@@ -40,16 +40,21 @@ import {
   Button,
 } from "reactstrap";
 // core components
-import Header from "../../components/Headers/Header.js";
+import Header from "../../../components/Headers/Header.js";
 
 class Tables extends React.Component {
   state = {
     companies: [],
   };
   async componentDidMount() {
-    const response = await api.get("/admin/companies");
-    this.setState({ companies: response.data });
-    console.log(response.data)
+    await api.get("/admin/companies")
+      .then((result) => {
+        this.setState({ companies: result.data });
+        console.log(result.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   render() {
     function handleRead(id) {

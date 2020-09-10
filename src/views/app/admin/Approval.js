@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import api from "../../services/api";
+import api from "../../../services/api";
 import Swal from "sweetalert2";
 
 // reactstrap components
@@ -33,7 +33,7 @@ import {
   Col,
 } from "reactstrap";
 // core components
-import UserHeader from "../../components/Headers/UserHeader.js";
+import UserHeader from "../../../components/Headers/UserHeader.js";
 
 class Profile extends React.Component {
   state = {

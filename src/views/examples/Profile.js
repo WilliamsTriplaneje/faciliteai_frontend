@@ -44,7 +44,6 @@ class Profile extends React.Component {
     cnpj: "",
     assignment: "",
     description: "",
-    isActive: true,
 
     responsible: {
       name: "",
@@ -75,6 +74,8 @@ class Profile extends React.Component {
     rgFile: null,
     cnpjFile: null,
     cpfFile: null,
+    logoFile: null,
+
 
     isInAnalysis: true,
     isActive: false,
@@ -109,13 +110,15 @@ class Profile extends React.Component {
         isActive: response.data.isActive,
       });
 
-      if (response.data.isInAnalysis == true) {
+      if (response.data.isInAnalysis === true) {
         await Swal.fire({
           icon: "warning",
           title: "FaciliteAi",
           text: "Por favor aguarde a aprovação dos seus dados!",
         });
-        window.location = "/app/dashboard";
+        // window.location = "/app/dashboard";
+        window.location = "/app/servicos";
+
         const btnShow = document.getElementById("btnShow");
         btnShow.style.display = "none";
 
@@ -155,7 +158,7 @@ class Profile extends React.Component {
     const { assignment } = this.state;
     const { description } = this.state;
 
-    const { rgFile, cnpjFile, cpfFile, isInAnalysis, isActive } = this.state;
+    const { rgFile, cnpjFile, cpfFile, logoFile, isInAnalysis, isActive } = this.state;
 
     async function handleRegister(e) {
       e.preventDefault();
@@ -178,6 +181,8 @@ class Profile extends React.Component {
             data.append("cnpjFile", cnpjFile, cnpjFile.name);
             data.append("cpfFile", cpfFile, cpfFile.name);
             data.append("rgFile", rgFile, rgFile.name);
+            // data.append("logoFile", logoFile, logoFile.name);
+
 
             api.put(`/companies/${company._id}/uploads`, data, {
               headers: {
@@ -190,7 +195,9 @@ class Profile extends React.Component {
           title: "FaciliteAi",
           text: "Seus dados foram enviados para aprovação",
         });
-        window.location = '/app/dashboard'
+        // window.location = '/app/dashboard'
+        window.location = '/app/servicos'
+
       } catch (error) {
         const {data} = error.response
         await Swal.fire({
@@ -217,6 +224,7 @@ class Profile extends React.Component {
                           className="rounded-circle"
                           src={require("../../assets/img/theme/avatar-icon.png")}
                         />
+                        {/* //TODO Implementar upload de logo da empresa */}
                       </a>
                     </div>
                   </Col>

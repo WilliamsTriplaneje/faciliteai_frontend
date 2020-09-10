@@ -16,6 +16,10 @@ export const isAdmin = () => {
   return  verifyRole(getRoles(), 'admin')
 };
 
+export const isMasterAdmin = () => {
+  return  verifyRole(getRoles(), 'master-admin')
+};
+
 export const isAuthenticated = () => {
   if (!getToken()) {
     return false;

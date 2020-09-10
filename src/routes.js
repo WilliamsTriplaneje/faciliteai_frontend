@@ -19,13 +19,13 @@ import Index from "./views/Index.js";
 import Profile from "./views/examples/Profile.js";
 import ServicesRegister from "./views/examples/ServicesRegister"
 // import Maps from "./views/examples/Maps.js";
-import Register from "./views/examples/Register.js";
-import Login from "./views/examples/Login.js";
+import Register from "./views/auth/Register.js";
+import Login from "./views/auth/Login.js";
 import Tables from "./views/examples/Tables.js";
 
-import List from './views/admin/Companys'
-import Approval from './views/admin/Approval'
-import AdminDash from './views/admin/Index'
+import List from './views/app/admin/Companys'
+import Approval from './views/app/admin/Approval'
+import AdminDash from './views/app/admin/Index'
 
 import { AUTHENTICATED_ROUTE_PREFIX } from './config/Constants'
 import AuthenticatedRoute from './components/Auth/AuthenticatedRoute'
@@ -36,8 +36,8 @@ var routes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
-    component: AuthenticatedRoute(Index, ['provider']),
-    requestedRoles: ['provider'],
+    component: AuthenticatedRoute(Index, ['dev-provider']),
+    requestedRoles: ['dev-provider'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   // {
@@ -105,7 +105,7 @@ var routes = [
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
   {
-    path: "/listagem-empresas",
+    path: "/empresas",
     name: "Aprovar empresas",
     icon: "ni ni-bullet-list-67 text-blue",
     component: AuthenticatedRoute(List, ['master-admin']),
