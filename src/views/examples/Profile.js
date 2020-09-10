@@ -211,12 +211,13 @@ class Profile extends React.Component {
         });
         // window.location = '/app/dashboard'
         window.location = "/app/servicos";
-      } catch (error) {
-        const { data } = error.response;
+      } catch (err) {
+        console.log("Erro ao fazer upload das imagens!")
+        console.log(err)
         await Swal.fire({
-          icon: "erro",
+          icon: "error",
           title: "FaciliteAi",
-          text: `${data.error}`,
+          text: `Tivemos um problema ao realizar o upload dos arquivos, tente novamente em breve.`,
         });
       }
     }
@@ -262,14 +263,13 @@ class Profile extends React.Component {
                         <strong>Logo da empresa</strong>
                       </label>
                       <Input
-                        id="cnpjFileInput"
+                        id="logoFileInput"
                         className="form-control-alternative"
-                        placeholder="Fale sobre seus serviços."
                         type="file"
-                        name="cnpjFile"
+                        name="logoFile"
                         onChange={(e) => {
                           this.setState({
-                            proofOfResidenceFile: e.target.files[0],
+                            logoFile: e.target.files[0],
                           });
                         }}
                       />
@@ -980,7 +980,7 @@ class Profile extends React.Component {
                             <strong>Comprovante de Residência</strong>{" "}
                           </label>
                           <Input
-                            id="cnpjFileInput"
+                            id="proofOfResidenceFileInput"
                             className="form-control-alternative"
                             placeholder="Fale sobre seus serviços."
                             disabled={this.isDisabled}
@@ -989,7 +989,7 @@ class Profile extends React.Component {
                             name="proofOfResidenceFile"
                             onChange={(e) => {
                               this.setState({
-                                cnpjFile: e.target.files[0],
+                                proofOfResidenceFile: e.target.files[0],
                               });
                             }}
                           />
