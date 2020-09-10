@@ -17,7 +17,15 @@
 */
 import React from "react";
 import api from "../../services/api";
-import { setUser, setRoles, setToken, isAdmin, isMasterAdmin, isProvider } from "../../auth";
+import Swal from "sweetalert2";
+import {
+  setUser,
+  setRoles,
+  setToken,
+  isAdmin,
+  isMasterAdmin,
+  isProvider,
+} from "../../auth";
 
 // reactstrap components
 import {
@@ -59,19 +67,20 @@ class Login extends React.Component {
 
           if (isAdmin()) {
             window.location = `/app/admin/dashboard`;
-            return
+            return;
           }
-          if(isProvider){
+          if (isProvider) {
             // window.location = `/app/dashboard`;
             window.location = `/app/empresa`;
-
-            
-            return
+            return;
           }
         })
         .catch((err) => {
-          // TODO Colocar SWA avisando do erro
-          console.log(err);
+          Swal.fire({
+            icon: "error",
+            title: "FaciliteAi",
+            text: `${err}`,
+          });
         });
     }
     return (

@@ -75,7 +75,7 @@ class Profile extends React.Component {
     cnpjFile: null,
     cpfFile: null,
     logoFile: null,
-
+    proofOfResidenceFile: null,
 
     isInAnalysis: true,
     isActive: false,
@@ -136,7 +136,6 @@ class Profile extends React.Component {
         this.setState({ address: response.data.address });
         this.setState({ contact: response.data.contact });
 
-
         //DISABLE BUTTON
         const btnShow = document.getElementById("btnShow");
         btnShow.style.display = "none";
@@ -144,6 +143,9 @@ class Profile extends React.Component {
         //DISABLE EDIT SERVICES DIV
         const servicesShow = document.getElementById("servicesShow");
         servicesShow.style.display = "none";
+
+        const uploadLogo = document.getElementById("uploadLogo");
+        uploadLogo.style.display = "none";
       }
     }
   }
@@ -158,7 +160,15 @@ class Profile extends React.Component {
     const { assignment } = this.state;
     const { description } = this.state;
 
-    const { rgFile, cnpjFile, cpfFile, logoFile, isInAnalysis, isActive } = this.state;
+    const {
+      rgFile,
+      cnpjFile,
+      cpfFile,
+      logoFile,
+      isInAnalysis,
+      isActive,
+      proofOfResidenceFile,
+    } = this.state;
 
     async function handleRegister(e) {
       e.preventDefault();
@@ -181,8 +191,12 @@ class Profile extends React.Component {
             data.append("cnpjFile", cnpjFile, cnpjFile.name);
             data.append("cpfFile", cpfFile, cpfFile.name);
             data.append("rgFile", rgFile, rgFile.name);
-            // data.append("logoFile", logoFile, logoFile.name);
-
+            data.append("logoFile", logoFile, logoFile.name);
+            data.append(
+              "proofOfResidenceFile",
+              proofOfResidenceFile,
+              proofOfResidenceFile.name
+            );
 
             api.put(`/companies/${company._id}/uploads`, data, {
               headers: {
@@ -196,10 +210,9 @@ class Profile extends React.Component {
           text: "Seus dados foram enviados para aprovação",
         });
         // window.location = '/app/dashboard'
-        window.location = '/app/servicos'
-
+        window.location = "/app/servicos";
       } catch (error) {
-        const {data} = error.response
+        const { data } = error.response;
         await Swal.fire({
           icon: "erro",
           title: "FaciliteAi",
@@ -224,7 +237,6 @@ class Profile extends React.Component {
                           className="rounded-circle"
                           src={require("../../assets/img/theme/avatar-icon.png")}
                         />
-                        {/* //TODO Implementar upload de logo da empresa */}
                       </a>
                     </div>
                   </Col>
@@ -237,14 +249,30 @@ class Profile extends React.Component {
                           <span className="heading">22</span>
                           <span className="description">Serviços</span>
                         </div>
-                        <div>
-                         
-                        </div>
+                        <div></div>
                         <div>
                           <span className="heading">89</span>
                           <span className="description">Comments</span>
                         </div>
                       </div>
+                    </div>
+
+                    <div id = 'uploadLogo'>
+                      <label>
+                        <strong>Logo da empresa</strong>
+                      </label>
+                      <Input
+                        id="cnpjFileInput"
+                        className="form-control-alternative"
+                        placeholder="Fale sobre seus serviços."
+                        type="file"
+                        name="cnpjFile"
+                        onChange={(e) => {
+                          this.setState({
+                            proofOfResidenceFile: e.target.files[0],
+                          });
+                        }}
+                      />
                     </div>
                   </Row>
                   <div className="text-center">
@@ -266,16 +294,6 @@ class Profile extends React.Component {
                     <Col xs="8">
                       <h3 className="mb-0">Meus Dados</h3>
                     </Col>
-                    {/* <Col className="text-right" xs="4">
-                      <Button
-                        color="primary"
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                        size="sm"
-                      >
-                        Settings
-                      </Button>
-                    </Col> */}
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -950,6 +968,25 @@ class Profile extends React.Component {
                             rows="6"
                             type="file"
                             name="cnpjFile"
+                            onChange={(e) => {
+                              this.setState({
+                                cnpjFile: e.target.files[0],
+                              });
+                            }}
+                          />
+                        </FormGroup>
+                        <FormGroup encType="multipart/form-data">
+                          <label>
+                            <strong>Comprovante de Residência</strong>{" "}
+                          </label>
+                          <Input
+                            id="cnpjFileInput"
+                            className="form-control-alternative"
+                            placeholder="Fale sobre seus serviços."
+                            disabled={this.isDisabled}
+                            rows="6"
+                            type="file"
+                            name="proofOfResidenceFile"
                             onChange={(e) => {
                               this.setState({
                                 cnpjFile: e.target.files[0],

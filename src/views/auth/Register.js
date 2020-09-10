@@ -17,6 +17,7 @@
 */
 import React from "react";
 import api from "../../services/api";
+import { isEqual } from "../../utils/inputUtils";
 
 // reactstrap components
 import {
@@ -52,20 +53,30 @@ class Register extends React.Component {
 
     async function handleRegister(e) {
       e.preventDefault();
-      await api.post(`/register`, {
-        name,
-        lastname,
-        email,
-        password,
-        // roles,
-      }).then((result) => {
-        console.log(result.data)
-        window.location = `/auth/login`;
-      })
-      .catch((err) => {
-        console.log("Erro ao realizar cadastro")
-        console.log(err)
-      })
+
+      //VERIFICAR SE A SENHAS COINCIDEM
+      const password = document.getElementById("password");
+      const confirmPassword = document.getElementById("confirmPassword");
+      isEqual(password, confirmPassword);
+
+      
+
+      await api
+        .post(`/register`, {
+          name,
+          lastname,
+          email,
+          password,
+          // roles,
+        })
+        .then((result) => {
+          console.log(result.data);
+          window.location = `/auth/login`;
+        })
+        .catch((err) => {
+          console.log("Erro ao realizar cadastro");
+          console.log(err);
+        });
     }
     return (
       <>
@@ -93,9 +104,7 @@ class Register extends React.Component {
                       placeholder="Primeiro nome"
                       type="text"
                       value={name}
-                      onChange={(e) =>
-                        this.setState({ name: e.target.value })
-                      }
+                      onChange={(e) => this.setState({ name: e.target.value })}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -128,9 +137,7 @@ class Register extends React.Component {
                       type="email"
                       autoComplete="new-email"
                       value={email}
-                      onChange={(e) =>
-                        this.setState({ email: e.target.value })
-                      }
+                      onChange={(e) => this.setState({ email: e.target.value })}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -146,6 +153,7 @@ class Register extends React.Component {
                       placeholder="Confirme seu e-mail"
                       type="email"
                       autoComplete="new-email"
+                      id="password"
                     />
                   </InputGroup>
                 </FormGroup>
@@ -179,6 +187,7 @@ class Register extends React.Component {
                       placeholder="Confirme sua senha."
                       type="password"
                       autoComplete="new-password"
+                      id="confirmPassword"
                     />
                   </InputGroup>
                 </FormGroup>
