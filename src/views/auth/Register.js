@@ -17,7 +17,8 @@
 */
 import React from "react";
 import api from "../../services/api";
-import { isEqual } from "../../utils/inputUtils";
+import { passwordEqual, isItEmpty, emailEqual } from "../../utils/inputUtils";
+import Swal from "sweetalert2";
 
 // reactstrap components
 import {
@@ -55,11 +56,26 @@ class Register extends React.Component {
       e.preventDefault();
 
       //VERIFICAR SE A SENHAS COINCIDEM
+      const name = document.getElementById("firstname");
+      const lastname = document.getElementById("lastname");
+      const email = document.getElementById("email");
+      const confirmEmail = document.getElementById("confirmEmail");
       const password = document.getElementById("password");
       const confirmPassword = document.getElementById("confirmPassword");
-      isEqual(password, confirmPassword);
+  
+      //VERIFICANDO SE OS CAMPOS ESTÃO VAZIOS
+      isItEmpty(name)
+      isItEmpty(lastname)
+      isItEmpty(email)
+      isItEmpty(confirmEmail)
+      isItEmpty(password)
+      isItEmpty(confirmPassword)
 
-      
+      //VERIFICANDO SE AS SENHAS COINCIDEM
+      passwordEqual(password, confirmPassword);
+
+      //VERIFICANDO SE OS E-MAILS COINCIDEM
+      emailEqual(email, confirmEmail);
 
       await api
         .post(`/register`, {
@@ -71,10 +87,15 @@ class Register extends React.Component {
         })
         .then((result) => {
           console.log(result.data);
+          Swal.fire({
+            imageUrl: "../../assets/img/brand/logo.png",
+            confirmButtonColor: '#0ee49d',
+            title: "Erro de validação",
+            text: "Senhas não coincidem, tente novamente ...",
+          }); 
           window.location = `/auth/login`;
         })
         .catch((err) => {
-          console.log("Erro ao realizar cadastro");
           console.log(err);
         });
     }
@@ -102,6 +123,7 @@ class Register extends React.Component {
                     </InputGroupAddon>
                     <Input
                       placeholder="Primeiro nome"
+                      id = 'firstname'
                       type="text"
                       value={name}
                       onChange={(e) => this.setState({ name: e.target.value })}
@@ -117,6 +139,7 @@ class Register extends React.Component {
                     </InputGroupAddon>
                     <Input
                       placeholder="Sobrenome"
+                      id = 'lastname'
                       type="text"
                       value={lastname}
                       onChange={(e) =>
@@ -134,6 +157,7 @@ class Register extends React.Component {
                     </InputGroupAddon>
                     <Input
                       placeholder="E-mail"
+                      id = 'email'
                       type="email"
                       autoComplete="new-email"
                       value={email}
@@ -148,12 +172,11 @@ class Register extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    {/* // TODO Implementar confirmação de email */}
                     <Input
                       placeholder="Confirme seu e-mail"
+                      id = 'confirmEmail'
                       type="email"
                       autoComplete="new-email"
-                      id="password"
                     />
                   </InputGroup>
                 </FormGroup>
@@ -167,6 +190,7 @@ class Register extends React.Component {
                     <Input
                       placeholder="Senha"
                       type="password"
+                      id = 'password'
                       autoComplete="new-password"
                       value={password}
                       onChange={(e) =>
@@ -182,7 +206,6 @@ class Register extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    {/* // TODO Implementar confirmação de senha */}
                     <Input
                       placeholder="Confirme sua senha."
                       type="password"
@@ -215,11 +238,12 @@ class Register extends React.Component {
                 </Row> */}
                 <div className="text-center">
                   <Button className="mt-4" color="primary" type="submit">
-                    Create account
-                  </Button>
+                    Criar Minha Conta
+                  </Button>       
                 </div>
               </Form>
             </CardBody>
+            <span  style = {{textAlign: 'center', marginBottom: 16}}><a href = '/auth/login'>Já tenho uma conta</a></span>
           </Card>
         </Col>
       </>
