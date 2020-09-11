@@ -18,6 +18,7 @@
 import React from "react";
 import api from "../../services/api";
 import Swal from "sweetalert2";
+import { isItEmpty } from "../../utils/inputUtils";
 import {
   setUser,
   setRoles,
@@ -54,74 +55,54 @@ class Login extends React.Component {
 
     async function handleLogin(e) {
       e.preventDefault();
-      await api
-        .post(`login`, {
-          email: providerEmail,
-          password: providerPassword,
-        })
-        .then(async (response) => {
-          const user = response.data;
-          setUser(user);
-          setRoles(user.roles);
-          setToken(user.token);
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-          if (isAdmin()) {
-            window.location = `/app/admin/dashboard`;
-            return;
-          }
-          if (isProvider) {
-            // window.location = `/app/dashboard`;
-            window.location = `/app/empresa`;
-            return;
-          }
+      const validations = [];
+
+      validations.push(isItEmpty(email));
+      validations.push(isItEmpty(password));
+
+      Promise.all(validations)
+        .then(async function (res) {
+          await api
+            .post(`login`, {
+              email: providerEmail,
+              password: providerPassword,
+            })
+            .then(async (response) => {
+              const user = response.data;
+              setUser(user);
+              setRoles(user.roles);
+              setToken(user.token);
+
+              if (isAdmin()) {
+                window.location = `/app/admin/dashboard`;
+                return;
+              }
+              if (isProvider) {
+                // window.location = `/app/dashboard`;
+                window.location = `/app/empresa`;
+                return;
+              }
+            })
+            .catch((err) => {
+              Swal.fire({
+                imageUrl: "../../assets/img/brand/logo.png",
+                confirmButtonColor: "#0ee49d",
+                title: "Erro de validação",
+                text: "E-mail ou senha incorretos...",
+              });
+            });
         })
-        .catch((err) => {
-          Swal.fire({
-            icon: "error",
-            title: "FaciliteAi",
-            text: `${err}`,
-          });
+        .catch(function (err) {
+          console.error("Promise.all error", err);
         });
     }
     return (
       <>
         <Col lg="5" md="7">
           <Card className="bg-secondary shadow border-0">
-            {/* <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-3">
-                <small>Sign in with</small>
-              </div>
-              <div className="btn-wrapper text-center">
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/github.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Github</span>
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/google.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Google</span>
-                </Button>
-              </div>
-            </CardHeader> */}
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <p>
@@ -146,6 +127,7 @@ class Login extends React.Component {
                     <Input
                       placeholder="Digite seu e-mail"
                       type="email"
+                      id="email"
                       autoComplete="new-email"
                       onChange={(e) =>
                         this.setState({ providerEmail: e.target.value })
@@ -163,6 +145,7 @@ class Login extends React.Component {
                     <Input
                       placeholder="Digite sua senha"
                       type="password"
+                      id="password"
                       autoComplete="new-password"
                       onChange={(e) =>
                         this.setState({ providerPassword: e.target.value })

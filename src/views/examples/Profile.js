@@ -19,7 +19,6 @@ import React from "react";
 import api from "../../services/api";
 import Swal from "sweetalert2";
 import FormData from "form-data";
-
 // reactstrap components
 import {
   Button,
@@ -116,7 +115,6 @@ class Profile extends React.Component {
           title: "FaciliteAi",
           text: "Por favor aguarde a aprovação dos seus dados!",
         });
-        // window.location = "/app/dashboard";
         window.location = "/app/servicos";
 
         const btnShow = document.getElementById("btnShow");
@@ -390,6 +388,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            mask = '(99)9 9999-9999'
                             id="input-email"
                             disabled={this.isDisabled}
                             placeholder="Digite o seu telefone."
@@ -734,7 +733,7 @@ class Profile extends React.Component {
                           </FormGroup>
                         </Col>
                       </Row>
-                      <Row>
+                      {/* <Row>
                         <Col lg="6">
                           <FormGroup>
                             <label
@@ -792,7 +791,7 @@ class Profile extends React.Component {
                         Informações de latitude e longitude, podem ser
                         encontrados no Google Maps, veja como clicando{" "}
                         <a href="#">aqui</a>.
-                      </span>
+                      </span> */}
                     </div>
                     {/* CONTACTS */}
                     <hr className="my-4" />
