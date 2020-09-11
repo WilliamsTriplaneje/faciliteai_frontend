@@ -26,6 +26,7 @@ import "./assets/scss/argon-dashboard-react.scss";
 
 import ProviderLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
+import Website from "./views/website/index";
 
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -39,7 +40,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-    
+
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
@@ -48,9 +49,15 @@ ReactDOM.render(
         component={(props) => <ProviderLayout {...props} />}
       />
       <Route path="/auth/login" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/auth/register" render={(props) => <AuthLayout {...props} />} />
-      <Route path="/app/cadastrar-servico" render={(props) => <AuthLayout {...props} />} />
-      <Redirect from="/" to="/auth/login" />
+      <Route
+        path="/auth/register"
+        render={(props) => <AuthLayout {...props} />}
+      />
+      <Route
+        path="/app/cadastrar-servico"
+        render={(props) => <AuthLayout {...props} />}
+      />
+      <Route from="/" render={(props) => <Website {...props} />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")
