@@ -23,6 +23,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "reactstrap": "^8.5.1",
+    "stripe": "^8.95.0",
     "sweetalert2": "^9.17.1"
   },
   "scripts": {

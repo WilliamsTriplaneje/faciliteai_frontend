@@ -17,6 +17,8 @@
 */
 import React from "react";
 import api from "../../services/api";
+import { getUser } from "../../auth";
+
 import Swal from "sweetalert2";
 import FormData from "form-data";
 // reactstrap components
@@ -36,120 +38,314 @@ import {
 import UserHeader from "../../components/Headers/UserHeader.js";
 
 class Profile extends React.Component {
-  state = {
-    //LISTAGEM PÓS REGISTRO APROVADO
-    nameFantasy: "",
-    rSocial: "",
-    cnpj: "",
-    assignment: "",
-    description: "",
 
-    responsible: {
-      name: "",
-      lastname: "",
-      phone: "",
-      rg: "",
-      cpf: "",
-      email: "",
-    },
+  constructor(props) {
+    super(props);
 
-    address: {
-      street: "",
-      number: "",
-      neighborhood: "",
-      city: "",
-      state: "",
-      cep: "",
-      lat: "",
-      long: "",
-    },
-    contact: {
-      phone: "",
-      email: "",
-      instaPerfil: "",
-      facebookPage: "",
-    },
+    this.state = {
+      //LISTAGEM PÓS REGISTRO APROVADO
+      nameFantasy: "",
+      rSocial: "",
+      cnpj: "",
+      assignment: "",
+      description: "",
+  
+      responsible: {
+        name: "",
+        lastname: "",
+        phone: "",
+        rg: "",
+        cpf: "",
+        email: "",
+      },
+  
+      address: {
+        street: "",
+        number: "",
+        neighborhood: "",
+        city: "",
+        state: "",
+        cep: "",
+        lat: "",
+        long: "",
+      },
+      contact: {
+        phone: "",
+        email: "",
+        instaPerfil: "",
+        facebookPage: "",
+      },
+  
+      rgFile: null,
+      cnpjFile: null,
+      cpfFile: null,
+      logoFile: null,
+      proofOfResidenceFile: null,
+  
+      isInAnalysis: true,
+      isActive: false,
+  
+      company: null,
+      isLoading: true
+    };
 
-    rgFile: null,
-    cnpjFile: null,
-    cpfFile: null,
-    logoFile: null,
-    proofOfResidenceFile: null,
+    this.renderBtnShow = this.renderBtnShow.bind(this);
+    this.renderServiceShow = this.renderServiceShow.bind(this);
+    this.renderUploadShow = this.renderUploadShow.bind(this);
 
-    isInAnalysis: true,
-    isActive: false,
-  };
-
-  isDisabled() {
-    const { isActive, isInAnalysis } = this.state;
-    if (!isActive && !isInAnalysis) {
-      return true;
-    }
-    return false;
-  }
+}
+  
   async componentDidMount() {
-    const response = await api.get(`/companies`);
+    const userId = getUser()._id
+    
+    await api.get(`/companies/users/${userId}`)
+      .then(async (result) => {
+        const company_ = result.data
 
-    //VERIFY NULL
-    if (response.data == null) {
-      Swal.fire({
-        icon: "warning",
-        title: "FaciliteAi",
-        text: "É necessário preencher os dados da sua empresa!",
-      });
-
-      const btnShow = document.getElementById("btnShow");
-      btnShow.style.display = "block";
-
-      const servicesShow = document.getElementById("servicesShow");
-      servicesShow.style.display = "grid";
-    } else {
-      this.setState({
-        isInAnalysis: response.data.isInAnalysis,
-        isActive: response.data.isActive,
-      });
-
-      if (response.data.isInAnalysis === true) {
-        await Swal.fire({
+        if(company_.isInAnalysis){
+          await Swal.fire({
+            icon: "warning",
+            title: "FaciliteAi",
+            text: "Por favor aguarde a aprovação dos seus dados!",
+          });
+          // window.location = "/app/servicos";
+          // return
+        }
+        this.setState({
+          company: company_,
+          isInAnalysis: company_.isInAnalysis,
+          isActive: company_.isActive,
+          responsible: company_.responsible,
+          address: company_.address,
+          contact: company_.contact,
+          nameFantasy: company_.nameFantasy,
+          rSocial: company_.rSocial,
+          cnpj: company_.cnpj,
+          assignment: company_.assignment,
+          description: company_.description,
+          isInAnalysis: company_.isInAnalysis,
+          isActive: company_.isActive,
+        })
+      })
+      .catch((err) => {
+        Swal.fire({
           icon: "warning",
           title: "FaciliteAi",
-          text: "Por favor aguarde a aprovação dos seus dados!",
+          text: "É necessário preencher os dados da sua empresa!",
         });
-        window.location = "/app/servicos";
+      })
+    this.setState({
+      isLoading: false
+    })
 
-        const btnShow = document.getElementById("btnShow");
-        btnShow.style.display = "none";
+    // //VERIFY NULL
+    // if (response.data == null) {
+      
 
-        //DISABLE EDIT SERVICES DIV
-        const servicesShow = document.getElementById("servicesShow");
-        servicesShow.style.display = "none";
-      } else {
-        //GET DATA's
-        this.setState({ nameFantasy: response.data.nameFantasy });
-        this.setState({ rSocial: response.data.rSocial });
-        this.setState({ cnpj: response.data.cnpj });
-        this.setState({ assignment: response.data.assignment });
-        this.setState({ description: response.data.description });
-        this.setState({ responsible: response.data.responsible });
-        this.setState({ address: response.data.address });
-        this.setState({ contact: response.data.contact });
+    //   const btnShow = document.getElementById("btnShow");
+    //   btnShow.style.display = "block";
 
-        //DISABLE BUTTON
-        const btnShow = document.getElementById("btnShow");
-        btnShow.style.display = "none";
+    //   const servicesShow = document.getElementById("servicesShow");
+    //   servicesShow.style.display = "grid";
+    // } else {
+    //   this.setState({
+    //     isInAnalysis: response.data.isInAnalysis,
+    //     isActive: response.data.isActive,
+    //   });
 
-        //DISABLE EDIT SERVICES DIV
-        const servicesShow = document.getElementById("servicesShow");
-        servicesShow.style.display = "none";
+    //   if (response.data.isInAnalysis === true) {
+    //     await Swal.fire({
+    //       icon: "warning",
+    //       title: "FaciliteAi",
+    //       text: "Por favor aguarde a aprovação dos seus dados!",
+    //     });
+    //     window.location = "/app/servicos";
 
-        const uploadLogo = document.getElementById("uploadLogo");
-        uploadLogo.style.display = "none";
-      }
-    }
+    //     const btnShow = document.getElementById("btnShow");
+    //     btnShow.style.display = "none";
+
+    //     //DISABLE EDIT SERVICES DIV
+    //     const servicesShow = document.getElementById("servicesShow");
+    //     servicesShow.style.display = "none";
+    //   } else {
+    //     //GET DATA's
+    //     this.setState({ nameFantasy: response.data.nameFantasy });
+    //     this.setState({ rSocial: response.data.rSocial });
+    //     this.setState({ cnpj: response.data.cnpj });
+    //     this.setState({ assignment: response.data.assignment });
+    //     this.setState({ description: response.data.description });
+    //     this.setState({ responsible: response.data.responsible });
+    //     this.setState({ address: response.data.address });
+    //     this.setState({ contact: response.data.contact });
+
+    //     //DISABLE BUTTON
+    //     const btnShow = document.getElementById("btnShow");
+    //     btnShow.style.display = "none";
+
+    //     //DISABLE EDIT SERVICES DIV
+    //     const servicesShow = document.getElementById("servicesShow");
+    //     servicesShow.style.display = "none";
+
+    //     const uploadLogo = document.getElementById("uploadLogo");
+    //     uploadLogo.style.display = "none";
+    //   }
+    // }
   }
 
+  isDisabled() {
+    const { company } = this.state
+    if(company){
+      return true
+    }
+    return false
+  }
+
+  renderBtnShow(){
+    return (
+       <Button
+       style={{ background: "#0068e3", border: "none" }}
+       type="submit"
+       id="btnShow"
+       className="float-right"
+       color="default"
+       size="md"
+     >
+       Cadastrar
+     </Button>
+    )
+   }
+
+   renderUploadShow(){
+     return (
+       <div id = 'uploadLogo'>
+         <label>
+           <strong>Logo da empresa</strong>
+         </label>
+         <Input
+           id="logoFileInput"
+           className="form-control-alternative"
+           type="file"
+           name="logoFile"
+           onChange={(e) => {
+             this.setState({
+               logoFile: e.target.files[0],
+             });
+           }}
+         />
+       </div>
+     )
+   }
+   renderServiceShow(){
+     return (
+       <div id="servicesShow">
+       <FormGroup encType="multipart/form-data">
+         <label>
+           <strong>Descrição da sua empresa.</strong>
+         </label>
+         <Input
+           className="form-control-alternative"
+           readOnly={this.isDisabled()}
+           placeholder="Fale sobre sua empresa."
+           rows="6"
+           type="textarea"
+           onChange={(e) =>
+             this.setState({ description: e.target.value })
+           }
+         />
+       </FormGroup>
+       <h6 className="heading-small text-muted mb-4">Anexos</h6>
+       <div className="pl-lg-4">
+         <span>
+           Envio imagens dos seguintes documentos.{" "}
+           <strong>
+             RG, CPF, Cartão CNPJ, comprovante de residência.
+           </strong>{" "}
+           <hr className="my-4" />
+         </span>
+
+         <FormGroup>
+           <label>
+             <strong>RG</strong>{" "}
+           </label>
+           <Input
+             className="form-control-alternative"
+             readOnly={this.isDisabled()}
+             placeholder="Fale sobre seus serviços."
+             rows="6"
+             type="file"
+             name="rgFile"
+             onChange={(e) => {
+               this.setState({
+                 rgFile: e.target.files[0],
+               });
+             }}
+           />
+         </FormGroup>
+         <FormGroup encType="multipart/form-data">
+           <label>
+             <strong>Cartão CNPJ</strong>{" "}
+           </label>
+           <Input
+             id="cnpjFileInput"
+             className="form-control-alternative"
+             placeholder="Fale sobre seus serviços."
+             readOnly={this.isDisabled()}
+             rows="6"
+             type="file"
+             name="cnpjFile"
+             onChange={(e) => {
+               this.setState({
+                 cnpjFile: e.target.files[0],
+               });
+             }}
+           />
+         </FormGroup>
+         <FormGroup encType="multipart/form-data">
+           <label>
+             <strong>Comprovante de Residência</strong>{" "}
+           </label>
+           <Input
+             id="proofOfResidenceFileInput"
+             className="form-control-alternative"
+             placeholder="Fale sobre seus serviços."
+             readOnly={this.isDisabled()}
+             rows="6"
+             type="file"
+             name="proofOfResidenceFile"
+             onChange={(e) => {
+               this.setState({
+                 proofOfResidenceFile: e.target.files[0],
+               });
+             }}
+           />
+         </FormGroup>
+         <FormGroup encType="multipart/form-data">
+           <label>
+             <strong>CPF</strong>{" "}
+           </label>
+           <Input
+             className="form-control-alternative"
+             placeholder="Fale sobre seus serviços."
+             readOnly={this.isDisabled()}
+             rows="6"
+             type="file"
+             name="cpfFile"
+             onChange={(e) => {
+               this.setState({
+                 cpfFile: e.target.files[0],
+               });
+             }}
+           />
+         </FormGroup>
+       </div>
+     </div>
+     )
+   }
+
   render() {
-    const { responsible } = this.state;
+    const { isLoading } = this.state;
+
+    const { responsible, company } = this.state;
     const { address } = this.state;
     const { contact } = this.state;
     const { nameFantasy } = this.state;
@@ -157,7 +353,7 @@ class Profile extends React.Component {
     const { cnpj } = this.state;
     const { assignment } = this.state;
     const { description } = this.state;
-
+    
     const {
       rgFile,
       cnpjFile,
@@ -167,6 +363,21 @@ class Profile extends React.Component {
       isActive,
       proofOfResidenceFile,
     } = this.state;
+
+    
+
+    // function disableLogos(){
+    //   //DISABLE BUTTON
+    //   const btnShow = document.getElementById("btnShow");
+    //   btnShow.style.display = "none";
+  
+    //   //DISABLE EDIT SERVICES DIV
+    //   const servicesShow = document.getElementById("servicesShow");
+    //   servicesShow.style.display = "none";
+  
+    //   const uploadLogo = document.getElementById("uploadLogo");
+    //   uploadLogo.style.display = "none";
+    // }
 
     async function handleRegister(e) {
       e.preventDefault();
@@ -219,6 +430,16 @@ class Profile extends React.Component {
         });
       }
     }
+    
+
+    if(isLoading){
+      return (
+        <>
+        ...
+        </>
+      )
+    }
+
     return (
       <>
         <UserHeader />
@@ -255,23 +476,10 @@ class Profile extends React.Component {
                         </div>
                       </div>
                     </div>
-
-                    <div id = 'uploadLogo'>
-                      <label>
-                        <strong>Logo da empresa</strong>
-                      </label>
-                      <Input
-                        id="logoFileInput"
-                        className="form-control-alternative"
-                        type="file"
-                        name="logoFile"
-                        onChange={(e) => {
-                          this.setState({
-                            logoFile: e.target.files[0],
-                          });
-                        }}
-                      />
-                    </div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    {company ? '': this.renderUploadShow()}
                   </Row>
                   <div className="text-center">
                     <h3>{nameFantasy}</h3>
@@ -309,7 +517,8 @@ class Profile extends React.Component {
                             className="form-control-alternative"
                             id="input-username"
                             required
-                            disabled={this.isDisabled}
+                            readOnly={this.isDisabled()}
+                            
                             value={responsible.name}
                             placeholder="Digite seu primeiro nome."
                             type="text"
@@ -334,7 +543,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            disabled={this.isDisabled}
+                            readOnly={this.isDisabled()}
                             id="input-email"
                             placeholder="Digite o seu sobrenome."
                             type="text"
@@ -363,7 +572,7 @@ class Profile extends React.Component {
                           <Input
                             className="form-control-alternative"
                             id="input-username"
-                            disabled={this.isDisabled}
+                            readOnly={this.isDisabled()}
                             placeholder="Digite seu e-mail pessoal."
                             type="email"
                             value={responsible.email}
@@ -390,7 +599,7 @@ class Profile extends React.Component {
                             className="form-control-alternative"
                             mask = '(99)9 9999-9999'
                             id="input-email"
-                            disabled={this.isDisabled}
+                            readOnly={this.isDisabled()}
                             placeholder="Digite o seu telefone."
                             type="text"
                             value={responsible.phone}
@@ -417,7 +626,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            disabled={this.isDisabled}
+                            readOnly={this.isDisabled()}
                             id="input-username"
                             placeholder="Digite seu RG."
                             type="text"
@@ -443,7 +652,7 @@ class Profile extends React.Component {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            disabled={this.isDisabled}
+                            readOnly={this.isDisabled()}
                             id="input-email"
                             placeholder="Digite o seu CPF."
                             type="text"
@@ -476,7 +685,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-username"
                               placeholder="Digite o nome fantasia da sua empresa."
                               type="text"
@@ -497,7 +706,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               value={rSocial}
                               id="input-email"
                               placeholder="Digite a razão social da sua empresa."
@@ -520,7 +729,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-first-name"
                               value={cnpj}
                               placeholder="Digite o CNPJ da sua empresa."
@@ -541,7 +750,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="inputAssigment"
                               placeholder="Last name"
                               type="select"
@@ -584,7 +793,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
@@ -610,7 +819,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite número"
                               type="text"
@@ -636,7 +845,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite o nome do bairro"
                               type="text"
@@ -664,7 +873,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-city"
                               placeholder="Digite seu CEP."
                               type="text"
@@ -690,7 +899,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-country"
                               placeholder="Digite o nome da sua cidade."
                               type="text"
@@ -716,7 +925,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-postal-code"
                               placeholder="Digite o seu estado"
                               type="text"
@@ -744,7 +953,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite a latitude."
                               type="text"
@@ -770,7 +979,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite a longitude."
                               type="text"
@@ -810,7 +1019,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
@@ -836,7 +1045,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Digite o endereço de sua empresa"
                               type="text"
@@ -864,7 +1073,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Cole o link do seu perfil do instagram."
                               type="text"
@@ -890,7 +1099,7 @@ class Profile extends React.Component {
                             </label>
                             <Input
                               className="form-control-alternative"
-                              disabled={this.isDisabled}
+                              readOnly={this.isDisabled()}
                               id="input-address"
                               placeholder="Cole o link da sua página do facebook."
                               type="text"
@@ -911,118 +1120,9 @@ class Profile extends React.Component {
                     <hr className="my-4" />
                     {/* Description */}
 
-                    <div id="servicesShow">
-                      <FormGroup encType="multipart/form-data">
-                        <label>
-                          <strong>Descrição da sua empresa.</strong>
-                        </label>
-                        <Input
-                          className="form-control-alternative"
-                          disabled={this.isDisabled}
-                          placeholder="Fale sobre sua empresa."
-                          rows="6"
-                          type="textarea"
-                          onChange={(e) =>
-                            this.setState({ description: e.target.value })
-                          }
-                        />
-                      </FormGroup>
-                      <h6 className="heading-small text-muted mb-4">Anexos</h6>
-                      <div className="pl-lg-4">
-                        <span>
-                          Envio imagens dos seguintes documentos.{" "}
-                          <strong>
-                            RG, CPF, Cartão CNPJ, comprovante de residência.
-                          </strong>{" "}
-                          <hr className="my-4" />
-                        </span>
-
-                        <FormGroup>
-                          <label>
-                            <strong>RG</strong>{" "}
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            disabled={this.isDisabled}
-                            placeholder="Fale sobre seus serviços."
-                            rows="6"
-                            type="file"
-                            name="rgFile"
-                            onChange={(e) => {
-                              this.setState({
-                                rgFile: e.target.files[0],
-                              });
-                            }}
-                          />
-                        </FormGroup>
-                        <FormGroup encType="multipart/form-data">
-                          <label>
-                            <strong>Cartão CNPJ</strong>{" "}
-                          </label>
-                          <Input
-                            id="cnpjFileInput"
-                            className="form-control-alternative"
-                            placeholder="Fale sobre seus serviços."
-                            disabled={this.isDisabled}
-                            rows="6"
-                            type="file"
-                            name="cnpjFile"
-                            onChange={(e) => {
-                              this.setState({
-                                cnpjFile: e.target.files[0],
-                              });
-                            }}
-                          />
-                        </FormGroup>
-                        <FormGroup encType="multipart/form-data">
-                          <label>
-                            <strong>Comprovante de Residência</strong>{" "}
-                          </label>
-                          <Input
-                            id="proofOfResidenceFileInput"
-                            className="form-control-alternative"
-                            placeholder="Fale sobre seus serviços."
-                            disabled={this.isDisabled}
-                            rows="6"
-                            type="file"
-                            name="proofOfResidenceFile"
-                            onChange={(e) => {
-                              this.setState({
-                                proofOfResidenceFile: e.target.files[0],
-                              });
-                            }}
-                          />
-                        </FormGroup>
-                        <FormGroup encType="multipart/form-data">
-                          <label>
-                            <strong>CPF</strong>{" "}
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            placeholder="Fale sobre seus serviços."
-                            disabled={this.isDisabled}
-                            rows="6"
-                            type="file"
-                            name="cpfFile"
-                            onChange={(e) => {
-                              this.setState({
-                                cpfFile: e.target.files[0],
-                              });
-                            }}
-                          />
-                        </FormGroup>
-                      </div>
-                    </div>
-                    <Button
-                      style={{ background: "#0068e3", border: "none" }}
-                      type="submit"
-                      id="btnShow"
-                      className="float-right"
-                      color="default"
-                      size="md"
-                    >
-                      Cadastrar
-                    </Button>
+                    {company ? '' : this.renderServiceShow()}
+                    
+                    {company? '' : this.renderBtnShow()}
                   </Form>
                 </CardBody>
               </Card>
