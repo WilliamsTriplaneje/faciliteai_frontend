@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+.services{
+    display: flex;
+}
+.card-services{
+    text-align: center;
+    display: flex;
+}
+.services-info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 16px;
+    background: white;
+    width: 100%;
+    margin: 14px 6px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.services-info span{
+    margin-top: 8px;
+}
+.services-info strong{
+    margin: 12px 0;
+    font-size: 18px;
+}
