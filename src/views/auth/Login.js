@@ -43,12 +43,16 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { logout } from '../../auth'
 
 class Login extends React.Component {
   state = {
     providerEmail: "",
     providerPassword: "",
   };
+  async componentDidMount() {
+    logout()
+  }
   render() {
     const { providerEmail } = this.state;
     const { providerPassword } = this.state;

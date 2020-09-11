@@ -19,6 +19,7 @@ import React from "react";
 import api from "../../services/api";
 import { passwordEqual, isItEmpty, emailEqual } from "../../utils/inputUtils";
 import Swal from "sweetalert2";
+import { logout } from '../../auth'
 
 // reactstrap components
 import {
@@ -45,6 +46,9 @@ class Register extends React.Component {
     roles: ["provider"],
   };
 
+  async componentDidMount() {
+    logout()
+  }
   render() {
     const { name } = this.state;
     const { lastname } = this.state;
