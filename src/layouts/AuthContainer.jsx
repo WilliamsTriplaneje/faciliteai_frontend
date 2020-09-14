@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Redirect } from "react-router-dom";
 // reactstrap components
 import { Container, Row, Col } from "reactstrap";
 
@@ -24,49 +24,16 @@ import { Container, Row, Col } from "reactstrap";
 // import AuthNavbar from "../components/Navbars/AuthNavbar.js";
 import AuthFooter from "../components/Footers/AuthFooter.js";
 
-import routes from "../routes";
+const AuthContainer = (props) => {
 
-class Auth extends React.Component {
-  componentDidMount() {
-    document.body.classList.add("bg-default");
-  }
-  componentWillUnmount() {
-    document.body.classList.remove("bg-default");
-  }
-  getRoutes = routes => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
-        console.log("Caiu")
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
-  render() {
+    // useEffect(() => {
+    //     document.body.classList.add("bg-default");
+    // }, [])
+
     return (
       <>
         <div className="main-content">
-          {/* <AuthNavbar /> */}
           <div className="header bg-gradient-info py-7 py-lg-8">
-            {/* <Container>
-              <div className="header-body text-center mb-7">
-                <Row className="justify-content-center">
-                  <Col lg="5" md="6">
-                    <h1 className="text-white">Bem-vindo!</h1>
-                    <p className="text-lead text-light">
-                      Utilize o formulário abaixo para acessar seu paínel administrativo.
-                    </p>
-                  </Col>
-                </Row>
-              </div>
-            </Container> */}
             <div className="separator separator-bottom separator-skew zindex-100">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,17 +53,13 @@ class Auth extends React.Component {
           {/* Page content */}
           <Container className="mt--8 pb-5">
             <Row className="justify-content-center">
-              <Switch>
-                {this.getRoutes(routes)}
-                <Redirect from="*" to="/auth/login" />
-              </Switch>
+                {props.children}
             </Row>
           </Container>
         </div>
         <AuthFooter />
       </>
     );
-  }
 }
 
-export default Auth;
+export default AuthContainer

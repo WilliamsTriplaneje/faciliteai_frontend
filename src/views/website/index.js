@@ -22,6 +22,7 @@ import Header from "../../components/Website/Header/index";
 import Section from "../../components/Website/Section/index";
 
 function website() {
+  console.log("Renderizando!")
   return (
     <>
         <Header />

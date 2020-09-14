@@ -16,12 +16,12 @@
 
 */
 import Index from "./views/Index.js";
-import Profile from "./views/examples/Profile.js";
+import Profile from "./views/examples/Profile";
 import ServicesRegister from "./views/app/Provider/CreateService"
 // import Maps from "./views/examples/Maps.js";
-import Register from "./views/auth/Register.js";
-import Login from "./views/auth/Login.js";
-import CreateService from "./views/app/Provider/ListServices.js";
+import Register from "./views/auth/Register";
+import Login from "./views/auth/Login";
+import CreateService from "./views/app/Provider/ListServices";
 
 import List from './views/app/admin/Companys'
 import Approval from './views/app/admin/Approval'
@@ -120,6 +120,5 @@ var routes = [
     requestedRoles: ['master-admin'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
-
 ];
 export default routes;

@@ -29,6 +29,13 @@ import ProviderLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
 import Website from "./views/website/index";
 import Payment from "./views/website/payment";
+import Plans from "./views/website/plans";
+import Success from "./views/website/success";
+import Cancel from "./views/website/cancel";
+import Register from "./views/website/register";
+
+
+
 
 const history = createBrowserHistory()
 
@@ -62,6 +69,12 @@ ReactDOM.render(
         render={(props) => <AuthLayout {...props} />}
       />
       <Route from="/payment" render={(props) => <Payment {...props} />} />
+      <Route from="/cadastro" render={(props) => <Register {...props} />} />
+
+      <Route from="/contratar-plano" render={(props) => <Plans {...props} />} />
+      <Route from="/payment/sucesso" render={(props) => <Success {...props} />} />
+      <Route from="/payment/cancel" render={(props) => <Cancel {...props} />} />
+
       <Route from="/" render={(props) => <Website {...props} />} />
       
     </Switch>

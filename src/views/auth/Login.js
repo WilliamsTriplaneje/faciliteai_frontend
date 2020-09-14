@@ -26,6 +26,7 @@ import {
   isAdmin,
   isMasterAdmin,
   isProvider,
+  isClient
 } from "../../auth";
 
 // reactstrap components
@@ -82,6 +83,10 @@ class Login extends React.Component {
 
               if (isAdmin()) {
                 window.location = `/app/admin/dashboard`;
+                return;
+              }
+              if (isClient()) {
+                window.location = `/`;
                 return;
               }
               if (isProvider) {

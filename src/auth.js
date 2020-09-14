@@ -8,6 +8,10 @@ export function canAccess (requestedRoles){
   const userRoles = getRoles()
   return requestedRoles.every((role) => userRoles.indexOf(role) >= 0)
 }
+export const isClient = () => {
+  return  verifyRole(getRoles(), 'client')
+};
+
 export const isProvider = () => {
   return  verifyRole(getRoles(), 'provider')
 };

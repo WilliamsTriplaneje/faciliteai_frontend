@@ -12,6 +12,8 @@ const CheckoutForm = ({ selectedService, history }) => {
     if (!selectedService) history.push('/')
 
     const [receiptUrl, setReceiptUrl] = useState('')
+    const [clientEmail, setClientEmail] = useState('')
+
   
     const handleSubmit = async event => {
       event.preventDefault()
@@ -31,8 +33,8 @@ const CheckoutForm = ({ selectedService, history }) => {
       }
       const { token } = result
 
-      const order = await api.post('payments/charges', {
-        clientEmail: 'customer@example.com',
+      const order = await api.post('/stripe/payments/charges', {
+        clientEmail: clientEmail,
         serviceId: selectedService._id,
         token: token
       })
@@ -57,6 +59,7 @@ const CheckoutForm = ({ selectedService, history }) => {
       <h3>{selectedService.name}</h3>
         <h4>{selectedService.price}</h4>
         <form onSubmit={handleSubmit}>
+          <input type="text" title="Email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}/>
           <CardField />
         <button type="submit" disabled={!stripe}>
             Pagar
