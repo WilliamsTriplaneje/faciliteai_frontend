@@ -19,6 +19,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated, isAdmin } from "./auth";
+import { createBrowserHistory } from 'history'
 
 import "./assets/plugins/nucleo/css/nucleo.css";
 // import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -27,6 +28,9 @@ import "./assets/scss/argon-dashboard-react.scss";
 import ProviderLayout from "./layouts/Admin.js";
 import AuthLayout from "./layouts/Auth.js";
 import Website from "./views/website/index";
+import Payment from "./views/website/payment";
+
+const history = createBrowserHistory()
 
 const AuthenticatedRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -42,7 +46,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => (
 );
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter history={history}>
     <Switch>
       <AuthenticatedRoute
         path="/app"
@@ -57,7 +61,9 @@ ReactDOM.render(
         path="/app/cadastrar-servico"
         render={(props) => <AuthLayout {...props} />}
       />
+      <Route from="/payment" render={(props) => <Payment {...props} />} />
       <Route from="/" render={(props) => <Website {...props} />} />
+      
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

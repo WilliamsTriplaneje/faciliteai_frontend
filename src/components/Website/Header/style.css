@@ -2,6 +2,10 @@
   margin: 0 ;
   padding: 0;
 }
+.header-body{
+  display: flex;
+  vertical-align: middle;
+}
 .combo{
  margin: 2px;
  text-align: center;
@@ -9,9 +13,14 @@
 #search-area{
   justify-content: center;
 }
+#logo-faciliteai{
+  justify-content: left;
+  align-items: center;
+  padding: 8px 0;
+}
 @media (max-width: 768px) {
   .branding {
-    width: 40%;
+    width: 100%;
     min-height: 100%;
   }
 }
@@ -24,6 +33,16 @@
   }
   .combo{
     padding: 8px 12px;
+  }
+  #logo-faciliteai {
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media(min-width: 1028px){
+  #logo-faciliteai{
+    justify-content: left;
+    align-items: center;
   }
 }
 

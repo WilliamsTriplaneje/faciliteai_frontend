@@ -1,31 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,500;0,700;1,100;1,200;1,400;1,700&display=swap");
 * {
   margin: 0;
   padding: 0;
   outline: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-.services{
+#descriptionFacilite {
+  height: 94vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-left: 8px;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+}
+#descriptionFacilite span{
+ font-size: 1.4rem;
+ font-weight: lighter;
+}
+#buttonsFacilite{
+  margin: 0 auto;
+  margin-top: 26px;
+}
+#buttonsFacilite button{
+  font-size: 1.2rem;
+  font-weight: 400;
+  background-color: var(--success);
+  border: none;
+  color: var(--white);
+}
+#cellPhoneImg {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;  
+  position: relative;
+  padding: 0;
+  height: 100%;
+}
+#buttonsFacilite{
+  display: flex;
+  justify-content: center;
+}
+#descriptionFacilite h3 {
+  color: var(--white);
+  font-size: 2.4rem;
+}
+#cardCategory{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px;
+}
+#cardCategory button{
+  font-size: 1.2rem;
+  font-weight: 400;
+  background-color: var(--success);
+  border: none;
+  color: var(--white);
+}
+@media (max-width: 768px) {
+  #descriptionFacilite h3 {
+    color: var(--white);
     display: flex;
-}
-.card-services{
     text-align: center;
+    padding: 12px 8px;
+    margin-top: 16px;
+    font-size: 1.1rem;
+  }
+  #descriptionFacilite span {
+    color: var(--white);
+    text-align: center;
+    padding: 4px 10px;
+    font-weight: lighter;
+    margin-top: 4px;
+    font-size: 0.85rem;
+  }
+  #buttonsFacilite {
     display: flex;
-}
-.services-info{
+    padding: 16px 8px;
+    justify-content: center;
+  }
+  #buttonsFacilite button {
+    background-color: var(--success);
+    border: none;
+    color: var(--white);
+    font-size: 0.9rem;
+  }
+  #cellPhoneImg{
+    display: none;
+  }
+  #cardCategory{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    padding: 16px;
-    background: white;
-    width: 100%;
-    margin: 14px 6px;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    padding: 10px;
+  }
+  #cardCategory button{
+    font-size: .9rem;
+    background-color: var(--success);
+    border: none; 
+    color: var(--white);
+  }
 }
-.services-info span{
-    margin-top: 8px;
-}
-.services-info strong{
-    margin: 12px 0;
-    font-size: 18px;
+@media(max-width: 1024px){
+  #cellPhoneImg{
+    display: none;
+  }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-
+import './styles.css'
 import {
   Button,
   Card,
@@ -24,10 +24,9 @@ import Section from "../../components/Website/Section/index";
 function website() {
   return (
     <>
-      <Container fluid>
+      
         <Header />
         <Section />
-      </Container>
     </>
   );
 }
