@@ -18,7 +18,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { isAuthenticated, isAdmin } from "./auth";
+import { isAuthenticated } from "./auth";
 import { createBrowserHistory } from 'history'
 
 import "./assets/plugins/nucleo/css/nucleo.css";

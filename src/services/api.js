@@ -33,7 +33,7 @@ api.interceptors.response.use(
     try {
       console.log(err);
       if (err.response.status === 401) {
-        window.location = "/login";
+        window.location = "/auth/login";
       }
     } catch(e) {
       throw err;

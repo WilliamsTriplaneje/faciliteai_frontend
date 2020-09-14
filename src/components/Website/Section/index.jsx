@@ -12,8 +12,13 @@ import {
   Label,
 } from "reactstrap";
 
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 function Section() {
+
   const [category, setCategory] = useState([]);
+  const [categoryId, setCategoryId] = useState('')
 
   useEffect(() => {
     async function loadCategories() {
@@ -22,6 +27,28 @@ function Section() {
     }
     loadCategories();
   }, []);
+
+  const [subcategorys, setSubcategory] = useState([])
+  useEffect(() => {
+    async function loadSubcategories() {
+      if(!categoryId){
+        return
+      }
+       await api.get('/sub-categories', {
+        params: { categoryId }
+      }).then((result)=>{
+        setSubcategory(result.data)
+      }).catch((e)=>{
+        //TODO ADD SWEETALERT
+        alert('Error')
+      })
+      
+    }
+    loadSubcategories();
+  }, [categoryId]);
+
+
+
 
   return (
     <>
@@ -51,18 +78,35 @@ function Section() {
               Procure os serviços da sua região
             </span>
             <Card id="cardCategory">
-              <Label style={{ color: "#666", fontSize: '.9rem' }}>O que você procura ?</Label>
-              <Input type="select">
-                <option>Selecionar</option>
-                {
-                  category.map((allnames) => (
-                    <option>{allnames.category}</option>
-                  ))
-                }
-              </Input>
+              <Row style={{ width: '100%' }}>
+                <Col lg='6'>
+                  <Label style={{ color: "#666", fontSize: '.9rem' }}>Categoria</Label>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={category}
+                    getOptionLabel={(option) => option.category}
+                    onChange={(event, value) => setCategoryId(value._id)}
+                    style={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                  />
+                </Col>
+                <br />
+                <Col lg='6'>
+                  <Label style={{ color: "#666", fontSize: '.9rem' }}>Subcategoria</Label>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={subcategorys}
+                    getOptionLabel={(option) => option.subcategory}
+                    style={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} label="Subcategoria" variant="outlined" />}
+                  />
+                </Col>
+              </Row>
+
               <br />
               <Button>Procurar</Button>
             </Card>
+            <p><a href='/auth/login'>Sou um prestador !</a></p>
           </Col>
 
           <Col lg="5" id="cellPhoneImg">

@@ -24,7 +24,6 @@ import Section from "../../components/Website/Section/index";
 function website() {
   return (
     <>
-      
         <Header />
         <Section />
     </>

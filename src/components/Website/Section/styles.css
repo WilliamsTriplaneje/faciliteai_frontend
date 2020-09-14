@@ -4,7 +4,6 @@
   padding: 0;
   outline: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 #descriptionFacilite {
   height: 94vh;
@@ -18,13 +17,24 @@
 }
 #descriptionFacilite span{
  font-size: 1.4rem;
+ font-family: "Poppins", sans-serif;
  font-weight: lighter;
 }
+#descriptionFacilite a{
+  font-family: "Poppins", sans-serif;
+ font-size: 1rem;
+ color: var(--white);
+ font-weight: lighter;
+ text-decoration: underline;
+ padding: 22px;
+}
 #buttonsFacilite{
+  font-family: "Poppins", sans-serif;
   margin: 0 auto;
   margin-top: 26px;
 }
 #buttonsFacilite button{
+  font-family: "Poppins", sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
   background-color: var(--success);
@@ -64,6 +74,7 @@
 @media (max-width: 768px) {
   #descriptionFacilite h3 {
     color: var(--white);
+    font-family: "Poppins", sans-serif;
     display: flex;
     text-align: center;
     padding: 12px 8px;
@@ -79,12 +90,14 @@
     font-size: 0.85rem;
   }
   #buttonsFacilite {
+    font-family: "Poppins", sans-serif;
     display: flex;
     padding: 16px 8px;
     justify-content: center;
   }
   #buttonsFacilite button {
     background-color: var(--success);
+    font-family: "Poppins", sans-serif; 
     border: none;
     color: var(--white);
     font-size: 0.9rem;
@@ -99,6 +112,7 @@
     padding: 10px;
   }
   #cardCategory button{
+    font-family: "Poppins", sans-serif;
     font-size: .9rem;
     background-color: var(--success);
     border: none; 
