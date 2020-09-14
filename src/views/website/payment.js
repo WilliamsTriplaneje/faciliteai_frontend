@@ -6,7 +6,9 @@ import useRouter from './hooks/useRouter';
 import Checkout from '../../components/Website/Stripe/Checkout'
 // import { Container } from './styles';
 
-function Payment({ history }) {
+function Payment({ history, location }) {
+
+    
     const router = useRouter();
     const [services, setServices] = useState([
         {
@@ -31,6 +33,19 @@ function Payment({ history }) {
     function onSelectService(service) {
         console.log(service)
     }
+
+    // return (
+    //     <button type="button" onClick={() => {
+    //         const l = {
+    //             pathname: '/auth/login', // Para onde encaminhar
+    //             state: {from: location} // Para onde retornar após autentificado
+    //         }
+            
+    //         console.log(`Location: ${location}`)
+    //         console.log(location)
+    //         history.push(l);
+    //     }}>Ir para login</button>
+    // )
     if(!selectedService){
         return (
         
