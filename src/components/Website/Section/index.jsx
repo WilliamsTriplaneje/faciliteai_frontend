@@ -19,7 +19,6 @@ function Section() {
     async function loadCategories() {
       const response = await api.get("/categories");
       setCategory(response.data);
-      console.log(response.data)
     }
     loadCategories();
   }, []);
@@ -53,7 +52,14 @@ function Section() {
             </span>
             <Card id="cardCategory">
               <Label style={{ color: "#666", fontSize: '.9rem' }}>O que você procura ?</Label>
-              <Input type="text"/>
+              <Input type="select">
+                <option>Selecionar</option>
+                {
+                  category.map((allnames) => (
+                    <option>{allnames.category}</option>
+                  ))
+                }
+              </Input>
               <br />
               <Button>Procurar</Button>
             </Card>
