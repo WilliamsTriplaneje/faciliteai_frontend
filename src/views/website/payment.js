@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import { STRIPE_PUBLIC } from '../../config/Constants'
 import useRouter from './hooks/useRouter';
-import Checkout from './components/Checkout'
+import Checkout from '../../components/Website/Stripe/Checkout'
 // import { Container } from './styles';
 
 function Payment({ history }) {
