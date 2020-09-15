@@ -94,7 +94,7 @@ class Login extends React.Component {
               self.redirectTo(returnUrl)
               return
             }
-            if (isAdmin()) {
+            if (isAdmin() || isMasterAdmin()) {
               self.redirectTo(`/app/admin/dashboard`)
               return
             }

@@ -10,7 +10,6 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe(STRIPE_PUBLIC);
 
 function Plans({ history }) {
-    const router = useRouter();
     const [plans, setPlans] = useState([])
     const [clientEmail, setClientEmail] = useState('')
 
@@ -67,19 +66,17 @@ function Plans({ history }) {
         e.preventDefault()
 
         const { id } = await getCheckoutSection(clientEmail)
-        console.log(`sessionId : ${id}`)
+        
         const stripe = await stripePromise;
         const { error } = await stripe.redirectToCheckout({
             sessionId: id,
-          });
+        });
 
 
         console.log(error)
     }
     return(
         <form onSubmit={onSubmit}>
-            <input type="text" title="Email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}/>
-            
             <button type="submit">Pagar</button>
         </form>
     )
