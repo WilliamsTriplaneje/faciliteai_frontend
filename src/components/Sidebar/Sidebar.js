@@ -18,6 +18,7 @@
 /*eslint-disable*/
 import React from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+import { logout as AuthLogout} from "../../auth";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 
@@ -56,6 +57,11 @@ import {
 
 var ps;
 
+function logout() {
+  AuthLogout()
+  window.location = "/auth/login";
+}
+
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false,
@@ -64,6 +70,8 @@ class Sidebar extends React.Component {
     super(props);
     this.activeRoute.bind(this);
   }
+
+  
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -196,7 +204,10 @@ class Sidebar extends React.Component {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={(e) => {
+                  e.preventDefault()
+                  logout()
+                  }}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
