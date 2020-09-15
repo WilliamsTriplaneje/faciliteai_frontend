@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useHistory } from 'react-router-dom'
 import api from '../../../services/api'
 import "./style.css";
 
@@ -6,6 +7,7 @@ import { Button, Card, CardBody, Container, Row, Col, Media } from "reactstrap";
 
 
 function Website() {
+  const history = useHistory()
   return (
     <>
       <div className="header  pt-2 ">
@@ -18,7 +20,10 @@ function Website() {
               <img
                 alt="..."
                 className="branding"
+                onClick = {()=> history.push('/')}
+                style = {{cursor: 'pointer'}}
                 src={require("../../../assets/img/brand/logo.png")}
+
               />
             </Media>
           </div>

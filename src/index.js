@@ -33,6 +33,7 @@ import Plans from "./views/website/plans";
 import Success from "./views/website/success";
 import Cancel from "./views/website/cancel";
 import Register from "./views/website/register";
+import Service from "./views/website/Services/index";
 
 
 
@@ -68,14 +69,17 @@ ReactDOM.render(
         path="/app/cadastrar-servico"
         render={(props) => <AuthLayout {...props} />}
       />
-      <Route from="/payment" render={(props) => <Payment {...props} />} />
+      <Route from="/service/:id" render={(props) => <Payment {...props} />} />
       <Route from="/cadastro" render={(props) => <Register {...props} />} />
 
       <Route from="/contratar-plano" render={(props) => <Plans {...props} />} />
       <Route from="/payment/sucesso" render={(props) => <Success {...props} />} />
       <Route from="/payment/cancel" render={(props) => <Cancel {...props} />} />
 
+      <Route from="/services/category=:catid/subcategory=:subid"  render={(props) => <Service {...props} />} />
       <Route from="/" render={(props) => <Website {...props} />} />
+      
+     
       
     </Switch>
   </BrowserRouter>,

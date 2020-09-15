@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom'
 import api from "../../../services/api";
 import "./styles.css";
 import {
@@ -16,10 +17,11 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 function Section() {
+  const history = useHistory()
 
+  //THIS EFFECT GET CATEGORYS DATA
   const [category, setCategory] = useState([]);
   const [categoryId, setCategoryId] = useState('')
-
   useEffect(() => {
     async function loadCategories() {
       const response = await api.get("/categories");
@@ -28,27 +30,33 @@ function Section() {
     loadCategories();
   }, []);
 
+  //THIS EFFECT GET SUBCATEGORYS DATA
   const [subcategorys, setSubcategory] = useState([])
+  const [subcategoryId, setSubcategoryId] = useState('')
   useEffect(() => {
     async function loadSubcategories() {
-      if(!categoryId){
+      if (!categoryId) {
         return
       }
-       await api.get('/sub-categories', {
+      await api.get('/sub-categories', {
         params: { categoryId }
-      }).then((result)=>{
+      }).then((result) => {
         setSubcategory(result.data)
-      }).catch((e)=>{
+      }).catch((e) => {
         //TODO ADD SWEETALERT
         alert('Error')
       })
-      
+
     }
     loadSubcategories();
   }, [categoryId]);
 
 
-
+  //THIS FUNCTION GET SERICES BETWEEN CATEGORYS
+  async function getServices() {
+    const servicesUrl = `/services/category=${categoryId}/subcategory=${subcategoryId}`
+    history.push(servicesUrl)
+  }
 
   return (
     <>
@@ -84,7 +92,7 @@ function Section() {
                   <Autocomplete
                     id="combo-box-demo"
                     options={category}
-                    getOptionLabel={(option) => option.category}
+                    getOptionLabel={(option) => option.name}
                     onChange={(event, value) => setCategoryId(value._id)}
                     style={{ width: '100%' }}
                     renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
@@ -96,7 +104,8 @@ function Section() {
                   <Autocomplete
                     id="combo-box-demo"
                     options={subcategorys}
-                    getOptionLabel={(option) => option.subcategory}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => setSubcategoryId(value._id)}
                     style={{ width: '100%' }}
                     renderInput={(params) => <TextField {...params} label="Subcategoria" variant="outlined" />}
                   />
@@ -104,7 +113,7 @@ function Section() {
               </Row>
 
               <br />
-              <Button>Procurar</Button>
+              <Button type='button' onClick={getServices}>Procurar</Button>
             </Card>
             <p><a href='/auth/login'>Sou um prestador !</a></p>
           </Col>

@@ -1,0 +1,65 @@
+.cardServices{
+    text-align: center;
+    padding: 12px 16px;
+    color: var(--dark);
+    font-family: 'Poppins';
+    font-weight: lighter;
+    border-radius: 12px;
+}
+.cardServices h2{
+    font-family: 'Poppins';
+    font-weight: 600;
+}
+.cardServices span{
+    font-family: 'Poppins';
+    font-size: 1rem;
+}
+.cardServices button{
+    background: var(--success);
+    border: none;
+    font-family: 'Poppins';
+    font-size: 1rem;
+}
+.cardServices button:hover{
+    background: #4fe769;
+    border: none;
+    font-family: 'Poppins';
+    font-size: 1rem;
+}
+.cardPrice{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+.cardPrice span{
+    margin: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.cardInfoServices{
+    background: var(--white);
+    border-radius: 12px;
+    padding: 16px;
+}
+@media(max-width: 768px ){
+    .cardServices h2{
+        font-family: 'Poppins';
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .cardServices span{
+        font-family: 'Poppins';
+        font-size: 1.15rem;
+    }
+    .cardServices button{
+        font-size: 1rem;
+    }
+    .cardInfoServices{
+        margin-top: 12px;
+    }
+}
+@media(min-width: 800px){
+    .cardInfoServices{
+        margin-top: 12px;
+    }
+}
