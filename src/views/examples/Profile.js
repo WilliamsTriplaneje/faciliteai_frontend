@@ -86,7 +86,8 @@ class Profile extends React.Component {
       isActive: false,
   
       company: null,
-      isLoading: true
+      isLoading: true,
+      logoUrl: null
     };
 
     this.renderBtnShow = this.renderBtnShow.bind(this);
@@ -123,8 +124,7 @@ class Profile extends React.Component {
           cnpj: company_.cnpj,
           assignment: company_.assignment,
           description: company_.description,
-          isInAnalysis: company_.isInAnalysis,
-          isActive: company_.isActive,
+          logoUrl: company_.logoUrl
         })
       })
       .catch((err) => {
@@ -353,6 +353,7 @@ class Profile extends React.Component {
     const { cnpj } = this.state;
     const { assignment } = this.state;
     const { description } = this.state;
+    const { logoUrl } = this.state
     
     const {
       rgFile,
@@ -455,7 +456,7 @@ class Profile extends React.Component {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={require("../../assets/img/theme/avatar-icon.png")}
+                          src={logoUrl ? logoUrl : require("../../assets/img/theme/avatar-icon.png")}
                         />
                       </a>
                     </div>
