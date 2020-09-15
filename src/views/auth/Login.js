@@ -56,7 +56,7 @@ class Login extends React.Component {
       password: "",
       returnUrl: from
     };
-
+    console.log(from)
     this.handleLogin = this.handleLogin.bind(this);
     this.redirectTo = this.redirectTo.bind(this);
 

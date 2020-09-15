@@ -18,6 +18,7 @@ function Payment({ history }) {
   const { id } = useParams();
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     async function loadService() {
       await api
         .get(`/services/${id}`)
