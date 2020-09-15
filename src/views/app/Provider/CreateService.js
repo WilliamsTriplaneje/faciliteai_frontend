@@ -102,6 +102,7 @@ class CreateService extends React.Component {
 
     async function handleRegister(e) {
       e.preventDefault();
+      
       await api.post("/services", {
         name,
         companyId,
@@ -261,7 +262,7 @@ class CreateService extends React.Component {
                             >
                               {" "}
                               {subcategories.map((all) => (
-                                <option>{all.name}</option>
+                                <option value={all._id}>{all.name}</option>
                               ))}
                               <option>Selecionar</option>
                             </Input>
