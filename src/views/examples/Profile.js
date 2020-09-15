@@ -464,7 +464,7 @@ class Profile extends React.Component {
                 </Row>
                 <CardBody className="pt-0 pt-md-4">
                   <Row>
-                    <div className="col">
+                    {/* <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                         <div>
                           <span className="heading">22</span>
@@ -476,7 +476,7 @@ class Profile extends React.Component {
                           <span className="description">Comments</span>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                     <div></div>
                     <div></div>
                     <div></div>
@@ -752,6 +752,7 @@ class Profile extends React.Component {
                             <Input
                               className="form-control-alternative"
                               readOnly={this.isDisabled()}
+                              disabled={this.isDisabled()}
                               id="inputAssigment"
                               placeholder="Last name"
                               type="select"
