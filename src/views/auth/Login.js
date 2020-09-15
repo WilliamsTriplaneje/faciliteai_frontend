@@ -47,66 +47,89 @@ import {
 import { logout } from '../../auth'
 
 class Login extends React.Component {
-  state = {
-    providerEmail: "",
-    providerPassword: "",
-  };
+  constructor(props){
+    super(props);
+
+    const from = this.props.location.state ? this.props.location.state.from : null
+    this.state = {
+      email: "",
+      password: "",
+      returnUrl: from
+    };
+
+    this.handleLogin = this.handleLogin.bind(this);
+    this.redirectTo = this.redirectTo.bind(this);
+
+  }
+
+  async redirectTo(path) {
+    this.props.history.push(path)
+  }
+  
+  async handleLogin(e) {
+    e.preventDefault();
+    var self = this
+
+    const { email, password, returnUrl } = this.state
+
+    const validations = [];
+
+    validations.push(isItEmpty(email));
+    validations.push(isItEmpty(password));
+
+    Promise.all(validations)
+      .then(async function (res) {
+        await api
+          .post(`login`, {
+            email,
+            password,
+          })
+          .then(async (response) => {
+            const user = response.data;
+            setUser(user);
+            setRoles(user.roles);
+            setToken(user.token);
+
+            if(returnUrl) {
+              self.redirectTo(returnUrl)
+              return
+            }
+            if (isAdmin()) {
+              self.redirectTo(`/app/admin/dashboard`)
+              return
+            }
+            
+            if (isProvider()) {
+              self.redirectTo(`/app/empresa`)
+              return
+            }
+            
+            if (isClient()) {
+              self.redirectTo(`/`)
+              return
+            }
+            
+            self.redirectTo(`/`)
+          })
+          .catch((err) => {
+            console.log(err)
+            Swal.fire({
+              imageUrl: "../../assets/img/brand/logo.png",
+              confirmButtonColor: "#0ee49d",
+              title: "Erro de validação",
+              text: "E-mail ou senha incorretos...",
+            });
+          });
+      })
+      .catch(function (err) {
+        console.error("Promise.all error", err);
+      })
+  }
+
   async componentDidMount() {
     logout()
   }
-  render() {
-    const { providerEmail } = this.state;
-    const { providerPassword } = this.state;
-
-    async function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      const validations = [];
-
-      validations.push(isItEmpty(email));
-      validations.push(isItEmpty(password));
-
-      Promise.all(validations)
-        .then(async function (res) {
-          await api
-            .post(`login`, {
-              email: providerEmail,
-              password: providerPassword,
-            })
-            .then(async (response) => {
-              const user = response.data;
-              setUser(user);
-              setRoles(user.roles);
-              setToken(user.token);
-
-              if (isAdmin()) {
-                window.location = `/app/admin/dashboard`;
-                return;
-              }
-              if (isClient()) {
-                window.location = `/`;
-                return;
-              }
-              if (isProvider) {
-                window.location = `/app/empresa`;
-                return;
-              }
-            })
-            .catch((err) => {
-              Swal.fire({
-                imageUrl: "../../assets/img/brand/logo.png",
-                confirmButtonColor: "#0ee49d",
-                title: "Erro de validação",
-                text: "E-mail ou senha incorretos...",
-              });
-            });
-        })
-        .catch(function (err) {
-          console.error("Promise.all error", err);
-        });
-    }
+  render() {    
     return (
       <>
         <Col lg="10" md="7">
@@ -124,7 +147,7 @@ class Login extends React.Component {
                   administrativo.
                 </p>
               </div>
-              <Form role="form" onSubmit={handleLogin}>
+              <Form role="form" onSubmit={this.handleLogin}>
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -137,8 +160,9 @@ class Login extends React.Component {
                       type="email"
                       id="email"
                       autoComplete="new-email"
+                      value={this.state.email}
                       onChange={(e) =>
-                        this.setState({ providerEmail: e.target.value })
+                        this.setState({ email: e.target.value })
                       }
                     />
                   </InputGroup>
@@ -155,8 +179,9 @@ class Login extends React.Component {
                       type="password"
                       id="password"
                       autoComplete="new-password"
+                      value={this.state.password}
                       onChange={(e) =>
-                        this.setState({ providerPassword: e.target.value })
+                        this.setState({ password: e.target.value })
                       }
                     />
                   </InputGroup>
