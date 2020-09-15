@@ -89,6 +89,7 @@ class Sidebar extends React.Component {
       if (
         prop.name != "Login" &&
         prop.name != "Register" &&
+        prop.name != "Aprovar" &&
         prop.name != "LoginAdmin"
       ) {
         return (
