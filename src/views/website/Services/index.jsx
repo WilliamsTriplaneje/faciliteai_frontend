@@ -39,31 +39,42 @@ function Services() {
     <>
       <Header />
 
-      <Container fluid className="bg-gradient-info" style={{ maxWidth: "100vw", margin: 0, padding: '25px', textAlign: 'center', height: '100vh' }}>
-        <span style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 'bold' }}>
+      <Container fluid className="bg-gradient-info" 
+      //  style={{ maxWidth: "100vw", margin: 0, padding: '25px', textAlign: 'center', height: '100vh' }}
+      >
+        {/* <span style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 'bold' }}>
           Esses são os serviços disponiveis na rua região
-          </span>
-        {
-          allservices.map((all) => (
-            <div>
-              {
-                all.isActive !== true ? (
-                  <Row className='cardServices' key={all._id}>
-                    <Col lg='12' className='cardInfoServices' >
-                      <h2>{all.name}</h2>
-                      <span>{all.description}</span>
-                      <Row className='cardPrice'>
-                        <span>R$ {all.price}</span>
-                        <span>{all.typePay}</span>
-                      </Row>
-                      <Button onClick={() => history.push(`/service/${all._id}`)}>Ver informações</Button>
-                    </Col>
-                  </Row>
-                ) : <br/>
+          </span> */}
+        <Row className='cardServices' >
+          {
+            allservices.map((service) => {
+              let serviceLocation = ""
+              try {
+                const { city, neighborhood } = service.companyId.address
+                serviceLocation = `${city}, ${neighborhood}`
               }
-            </div>
-          ))
-        }
+              catch (err) {
+
+              }
+              if (service.isActive !== true) {
+                return (
+                  <Col lg='4' md='4' className='cardInfoServices' key={service._id}>
+                    <h2>{service.name}</h2>
+                    <span>{service.description}</span>
+                    <span>{serviceLocation}</span>
+                    <Row className='cardPrice'>
+                      <span>R$ {service.price}</span>
+                      <span>{service.typePay}</span>
+                    </Row>
+                    <Button onClick={() => history.push(`/service/${service._id}`)}>Ver informações</Button>
+                  </Col>
+                )
+              }
+              return (<br />)
+            }
+            )
+          }
+        </Row>
       </Container>
     </>
 

@@ -11,7 +11,7 @@ import { Container, Card, Button, Row } from "reactstrap";
 
 import Header from "../../components/Website/Header/index";
 
-function Payment({ history }) {
+function Payment({ history, location }) {
   const router = useRouter();
   const [services, setServices] = useState({});
 
@@ -24,7 +24,6 @@ function Payment({ history }) {
         .get(`/services/${id}`)
         .then((result) => {
           setServices(result.data);
-          console.log(result.data);
         })
         .catch((err) => {
           //TODO  ADD SWEETALERT
@@ -74,7 +73,13 @@ function Payment({ history }) {
               <Button
                 type="button"
                 onClick={() => {
-                  setSelectedService(services);
+                  const l = {
+                    pathname: '/auth/login',
+                    state: {from: location}
+                  }
+                  console.log(`localtion ${location}`)
+                  console.log(location)
+                  history.push(l)
                 }}
               >
                 Contratar
