@@ -19,7 +19,17 @@
     border: none;
     font-family: 'Poppins';
     font-size: 1rem;
+    margin-bottom: 10px;
 }
+.cardDescription {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardDescription .location {
+    font-size: 0.8rem;
+}
+
 .cardServices button:hover{
     background: #4fe769;
     border: none;
@@ -37,9 +47,12 @@
     font-weight: 600;
 }
 .cardInfoServices{
+    padding: 10px;
+}
+
+.cardData {
     background: var(--white);
     border-radius: 12px;
-
 }
 @media(max-width: 768px ){
     .cardServices h2{

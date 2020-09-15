@@ -5,7 +5,7 @@
   outline: 0;
   box-sizing: border-box;
 }
-#descriptionFacilite {
+/* #descriptionFacilite {
   height: 94vh;
   display: flex;
   flex-direction: row;
@@ -14,33 +14,33 @@
   align-items: center;
   text-align: center;
   color: var(--white);
-}
-#descriptionFacilite span{
+} */
+/* #descriptionFacilite span{
  font-size: 1.4rem;
  font-family: "Poppins", sans-serif;
  font-weight: lighter;
-}
-#descriptionFacilite a{
+} */
+/* #descriptionFacilite a{
   font-family: "Poppins", sans-serif;
  font-size: 1rem;
  color: var(--white);
  font-weight: lighter;
  text-decoration: underline;
  padding: 22px;
-}
+} */
 #buttonsFacilite{
   font-family: "Poppins", sans-serif;
   margin: 0 auto;
   margin-top: 26px;
 }
-#buttonsFacilite button{
+/* #buttonsFacilite button{
   font-family: "Poppins", sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
   background-color: var(--success);
   border: none;
   color: var(--white);
-}
+} */
 #cellPhoneImg {
   display: flex;
   justify-content: flex-end;
@@ -50,15 +50,52 @@
   padding: 0;
   height: 100%;
 }
-#buttonsFacilite{
+/* #buttonsFacilite{
   display: flex;
   justify-content: center;
-}
-#descriptionFacilite h3 {
+} */
+/* #descriptionFacilite h3 {
   color: var(--white);
-  font-size: 2.4rem;
+  font-size: 2.7rem;
+  font-weight: bold;
+} */
+
+#descriptionFacilite .title h3{
+  line-height: 0.9 !important;
+  text-align: start;
+  color: var(--white);
+  font-size: 2.7rem;
+  font-weight: bold;
 }
-#cardCategory{
+#descriptionFacilite .description {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  color: var(--white);
+  text-align: center;
+  font-weight: lighter;
+  font-size: 1.1rem;
+  text-align: start;
+}
+
+#descriptionFacilite .buttons {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  color: var(--white);
+  text-align: center;
+  font-weight: lighter;
+  font-size: 1.2rem;
+}
+#descriptionFacilite .buttons .downloadButton{
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  background-color: var(--success);
+  text-align: center;
+  border: none;
+  color: var(--white);
+}
+
+/* #cardCategory{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,9 +107,56 @@
   background-color: var(--success);
   border: none;
   color: var(--white);
-}
+} */
 @media (max-width: 768px) {
-  #descriptionFacilite h3 {
+  #descriptionFacilite {
+    min-width: 60vw;
+    min-height: 60vh;
+  }
+  #descriptionFacilite .title h3{
+    line-height: 0.9 !important;
+    text-align: start;
+    color: var(--white);
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  #descriptionFacilite .description {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    color: var(--white);
+    text-align: center;
+    font-weight: lighter;
+    font-size: 0.7rem;
+    text-align: start;
+  }
+  
+  #descriptionFacilite .buttons {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    color: var(--white);
+    text-align: center;
+    font-weight: lighter;
+    font-size: 0.7rem;
+  }
+  #descriptionFacilite .buttons .knowMoreButton {
+    font-family: "Poppins", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-align: center;
+    border: none;
+  }
+  #descriptionFacilite .buttons .downloadButton{
+    font-family: "Poppins", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    background-color: var(--success);
+    text-align: center;
+    border: none;
+    color: var(--white);
+  }
+  
+  /* #descriptionFacilite h3 {
     color: var(--white);
     font-family: "Poppins", sans-serif;
     display: flex;
@@ -80,16 +164,16 @@
     padding: 12px 8px;
     margin-top: 16px;
     font-size: 1.1rem;
-  }
-  #descriptionFacilite span {
+  } */
+  /* #descriptionFacilite span {
     color: var(--white);
     text-align: center;
     padding: 4px 10px;
     font-weight: lighter;
     margin-top: 4px;
     font-size: 0.85rem;
-  }
-  #buttonsFacilite {
+  } */
+  /* #buttonsFacilite {
     font-family: "Poppins", sans-serif;
     display: flex;
     padding: 16px 8px;
@@ -101,11 +185,11 @@
     border: none;
     color: var(--white);
     font-size: 0.9rem;
-  }
+  } */
   #cellPhoneImg{
     display: none;
   }
-  #cardCategory{
+  /* #cardCategory{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -117,7 +201,7 @@
     background-color: var(--success);
     border: none; 
     color: var(--white);
-  }
+  } */
 }
 @media(max-width: 1024px){
   #cellPhoneImg{

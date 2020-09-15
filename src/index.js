@@ -25,8 +25,8 @@ import "./assets/plugins/nucleo/css/nucleo.css";
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
-import ProviderLayout from "./layouts/Admin.js";
-import AuthLayout from "./layouts/Auth.js";
+import ProviderLayout from "./layouts/Admin";
+import AuthLayout from "./layouts/Auth";
 import Website from "./views/website/index";
 import Payment from "./views/website/payment";
 import Plans from "./views/website/plans";

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from '../../services/api'
+
 import './styles.css'
 import {
   Button,
@@ -16,19 +18,160 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Label,
 } from "reactstrap";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import Header from "../../components/Website/Header/index";
 import Section from "../../components/Website/Section/index";
 
-function website() {
-  console.log("Renderizando!")
+function Index({ history, location }) {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(null);
+
+
+  useEffect(() => {
+    async function loadCategories() {
+      await api.get("/categories").then((res) => {
+        setCategories(res.data);
+      }).catch((err) => {
+        console.log("Não foi possível listar categorias")
+        console.log(err)
+      })
+    }
+    loadCategories();
+  }, []);
+
+  useEffect(() => {
+    async function loadSubcategories() {
+      if (!selectedCategoryId) {
+        return
+      }
+      await api.get('/sub-categories', {
+        params: { categoryId: selectedCategoryId }
+      }).then((result) => {
+        setSubCategories(result.data)
+      }).catch((err) => {
+        console.log("Não foi possível listar subcategorias")
+        console.log(err)
+      })
+
+    }
+    loadSubcategories();
+  }, [selectedCategoryId]);
+
   return (
     <>
         <Header />
         <Section />
+        <section id="buscar" className="searchSection">
+          <Container>
+            <Row 
+            style={{ marginBottom: '30px', marginTop: '25px' }}
+            >
+              <Col lg="12" md="12" xl="12"
+              style={{ display: "flex", flexDirection: "row", alignContent: "center", justifyContent: "center" }}
+              > 
+                <h2>Buscar serviços</h2>
+              </Col>
+            </Row>
+            <Row>
+            
+            <Col lg="12" md="12" xl="12" 
+            style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}
+            >
+              <Row
+              style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}
+              >
+              <Col lg='6'>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={categories}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => setSelectedCategoryId(value._id)}
+                    style={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                  />
+              </Col>
+                
+              </Row>
+              <Row
+              style={{ display: "flex", flexDirection: "column", alignContent: "center", 
+              justifyContent: "center", marginTop: '15px'}}
+              >
+                <Col lg='6'>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={subCategories}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => setSelectedSubCategoryId(value._id)}
+                    style={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} label="Subcategoria" variant="outlined" />}
+                  />
+                </Col>
+              </Row>
+              <Row 
+              style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}
+              >
+                <Col lg='6'
+                style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}
+                >
+                <Button className="searchButton" type='button' onClick={() => {
+                //TODO Redirecionar para próxima tela
+                const categoryId = selectedCategoryId
+                const subCategoryId = selectedSubCategoryId
+              }}>Buscar</Button>
+                </Col>
+              
+              </Row>
+            </Col>
+            </Row>
+
+          </Container>
+        </section>
+
+        <section id="vantagens" className="benefitsSection">
+        <Container>
+          <Row 
+              style={{ marginBottom: '30px', marginTop: '25px' }}
+              >
+                <Col lg="12" md="12" xl="12" className="platform">
+                  <Row className="title">
+                    <h3>O que podemos fazer por você?</h3>
+                  </Row>
+                  <Row className="data">
+                    <span>A FACILITE AÍ É UMA PLATAFORMA INOVADORA PARA QUE AS PESSOAS CONSIGAM DE UMA FORMA SIMPLES E ÁGIL FAZER O QUE MAIS PRECISAM NO SEU DIA A DIA: RESOLVER OS SEUS PROBLEMAS.</span>
+                  </Row>
+                  
+                </Col>
+          </Row>
+
+          <Row>
+            <Col sm="10" lg="10" md="10" xl="10" className="provider">
+              <Row className="title">
+                <h4>Vantagens para o prestador</h4>
+              </Row>
+              <Row className="data">
+                <ul>
+                  <li>Ampla divulgação do serviço no aplicativo;</li>
+                  <li>Maior visibilidade do seu trabalho;</li>
+                  <li>Fácil acionamento e captação de clientes;</li>
+                  <li>Pagamento garantido pela própria Facilite Aí;</li>
+                  <li>Sistema de cadastro direcionado ao prestador de serviço, para controle, acompanhamento e inserção de dados profissionais;</li>
+                  <li>Sistema de avaliação no aplicativo, quanto mais avaliações positivas, maior a visibilidade do profissional;</li>
+                </ul>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+        </section>
+
     </>
   );
 }
 
-export default website;
+export default Index;

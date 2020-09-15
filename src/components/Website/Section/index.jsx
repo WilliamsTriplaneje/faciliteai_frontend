@@ -61,78 +61,53 @@ function Section() {
   return (
     <>
       <Container
-        fluid
+        // fluid
         className="bg-gradient-info"
         style={{ maxWidth: "100vw", margin: 0 }}
       >
-        <Row xl="12" id="descriptionFacilite">
-          <Col
-            lg="7"
-            style={{ display: "flex", flexDirection: "column" }}
-            id="contentInfos"
-          >
-            <h3>O SEU PROBLEMA É O NOSSO PROBLEMA E NÓS TEMOS A SOLUÇÃO</h3>
-            <Row>
-              <span>
-                A FaciliteAi é uma plataforma inovadora para  pessoas
-                que querem contratar serviços  de uma forma simples e ágil.
-              </span>
-            </Row>
-            <Col lg="6" id="buttonsFacilite">
-              <Button>Baixe o app</Button>
-              <Button>Saiba Mais</Button>
-            </Col>
-            <span style={{ margin: "12px" }}>
-              Procure os serviços da sua região
-            </span>
-            <Card id="cardCategory">
-              <Row style={{ width: '100%' }}>
-                <Col lg='6'>
-                  <Label style={{ color: "#666", fontSize: '.9rem' }}>Categoria</Label>
-                  <Autocomplete
-                    id="combo-box-demo"
-                    options={category}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(event, value) => setCategoryId(value._id)}
-                    style={{ width: '100%' }}
-                    renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
-                  />
-                </Col>
-                <br />
-                <Col lg='6'>
-                  <Label style={{ color: "#666", fontSize: '.9rem' }}>Subcategoria</Label>
-                  <Autocomplete
-                    id="combo-box-demo"
-                    options={subcategorys}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(event, value) => setSubcategoryId(value._id)}
-                    style={{ width: '100%' }}
-                    renderInput={(params) => <TextField {...params} label="Subcategoria" variant="outlined" />}
-                  />
-                </Col>
+        <Row>
+        <Col lg="1" md="1" xl="1"></Col>
+          <Col lg="10" md="6" xl="6" id="descriptionFacilite"
+          style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
+              <Row className="title" style={{
+                display: "flex", flexDirection: "column", alignContent: "center", 
+                justifyContent: "center"
+              }}>
+                <h3>O SEU PROBLEMA É O</h3>
+                <h3>NOSSO PROBLEMA E </h3>
+                <h3>NÓS TEMOS A SOLUÇÃO</h3>
               </Row>
-
-              <br />
-              <Button type='button' onClick={getServices}>Procurar</Button>
-            </Card>
-            <p><a href='/auth/login'>Sou um prestador !</a></p>
+              <Row className="description" style={{
+                display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center"
+              }}>
+                <span>A FaciliteAi é uma plataforma inovadora para que as</span>
+                <span>pessoas consigam de uma forma simples e ágil fazer o que</span>
+                <span>mais precisam no seu dia a dia: resolver seus problemas.</span>
+              </Row>
+              <Row className="buttons" style={{
+                display: "flex", flexDirection: "row", alignContent: "center", 
+                justifyContent: "center", marginTop: '10px'
+              }}>
+                <Button className="downloadButton" href="#">Baixe o app</Button>
+                <Button className="knowMoreButton" href="#saiba-mais">Saiba Mais</Button>
+              </Row>
           </Col>
-
-          <Col lg="5" id="cellPhoneImg">
+          <Col lg="0" md="4" xl="4" id="cellPhoneImg">
             <Media
-              className="align-items-center"
-              style={{
-                paddingBottom: 6,
-              }}
-            >
-              <img
-                alt="..."
-                style={{ height: "100%" }}
-                className="branding"
-                src={require("../../../assets/img/utils/theme01-celphone.png")}
-              />
-            </Media>
+                className="align-items-center"
+                style={{
+                  paddingBottom: 6,
+                }}
+              >
+                <img
+                  alt="..."
+                  style={{ height: "100%", marginTop: '40px' }}
+                  className="branding"
+                  src={require("../../../assets/img/utils/theme01-celphone.png")}
+                />
+              </Media>
           </Col>
+          <Col lg="1" md="1" xl="1"></Col>
         </Row>
       </Container>
     </>

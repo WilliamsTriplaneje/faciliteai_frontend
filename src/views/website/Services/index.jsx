@@ -56,17 +56,22 @@ function Services() {
               catch (err) {
 
               }
-              if (service.isActive !== true) {
+              if (service.isActive === true) {
                 return (
-                  <Col lg='4' md='4' className='cardInfoServices' key={service._id}>
-                    <h2>{service.name}</h2>
-                    <span>{service.description}</span>
-                    <span>{serviceLocation}</span>
-                    <Row className='cardPrice'>
-                      <span>R$ {service.price}</span>
-                      <span>{service.typePay}</span>
-                    </Row>
-                    <Button onClick={() => history.push(`/service/${service._id}`)}>Ver informações</Button>
+                  <Col lg='3' md='3' xl='3' className='cardInfoServices pl-0 pl-sm-0 pl-md-3 pl-lg-4 pl-xl-5' key={service._id}>
+                    <div className="cardData">
+                      <h2>{service.name}</h2>
+                      <div className="cardDescription">
+                        <span>{service.description}</span>
+                        <span className="location">{serviceLocation}</span>
+                      </div>
+                      <Row className='cardPrice'>
+                        <span>R$ {service.price}</span>
+                        <span>{service.typePay}</span>
+                      </Row>
+                      
+                      <Button onClick={() => history.push(`/service/${service._id}`)}>Mais</Button>
+                    </div>
                   </Col>
                 )
               }
