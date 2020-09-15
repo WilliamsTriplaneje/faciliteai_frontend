@@ -58,7 +58,7 @@ class ListServices extends React.Component {
         companyId: company._id
       })
 
-      await api.get(`/services?companyId${company._id}`).then((result) => {
+      await api.get(`/services?companyId=${company._id}`).then((result) => {
         const services = result.data
         console.log(`Últimos ${services.length} serviços obtidos com sucesso`)
         this.setState({
