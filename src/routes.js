@@ -26,6 +26,7 @@ import CreateService from "./views/app/Provider/ListServices";
 import List from './views/app/admin/Companys'
 import Approval from './views/app/admin/Approval'
 import AdminDash from './views/app/admin/Index'
+import Categorys from './views/app/admin/Categorys'
 
 import { AUTHENTICATED_ROUTE_PREFIX } from './config/Constants'
 import AuthenticatedRoute from './components/Auth/AuthenticatedRoute'
@@ -109,6 +110,14 @@ var routes = [
     name: "Aprovar empresas",
     icon: "ni ni-bullet-list-67 text-blue",
     component: AuthenticatedRoute(List, ['master-admin']),
+    requestedRoles: ['master-admin'],
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+  },
+  {
+    path: "/admin/categorias",
+    name: "Registrar Categorias",
+    icon: "ni ni-briefcase-24 text-blue",
+    component: AuthenticatedRoute(Categorys, ['master-admin']),
     requestedRoles: ['master-admin'],
     layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
   },
