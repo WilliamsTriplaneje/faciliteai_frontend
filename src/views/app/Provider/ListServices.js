@@ -85,9 +85,9 @@ class ListServices extends React.Component {
     
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         {/* Page content */}
-        <Container className="mt--7" fluid>
+        <Container className="mt-2 pb-8 pt-5 pt-md-7" fluid>
           {/* Table */}
           <Row>
             <div className="col">
