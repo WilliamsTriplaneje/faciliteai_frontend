@@ -104,7 +104,7 @@ function Category() {
         categoryId
       })
       .then(() => {
-        history.push('/app/admin/categorias')
+        window.location = '/app/admin/categorias'
       })
       .catch((err) => {
         alert(err);

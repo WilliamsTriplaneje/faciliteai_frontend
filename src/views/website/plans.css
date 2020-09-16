@@ -5,6 +5,10 @@
   align-items: center;
   justify-content: center;
 }
+.row{
+  margin-left: 0;
+  margin-right: 0;
+}
 .cardPlans button {
   background: var(--success);
   border: none;
@@ -62,10 +66,10 @@
   }
 }
 @media (min-width: 1024px) {
-  .cardPlans {
+  /* .cardPlans {
     flex-direction: row;
     margin-top: 18px;
-  }
+  } */
   .container-fluid {
     padding: 0;
   }

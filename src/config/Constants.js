@@ -10,7 +10,8 @@ export const AUTHENTICATED_ROUTE_PREFIX = 'app'
 
 export const STRIPE_PUBLIC = process.env.REACT_APP_STRIPE_PUBLIC || 'pk_test_51HQBczGCAdgMEL0ED3hyonFA7wbn6vrmFIu5O6zUqXzCf1QjaY7jCzv9oS65m3Fs8vstQBH4GtPYSpdEpRw8QbR000XkOYC72q'
 
-export const API_URL =  process.env.REACT_APP_API_URL || 'http://apiteste-faciliteai-com-br.umbler.net'
+// export const API_URL =  process.env.REACT_APP_API_URL || 'http://apiteste-faciliteai-com-br.umbler.net'
+ export const API_URL =  process.env.REACT_APP_API_URL || 'http://localhost:3333'
 
 
 
