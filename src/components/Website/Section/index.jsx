@@ -66,33 +66,35 @@ function Section() {
         style={{ maxWidth: "100vw", margin: 0 }}
       >
         <Row>
-        <Col lg="1" md="1" xl="1"></Col>
-          <Col lg="10" md="6" xl="6" id="descriptionFacilite"
-          style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
-              <Row className="title" style={{
-                display: "flex", flexDirection: "column", alignContent: "center", 
-                justifyContent: "center"
+          <Col xs="1" lg="1" md="1" xl="1"></Col>
+          <Col xs="10" lg="6" md="6" xl="6" id="descriptionFacilite"
+          style={{ display: "flex", flexDirection: "column", 
+          // alignContent: "center", 
+          justifyContent: "center" }}
+          >
+              <Row className="title" 
+              style={{
+                // display: "flex", flexDirection: "column", alignContent: "center", 
+                // justifyContent: "center"
+                width: '100%'
               }}>
                 <h3>O SEU PROBLEMA É O</h3>
                 <h3>NOSSO PROBLEMA E </h3>
                 <h3>NÓS TEMOS A SOLUÇÃO</h3>
               </Row>
-              <Row className="description" style={{
-                display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center"
-              }}>
-                <span>A FaciliteAi é uma plataforma inovadora para que as</span>
-                <span>pessoas consigam de uma forma simples e ágil fazer o que</span>
-                <span>mais precisam no seu dia a dia: resolver seus problemas.</span>
+              <Row className="description" style={{ marginTop: '10px' }}>
+                <div className="descriptionWraper">
+                  <span>A FaciliteAi é uma plataforma inovadora para que as</span>
+                  <span>pessoas consigam de uma forma simples e ágil fazer o que</span>
+                  <span>mais precisam no seu dia a dia: resolver seus problemas.</span>
+                </div>
               </Row>
-              <Row className="buttons" style={{
-                display: "flex", flexDirection: "row", alignContent: "center", 
-                justifyContent: "center", marginTop: '10px'
-              }}>
+              <Row className="buttons" style={{ marginTop: '10px'}}>
                 <Button className="downloadButton" href="#">Baixe o app</Button>
                 <Button className="knowMoreButton" href='/contratar-plano'>Planos</Button>
               </Row>
           </Col>
-          <Col lg="0" md="4" xl="4" id="cellPhoneImg">
+          <Col xs="0" lg="4" md="4" xl="4" id="cellPhoneImg">
             <Media
                 className="align-items-center"
                 style={{
@@ -107,7 +109,7 @@ function Section() {
                 />
               </Media>
           </Col>
-          <Col lg="1" md="1" xl="1"></Col>
+          <Col xs="1" lg="1" md="1" xl="1"></Col>
         </Row>
       </Container>
     </>

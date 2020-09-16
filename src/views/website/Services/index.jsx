@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import api from '../../../services/api'
 import { isAuthenticated } from '../../../auth'
 import Swal from 'sweetalert2'
@@ -19,25 +19,15 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import Header from "../../../components/Website/Header/index";
 import Footer from '../../../components/Footers/SiteFooter'
+import QueryString from 'query-string'
 
-function Services({ history, location }) {
+function Services({ history }) {
   const [allservices, setServices] = useState([])
-
+  const location = useLocation()
+  const queries = QueryString.parse(location.search);
   const { catid, subid } = useParams()
 
-  useEffect(() => {
-    async function loadServices() {
-      await api.get('/services', {
-        params: { categoryId: catid, subcategoryId: subid }
-      }).then((result) => {
-        setServices(result.data)
-      }).catch(() => {
-        //TODO ADD SWEETALERT
-        alert('Erro na listagem dos serviços')
-      })
-    }
-    loadServices()
-  }, [loadServices])
+  
 
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -76,10 +66,27 @@ function Services({ history, location }) {
     loadSubcategories();
   }, [selectedCategoryId]);
 
+  useEffect(() => {
+    async function loadServices(category, subcategory) {
+      await api.get('/services', {
+        params: { categoryId: category, subcategoryId: subcategory }
+      }).then((result) => {
+        setServices(result.data)
+      }).catch(() => {
+        //TODO ADD SWEETALERT
+        alert('Erro na listagem dos serviços')
+      })
+    }
+    const { category, subcategory } = queries
+    loadServices(category, subcategory)
+    setSelectedCategoryId(category)
+    setSelectedSubCategoryId(subcategory)
+  }, [])
+
   function loadServices() {
     const categoryId = selectedCategoryId
     const subCategoryId = selectedSubCategoryId
-    history.push(`/services/category=${categoryId}/subcategory=${subCategoryId}`)
+    history.push(`/services?category=${categoryId}&subcategory=${subCategoryId}`)
   }
 
   return (
@@ -190,7 +197,7 @@ function Services({ history, location }) {
                       </Row>
 
                       <Button type='button' onClick={async () => {
-                        if (isAuthenticated === true) {
+                        if (isAuthenticated() === true) {
                           history.push(`/service/${service._id}`)
                         }
                         await Swal.fire({

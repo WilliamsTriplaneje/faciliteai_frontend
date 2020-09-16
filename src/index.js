@@ -73,10 +73,10 @@ ReactDOM.render(
       <Route from="/cadastro" render={(props) => <Register {...props} />} />
 
       <Route from="/contratar-plano" render={(props) => <Plans {...props} />} />
-      <Route from="/payment/sucesso" render={(props) => <Success {...props} />} />
-      <Route from="/payment/cancel" render={(props) => <Cancel {...props} />} />
+      <Route from="/payment/:chargeId/sucesso" render={(props) => <Success {...props} />} />
+      <Route from="/payment/:chargeId/cancel" render={(props) => <Cancel {...props} />} />
 
-      <Route from="/services/category=:catid/subcategory=:subid"  render={(props) => <Service {...props} />} />
+      <Route from="/services"  render={(props) => <Service {...props} />} />
       <Route from="/" render={(props) => <Website {...props} />} />
       
      

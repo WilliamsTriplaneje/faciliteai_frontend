@@ -95,6 +95,11 @@
   color: var(--white);
 }
 
+.descriptionWraper {
+  float: left;
+  /* height: 100px; */
+  width: 100%;
+}
 /* #cardCategory{
   display: flex;
   flex-direction: column;

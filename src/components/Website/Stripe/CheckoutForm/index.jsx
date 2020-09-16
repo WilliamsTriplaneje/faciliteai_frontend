@@ -3,6 +3,8 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Card, Button, Input } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import api from '../../../../services/api'
+import { getUser } from '../../../../auth'
+
 import CardField from '../CardField'
 import './styles.css'
 
@@ -14,9 +16,10 @@ const CheckoutForm = ({ selectedService, history }) => {
   const elements = useElements();
 
   if (!selectedService) history.push('/')
+  const userEmail = getUser().email
 
   const [receiptUrl, setReceiptUrl] = useState('')
-  const [clientEmail, setClientEmail] = useState('')
+  const [clientEmail, setClientEmail] = useState(userEmail)
 
 
   const handleSubmit = async event => {

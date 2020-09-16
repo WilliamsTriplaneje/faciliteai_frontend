@@ -93,90 +93,87 @@ function Index() {
             </Col>
           </Row>
           <Row>
-            <Col
-              lg="12"
-              md="12"
-              xl="12"
+          <Col xs="1" lg="1" md="1" xl="1" />
+          <Col xs="10" lg="10" md="10" xl="10">
+              <Row
+              id="searchSelects"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                alignItems: 'center',
+                justifyContent: "center",
+                justifyItems: 'center'
+              }}
+              >
+              <Col xs="10" lg="5" md="5" xl="5"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignContent: "center",
+                alignItems: 'center',
                 justifyContent: "center",
+                justifyItems: 'center'
               }}
+              >
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={categories}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event, value) =>
+                    setSelectedCategoryId(value._id)
+                  }
+                  style={{ width: "80%" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Categoria"
+                      variant="outlined"
+                    />
+                  )}
+                />
+            </Col>
+
+            <Col xs="10" lg="5" md="5" xl="5"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignItems: 'center',
+              justifyContent: "center",
+              justifyItems: 'center'
+            }}
             >
-              <Row
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignContent: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Col lg="6">
-                  <Autocomplete
-                    id="combo-box-demo"
-                    options={categories}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(event, value) =>
-                      setSelectedCategoryId(value._id)
-                    }
-                    style={{ width: "100%" }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Categoria"
-                        variant="outlined"
-                      />
-                    )}
+              <Autocomplete
+                id="combo-box-demo"
+                options={subCategories}
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) =>
+                  setSelectedSubCategoryId(value._id)
+                }
+                style={{ width: "80%" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Subcategoria"
+                    variant="outlined"
                   />
-                </Col>
+                )}
+              />
+            </Col>
               </Row>
+
               <Row
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  marginTop: "15px",
-                }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignContent: "center",
+                alignItems: 'center',
+                justifyContent: "center",
+                justifyItems: 'center'
+              }}
               >
-                <Col lg="6">
-                  <Autocomplete
-                    id="combo-box-demo"
-                    options={subCategories}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(event, value) =>
-                      setSelectedSubCategoryId(value._id)
-                    }
-                    style={{ width: "100%" }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Subcategoria"
-                        variant="outlined"
-                      />
-                    )}
-                  />
-                </Col>
-              </Row>
-              <Row
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignContent: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Col
-                  lg="6"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignContent: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Button
+              <Button
                     className="searchButton"
                     type="button"
                     onClick={() => {
@@ -190,9 +187,9 @@ function Index() {
                   >
                     Buscar
                   </Button>
-                </Col>
               </Row>
-            </Col>
+          </Col>
+          <Col xs="1" lg="1" md="1" xl="1" />
           </Row>
         </Container>
       </section>

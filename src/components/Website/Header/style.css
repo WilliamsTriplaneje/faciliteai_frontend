@@ -2,12 +2,13 @@
   margin: 0 ;
   padding: 0;
 }
-.header-body{
+/* .header-body{
   display: flex;
   vertical-align: middle;
-}
+  padding-left: 20px;
+} */
 .combo{
- margin: 2px;
+ /* margin: 2px; */
  text-align: center;
 }
 #search-area{
@@ -16,15 +17,22 @@
 #logo-faciliteai{
   justify-content: left;
   align-items: center;
-  padding: 8px 0;
+  /* padding: 8px 0; */
+  /* height: 100px; */
+  width: 95px;
+  height: auto;
 }
-@media (max-width: 768px) {
+
+#headerLoginButton{
+  width: 100px;
+}
+/* @media (max-width: 768px) {
   .branding {
     width: 100%;
     min-height: 100%;
   }
-}
-@media (max-width: 768px) {
+} */
+/* @media (max-width: 768px) {
   #search-area  {
     display: flex;
     width: 90vw;
@@ -45,4 +53,4 @@
     align-items: center;
   }
 }
-
+ */

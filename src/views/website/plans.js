@@ -1,10 +1,11 @@
 import "./payment.css";
 import React, { useState, useEffect } from "react";
 import StripeCheckout from "react-stripe-checkout";
-import { STRIPE_PUBLIC } from "../../config/Constants";
+
 import useRouter from "./hooks/useRouter";
 import Checkout from "../../components/Website/Stripe/Checkout";
 import api from "../../services/api";
+import { STRIPE_PUBLIC } from "../../config/Constants";
 import { loadStripe } from "@stripe/stripe-js";
 
 import { Container, Col, Row, Button, Card } from "reactstrap";

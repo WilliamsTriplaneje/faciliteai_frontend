@@ -74,4 +74,8 @@
     .benefitsSection .provider .data li {
         font-size: 1rem;
     }
+
+    #searchSelects{
+        flex-direction: row;
+    }
 }
