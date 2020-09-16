@@ -195,22 +195,49 @@ class Login extends React.Component {
             </CardBody>
           </Card>
           <Row className="mt-3">
-            <Col xs="6">
+            {/* <Col xs="4">
               <a
                 className="text-light"
-                href="#pablo"
+                href="#"
                 onClick={(e) => e.preventDefault()}
               >
                 <small>Esqueceu sua senha ?</small>
               </a>
-            </Col>
-            <Col className="text-right" xs="6">
+            </Col> */}
+            <Col className="text-right" xs="6"
+            style={{
+              display: "flex",
+              flexDirection: 'column',
+              justifyContent: 'center',
+              justifyItems: 'center',
+              alignContent: 'center',
+              alignItems: 'center'
+            }}
+            >
               <a
                 className="text-light"
-                href="#pablo"
+                href="#"
+                onClick={() => (window.location = "/cadastro")}
+              >
+                <small>Cadastre-se</small>
+              </a>
+            </Col>
+            <Col className="text-right" xs="6"
+            style={{
+              display: "flex",
+              flexDirection: 'column',
+              justifyContent: 'center',
+              justifyItems: 'center',
+              alignContent: 'center',
+              alignItems: 'center'
+            }}
+            >
+              <a
+                className="text-light"
+                href="#"
                 onClick={() => (window.location = "/auth/register")}
               >
-                <small>Criar minha conta.</small>
+                <small>Cadastre-se como Prestador</small>
               </a>
             </Col>
           </Row>
