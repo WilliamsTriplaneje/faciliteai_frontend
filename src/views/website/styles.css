@@ -3,8 +3,8 @@
     outline: 0;
     box-sizing: border-box;
     padding: 0;
+    list-style: none;
 }
-
 
 .searchButton {
     background-color: var(--success);
@@ -16,34 +16,62 @@
 }
 
 .benefitsSection {
-    padding-top: 5px;
-    background-color: grey;
+    background-color: #e4e4e4;
     color: black;
 }
-.benefitsSection .platform h3 {
-    color: black;
-    font-size: 1.0rem;
+.benefitsSection .provider .title h3 {
+    color:var(--dark);
+    font-size: 2rem;
+    font-family: 'Poppins';
 }
 
-.benefitsSection .platform .data {
-    color: black;
-    font-family: "Poppins", sans-serif;
-    /* text-transform: uppercase; */
-    /* color: var(--white); */
-    /* text-align: center; */
-    /* font-weight: lighter; */
-    font-size: 0.7rem;
+.benefitsSection .provider .data span {
+    color: var(--dark);
+    font-weight: lighter;
+    font-size: 1.4rem;
     text-align: start;
 }
 
-.benefitsSection .provider h4 {
-    color: black;
-    font-size: 0.8rem;
+.benefitsSection .provider .title h4 {
+    color: var(--dark);
+    font-size: 1.8rem;
+    font-family: 'Poppins';
+    margin-top: 18px;
 }
 
-.benefitsSection .provider .data {
-    color: black;
+.benefitsSection .provider .data li {
+    color:var(--dark);
     font-family: "Poppins", sans-serif;
-    font-size: 0.7rem;
+    font-weight: lighter;
+    font-size: 1.2rem;
     text-align: start;
+}
+.platform img{
+    width: 70%;
+}
+.provider{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    height: 100%;
+}
+@media(max-width: 768px){
+    .platform img{
+        display: none;
+    }
+    .benefitsSection .provider .title h3 {
+        font-size: 1rem;
+    }
+    
+    .benefitsSection .provider .data span {
+        font-size: 1rem;
+    }
+    
+    .benefitsSection .provider .title h4 {
+        font-size: 1rem;
+    }
+    
+    .benefitsSection .provider .data li {
+        font-size: 1rem;
+    }
 }

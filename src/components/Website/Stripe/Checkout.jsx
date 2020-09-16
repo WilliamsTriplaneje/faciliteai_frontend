@@ -17,5 +17,4 @@ const Checkout = ({ selectedService, history }) => {
         </Elements>
   )
 }
-
 export default Checkout

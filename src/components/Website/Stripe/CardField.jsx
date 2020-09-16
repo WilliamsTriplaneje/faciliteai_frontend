@@ -9,7 +9,7 @@ const CARD_OPTIONS = {
         color: '#42f5b3',
         fontWeight: 500,
         fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-        fontSize: '16px',
+        fontSize: '18px',
         fontSmoothing: 'antialiased',
         ':-webkit-autofill': {color: '#fce883'},
         '::placeholder': {color: '#87bbfd'},

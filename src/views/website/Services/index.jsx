@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import api from '../../../services/api'
+import { isAuthenticated } from '../../../auth'
+import Swal from 'sweetalert2'
 
 import './styles.css'
 
@@ -8,14 +10,17 @@ import {
   Container,
   Row,
   Col,
-  Card,
+  CardHeader,
   Button
 } from 'reactstrap'
 
-import Header from "../../../components/Website/Header/index";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-function Services() {
-  const history = useHistory()
+import Header from "../../../components/Website/Header/index";
+import Footer from '../../../components/Footers/SiteFooter'
+
+function Services({ history, location }) {
   const [allservices, setServices] = useState([])
 
   const { catid, subid } = useParams()
@@ -26,25 +31,129 @@ function Services() {
         params: { categoryId: catid, subcategoryId: subid }
       }).then((result) => {
         setServices(result.data)
-        console.log(result.data)
       }).catch(() => {
         //TODO ADD SWEETALERT
         alert('Erro na listagem dos serviços')
       })
     }
     loadServices()
-  }, [])
+  }, [loadServices])
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(null);
+
+
+  useEffect(() => {
+    async function loadCategories() {
+      await api.get("/categories").then((res) => {
+        setCategories(res.data);
+      }).catch((err) => {
+        console.log("Não foi possível listar categorias")
+        console.log(err)
+      })
+    }
+    loadCategories();
+  }, []);
+
+  useEffect(() => {
+    async function loadSubcategories() {
+      if (!selectedCategoryId) {
+        return
+      }
+      await api.get('/sub-categories', {
+        params: { categoryId: selectedCategoryId }
+      }).then((result) => {
+        setSubCategories(result.data)
+      }).catch((err) => {
+        console.log("Não foi possível listar subcategorias")
+        console.log(err)
+      })
+
+    }
+    loadSubcategories();
+  }, [selectedCategoryId]);
+
+  function loadServices() {
+    const categoryId = selectedCategoryId
+    const subCategoryId = selectedSubCategoryId
+    history.push(`/services/category=${categoryId}/subcategory=${subCategoryId}`)
+  }
 
   return (
     <>
       <Header />
+      <section id="buscar" className="searchSection bg-gradient-info">
+        <Container>
+          <Row
+            style={{ marginBottom: '30px', marginTop: '25px' }}
+          >
+            <Col lg="12" md="12" xl="12"
+              style={{ display: "flex", flexDirection: "row", alignContent: "center", justifyContent: "center" }}
+            >
+              <h2 style={{ color: '#fff', fontWeight: 'bold', marginTop: '12px' }}>Buscar serviços</h2>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="12" md="12" xl="12"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Row
+                style={{ display: "flex", flexDirection: "row", alignContent: "center", justifyContent: "center" }}
+              >
+                <Col lg='6'>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={categories}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => setSelectedCategoryId(value._id)}
+                    style={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                  />
+                </Col>
+              </Row>
+              <Row
+                style={{
+                  display: "flex", flexDirection: "column", alignContent: "center",
+                  justifyContent: "center", marginTop: '15px'
+                }}
+              >
+                <Col lg='6'>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={subCategories}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => setSelectedSubCategoryId(value._id)}
+                    style={{ width: '100%' }}
+                    renderInput={(params) => <TextField {...params} label="Subcategoria" variant="outlined" />}
+                  />
+                </Col>
+              </Row>
+              <Row
+                style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}
+              >
+                <Col lg='6'
+                  style={{ display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}
+                >
+                  <Button className="searchButton" type='button' onClick={() => {
+                    loadServices()
+                  }}>Buscar</Button>
+                </Col>
 
-      <Container fluid className="bg-gradient-info" 
-      //  style={{ maxWidth: "100vw", margin: 0, padding: '25px', textAlign: 'center', height: '100vh' }}
-      >
-        {/* <span style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 'bold' }}>
-          Esses são os serviços disponiveis na rua região
-          </span> */}
+              </Row>
+            </Col>
+          </Row>
+
+        </Container>
+      </section>
+      <Container fluid>
         <Row className='cardServices' >
           {
             allservices.map((service) => {
@@ -56,21 +165,48 @@ function Services() {
               catch (err) {
 
               }
-              if (service.isActive === true) {
+              if (service.isActive === false) {
                 return (
-                  <Col lg='3' md='3' xl='3' className='cardInfoServices pl-0 pl-sm-0 pl-md-3 pl-lg-4 pl-xl-5' key={service._id}>
+                  <Col lg='6' md='6' xl='6' className='cardInfoServices pl-0 pl-sm-0 pl-md-3 pl-lg-4 pl-xl-5' key={service._id}>
                     <div className="cardData">
-                      <h2>{service.name}</h2>
+                      <CardHeader>
+                        <div className='boxIcons' >
+                          <i className=" ni ni-briefcase-24 text-dark" style={{ marginRight: '12px', fontSize: '1rem' }} />
+                          <h2>{service.name}</h2>
+                        </div>
+                        <div className='boxIcons' >
+                          <i className=" ni ni-pin-3" style={{ marginRight: '8px', fontSize: '1.1rem' }} />
+                          <span className="location">{serviceLocation}</span>
+                        </div>
+                      </CardHeader>
+
                       <div className="cardDescription">
                         <span>{service.description}</span>
-                        <span className="location">{serviceLocation}</span>
                       </div>
                       <Row className='cardPrice'>
                         <span>R$ {service.price}</span>
                         <span>{service.typePay}</span>
                       </Row>
-                      
-                      <Button onClick={() => history.push(`/service/${service._id}`)}>Mais</Button>
+
+                      <Button type='button' onClick={async () => {
+                        if (isAuthenticated === true) {
+                          history.push(`/service/${service._id}`)
+                        }
+                        await Swal.fire({
+                          imageUrl: "../../assets/img/brand/logo.png",
+                          confirmButtonColor: "#0ee49d",
+                          title: "Autenticação",
+                          text: "Você precisa logar para acessar a página.",
+                        });
+                        const l = {
+                          pathname: "/auth/login",
+                          state: { from: `/service/${service._id}` }
+                        }
+                        console.log(`location: ${location}`)
+                        console.log(location)
+                        history.push(l)
+                      }
+                      }>Mais</Button>
                     </div>
                   </Col>
                 )
@@ -81,6 +217,8 @@ function Services() {
           }
         </Row>
       </Container>
+      <br/>
+      <Footer/>
     </>
 
   );

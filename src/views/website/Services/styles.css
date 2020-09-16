@@ -6,15 +6,7 @@
     font-weight: lighter;
     border-radius: 12px;
 }
-.cardServices h2{
-    font-family: 'Poppins';
-    font-weight: 600;
-}
-.cardServices span{
-    font-family: 'Poppins';
-    font-size: 1rem;
-}
-.cardServices button{
+.cardData button{
     background: var(--success);
     border: none;
     font-family: 'Poppins';
@@ -28,9 +20,12 @@
 
 .cardDescription .location {
     font-size: 0.8rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
-.cardServices button:hover{
+.cardData button:hover{
     background: #4fe769;
     border: none;
     font-family: 'Poppins';
@@ -46,29 +41,31 @@
     font-size: 1.2rem;
     font-weight: 600;
 }
-.cardInfoServices{
-    padding: 10px;
+.boxIcons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .cardData {
     background: var(--white);
     border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 0 5px  rgba(0, 0, 0, 0.3);    
+}
+.cardData h2{
+    font-size: 1.25rem; 
+}
+.cardInfoServices{
+    max-height: 350px;
 }
 @media(max-width: 768px ){
-    .cardServices h2{
-        font-family: 'Poppins';
-        font-size: 1.2rem;
-        font-weight: 600;
-    }
-    .cardServices span{
-        font-family: 'Poppins';
-        font-size: 1.15rem;
-    }
-    .cardServices button{
-        font-size: 1rem;
-    }
     .cardInfoServices{
         margin-top: 12px;
+    }
+    .cardData h2{   
+       font-size: 1.1rem;
     }
 }
 @media(min-width: 800px){

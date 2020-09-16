@@ -71,8 +71,6 @@ function Plans({ history }) {
         const { error } = await stripe.redirectToCheckout({
             sessionId: id,
         });
-
-
         console.log(error)
     }
     return(
