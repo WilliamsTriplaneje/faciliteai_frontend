@@ -60,7 +60,7 @@ function Plans({ history }) {
         <Container
           fluid
           className="bg-gradient-info"
-          style={{ width: "100vw", height: "100vh" }}
+          style={{ width: "100vw"}}
         >
           <div className="container">
             <br />
@@ -88,8 +88,10 @@ function Plans({ history }) {
                 ))}
             </Row>
           </div>
+          <br/>
+         <Footer /> 
         </Container>
-        <Footer />
+        
       </>
     );
   }
