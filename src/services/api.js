@@ -1,9 +1,10 @@
 import axios from "axios";
 import { getToken } from "../auth";
+import { API_URL } from '../config/Constants'
 
 const api = axios.create({
-  // baseURL: "http://api-faciliteai-com-br.umbler.net/"
-  baseURL: "http://localhost:3333",
+  baseURL: API_URL,
+  // baseURL: "http://localhost:3333",
   headers: {
     "Content-Type": "application/json;charset=UTF-8",
     "Access-Control-Allow-Origin": "*",
