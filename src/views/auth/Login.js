@@ -90,7 +90,7 @@ class Login extends React.Component {
             setRoles(user.roles);
             setToken(user.token);
 
-            if(returnUrl) {
+            if(returnUrl && returnUrl !== '/') {
               self.redirectTo(returnUrl)
               return
             }
