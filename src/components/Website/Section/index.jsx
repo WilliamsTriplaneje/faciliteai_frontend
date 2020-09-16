@@ -89,7 +89,7 @@ function Section() {
                 justifyContent: "center", marginTop: '10px'
               }}>
                 <Button className="downloadButton" href="#">Baixe o app</Button>
-                <Button className="knowMoreButton" href="#saiba-mais">Saiba Mais</Button>
+                <Button className="knowMoreButton" href='/contratar-plano'>Planos</Button>
               </Row>
           </Col>
           <Col lg="0" md="4" xl="4" id="cellPhoneImg">

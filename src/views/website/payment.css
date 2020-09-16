@@ -71,3 +71,81 @@
 .titleService span{
     font-size: 1rem;
 }
+@media(max-width: 768px){
+    .service{
+        padding: 13px;
+        text-align: left;
+        margin-left: 12px;
+    }
+    .service img{
+        width: 60px;
+        height: 60px;
+    }
+    .cardPayment{
+        align-items: flex;
+        justify-content: flex-start;
+        margin-top: 18px;
+    }
+    .cardPayment h1{
+        margin-left: 10px;
+        font-size: 1.8rem;
+        text-decoration: underline;
+    }
+    .cardPayment button{
+        font-size: 1rem;
+        margin-left: 0;
+    }
+    .companyData h2{
+        font-size: 1.2rem;
+    }
+    .titleService h2{
+        font-size: 1rem;
+        text-decoration: underline;
+    }
+    .titleService span{
+        font-size: .85rem;
+    }
+    .rows strong{
+        font-size: .9rem;
+    }
+    .rows span{
+        font-size: 1rem;
+    }
+}
+@media(max-width: 1024px){
+    .service{
+        padding: 20px;
+        text-align: left;
+        margin-left: 12px;
+    }
+    .cardPayment{
+        align-items: flex;
+        justify-content: flex-start;
+        margin-top: 18px;
+    }
+    .cardPayment h1{
+        margin-left: 10px;
+        font-size: 2.5rem;
+        text-decoration: underline;
+    }
+    .cardPayment button{
+        font-size: 1.8rem;
+        margin-left: 0;
+    }
+    .companyData h2{
+        font-size: 2rem;
+    }
+    .titleService h2{
+        font-size: 2.1rem;
+        text-decoration: underline;
+    }
+    .titleService span{
+        font-size: 1.3rem;
+    }
+    .rows strong{
+        font-size: 1.3rem;
+    }
+    .rows span{
+        font-size: 1.6rem;
+    }
+}

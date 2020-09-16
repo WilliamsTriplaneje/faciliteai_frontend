@@ -96,7 +96,7 @@ function Services({ history, location }) {
               <h2 style={{ color: '#fff', fontWeight: 'bold', marginTop: '12px' }}>Buscar serviços</h2>
             </Col>
           </Row>
-          <Row>
+          <Row >
             <Col lg="12" md="12" xl="12"
               style={{
                 display: "flex",
@@ -154,6 +154,7 @@ function Services({ history, location }) {
         </Container>
       </section>
       <Container fluid>
+      <span style = {{fontWeight: 'bold', fontSize: '1.4rem', marginLeft: '20px'}}>Esses são os serviços disponíveis no momento.</span>
         <Row className='cardServices' >
           {
             allservices.map((service) => {

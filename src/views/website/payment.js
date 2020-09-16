@@ -76,7 +76,7 @@ function Payment({ history, location }) {
           }}
         >
           <br />
-          <Card>
+          <Card xl = '12' lg ='12' md ='12'>
             <Col lg="12">
               <div key={company._id} className="service">
                 <Row className="rows">
