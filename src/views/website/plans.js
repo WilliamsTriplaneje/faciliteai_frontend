@@ -27,83 +27,26 @@ function Plans({ history }) {
   useEffect(() => {
     async function getPlans() {
       await api.get("/stripe/plans").then((res) => {
-        setPlans(res.data);
-        console.log(res.data);
+        setPlans(res.data.filter((plan) => plan.name !== undefined));
       });
     }
 
     getPlans();
   }, []);
 
-  function onSelectPlan(plan) {
-    console.log(plan);
-
-    setSelectedPlan(plan);
-  }
-
-  async function getCheckoutSection(costumerEmail) {
-    const planId = selectedPlan.id;
+  async function getCheckoutSection(plan) {
+    const planId = plan.id;
 
     const session = await api
       .post("/stripe/plans/checkout", {
         planId,
-        clientEmail: costumerEmail,
       })
       .then((res) => res.data);
 
     return session;
   }
-
-  if (!selectedPlan) {
-    return (
-      <>
-        <Header />
-        <Container
-          fluid
-          className="bg-gradient-info"
-          style={{ width: "100vw"}}
-        >
-          <div className="container">
-            <br />
-            <Row lg="12">
-              {plans &&
-                plans.map((plan) => (
-                  <Col lg="4">
-                    <Card className="cardPlans">
-                      <div key={plan.id} className="service">
-                        <h1>Nome dos planos</h1>
-                        <span>Aqui deve ir a descrição dos planos</span>
-                        <h4>R$ {plan.amount / 100}</h4>
-                        <p>Plano Mensal</p>
-                        <Button
-                        type="button"
-                        onClick={() => {
-                          onSelectPlan(plan);
-                        }}
-                      >
-                        Comprar
-                      </Button>
-                      </div>
-                    </Card>
-                  </Col>
-                ))}
-            </Row>
-          </div>
-          <br/>
-         <Footer /> 
-        </Container>
-        
-      </>
-    );
-  }
-  //   return (<Checkout
-  //       selectedService={selectedService}
-  //       history={history}
-  //   />)
-  async function onSubmit(e) {
-    e.preventDefault();
-
-    const { id } = await getCheckoutSection(clientEmail);
+  async function onSelectPlan(plan) {
+    const { id } = await getCheckoutSection(plan);
 
     const stripe = await stripePromise;
     const { error } = await stripe.redirectToCheckout({
@@ -111,10 +54,47 @@ function Plans({ history }) {
     });
     console.log(error);
   }
+
   return (
-    <form onSubmit={onSubmit}>
-      <button type="submit">Pagar</button>
-    </form>
+    <>
+      <Header />
+      <Container
+        fluid
+        className="bg-gradient-info"
+        style={{ width: "100vw"}}
+      >
+        <div className="container">
+          <br />
+          <Row lg="12">
+            {plans &&
+              plans.map((plan) => (
+                <Col lg="4">
+                  <Card className="cardPlans">
+                    <div key={plan.id} className="service">
+                      <h1>{plan.name}</h1>
+                      <span>{plan.description}</span>
+                      <h4>R$ {plan.amount / 100}</h4>
+                      <p>{plan.interval === 'month' ? 'Plano mensal' : plan.interval}</p>
+                      <Button
+                      type="button"
+                      onClick={() => {
+                        setSelectedPlan(plan)
+                        onSelectPlan(plan);
+                      }}
+                    >
+                      Comprar
+                    </Button>
+                    </div>
+                  </Card>
+                </Col>
+              ))}
+          </Row>
+        </div>
+        <br/>
+        <Footer /> 
+      </Container>
+      
+    </>
   );
 }
 

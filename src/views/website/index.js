@@ -180,8 +180,18 @@ function Index() {
                       //TODO Redirecionar para próxima tela
                       const categoryId = selectedCategoryId;
                       const subCategoryId = selectedSubCategoryId;
+
+                      let url = '/services?'
+
+                      if(categoryId){
+                        url += `category=${categoryId}`
+                      }
+
+                      if(subCategoryId){
+                        url += ( categoryId ? `&subcategory=${subCategoryId}` : `subcategory=${subCategoryId}`)
+                      }
                       history.push(
-                        `/services/category=${categoryId}/subcategory=${subCategoryId}`
+                        url
                       );
                     }}
                   >
