@@ -78,7 +78,7 @@ class Admin extends React.Component {
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to={`/${AUTHENTICATED_ROUTE_PREFIX}/index`} />
+            <Redirect from="*" to={`/${AUTHENTICATED_ROUTE_PREFIX}`} />
           </Switch>
           <Container fluid>
             {/* <AdminFooter /> */}

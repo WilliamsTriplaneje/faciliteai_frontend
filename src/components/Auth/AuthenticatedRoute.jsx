@@ -21,7 +21,7 @@ export default function AuthenticatedRoute(AuthComponent, requestedRoles) {
                 <>
                     { isLoading ? (
                         <>
-                            ...
+                            {/* //TODO Criar tela de loading */}
                         </>
                     ) : (
                         // eslint-disable-next-line react/jsx-props-no-spreading

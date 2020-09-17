@@ -42,73 +42,80 @@ import Header from "../../../components/Headers/Header";
 
 function Category() {
   const history = useHistory()
-
-  const [categorys, setCategorys] = useState([]);
-  useEffect(() => {
-    async function loadCategorys() {
-      await api
-        .get("/categories")
-        .then((result) => {
-          setCategorys(result.data);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-    loadCategorys();
-  }, [handleRegisterCategory]);
-
-
-  const [subcategories, setSubcategories] = useState([]);
-  useEffect(() => {
-    async function loadSubcategorys() {
-      await api
-        .get("/sub-categories")
-        .then((result) => {
-          setSubcategories(result.data);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-    loadSubcategorys();
-  }, []);
-
   //REGISTER CATEGORYS
   const [name, setName] = useState("");
-  async function handleRegisterCategory(e) {
-    e.preventDefault();
-    const nameCategory = document.getElementById("nameCategory");
-    isItEmpty(nameCategory);
+  const [subcategories, setSubcategories] = useState([]);
+  const [categorys, setCategorys] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [nameSubcategory, setNameSubcategory] = useState("");
 
+
+  async function loadCategorys() {
     await api
-      .post("/categories", {
-        name,
+      .get("/categories")
+      .then((result) => {
+        setCategorys(result.data);
       })
-      .then(() => {
-        return
+      .catch((err) => {
+        alert(err);
+      });
+  }
+  async function loadSubcategorys() {
+    await api
+      .get("/sub-categories")
+      .then((result) => {
+        setSubcategories(result.data);
       })
       .catch((err) => {
         alert(err);
       });
   }
 
-  const [categoryId, setCategoryId] = useState("");
-  const [nameSubcategory, setNameSubcategory] = useState("");
+  useEffect(() => {
+    loadCategorys();
+    loadSubcategorys();
+  }, []);
+
+  async function handleRegisterCategory(e) {
+    e.preventDefault();
+    await Promise.all([isItEmpty(name)]).then(async () => {
+      await api
+      .post("/categories", {
+        name,
+      })
+      .then(() => {
+        loadCategorys();
+        setName('')
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    })
+  }
+
+  
   //REGISTER SUBCATEGORYS
   async function handleRegisterSubcategory(e) {
     e.preventDefault();
-    await api
+
+    await Promise.all([isItEmpty(nameSubcategory)]).then(async ()=> {
+      await api
       .post("/sub-categories", {
         name: nameSubcategory ,
         categoryId
       })
       .then(() => {
-        window.location = '/app/admin/categorias'
+        // window.location = '/app/admin/categorias'
+        loadSubcategorys();
+        setNameSubcategory('')
       })
       .catch((err) => {
         alert(err);
       });
+    }).catch((err) => {
+      console.log("Erro na validação dos campos")
+    })
+    
   }
 
   return (
@@ -137,6 +144,7 @@ function Category() {
                           id="nameCategory"
                           type="text"
                           placeholder="Digite o nome da categoria"
+                          value={name}
                           onChange={(event) => setName(event.target.value)}
                         />
                       </div>
@@ -218,6 +226,7 @@ function Category() {
                         <Input
                           type="text"
                           placeholder="Digite o nome da subcategoria"
+                          value={nameSubcategory}
                           onChange={(event) =>
                             setNameSubcategory(event.target.value)
                           }

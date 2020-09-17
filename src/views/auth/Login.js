@@ -94,22 +94,22 @@ class Login extends React.Component {
               self.redirectTo(returnUrl)
               return
             }
-            if (isAdmin() || isMasterAdmin()) {
-              self.redirectTo(`/app/admin/dashboard`)
-              return
-            }
+            // if (isAdmin() || isMasterAdmin()) {
+            //   self.redirectTo(`/app/admin/dashboard`)
+            //   return
+            // }
             
-            if (isProvider()) {
-              self.redirectTo(`/app/empresa`)
-              return
-            }
+            // if (isProvider()) {
+            //   self.redirectTo(`/app/empresa`)
+            //   return
+            // }
             
-            if (isClient()) {
-              self.redirectTo(`/`)
-              return
-            }
+            // if (isClient()) {
+            //   self.redirectTo(`/`)
+            //   return
+            // }
             
-            self.redirectTo(`/`)
+            self.redirectTo(`/app`)
           })
           .catch((err) => {
             console.log(err)

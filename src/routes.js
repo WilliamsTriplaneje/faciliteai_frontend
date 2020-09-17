@@ -30,6 +30,7 @@ import Categorys from './views/app/admin/Categorys'
 
 import { AUTHENTICATED_ROUTE_PREFIX } from './config/Constants'
 import AuthenticatedRoute from './components/Auth/AuthenticatedRoute'
+import Home from "./views/app/index";
 // import Icons from "./views/examples/Icons.js";
 
 var routes = [
@@ -39,7 +40,8 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: AuthenticatedRoute(Index, ['dev-provider']),
     requestedRoles: ['dev-provider'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
   },
   // {
   //   path: "/icons",
@@ -61,7 +63,8 @@ var routes = [
     icon: "ni ni-single-02 text-blue",
     component:  AuthenticatedRoute(Profile, ['provider']),
     requestedRoles: ['provider'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
   },  
   {
     path: "/servicos",
@@ -69,7 +72,8 @@ var routes = [
     icon: "ni ni-bullet-list-67 text-blue",
     component: AuthenticatedRoute(CreateService, ['provider']),
     requestedRoles: ['provider'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
   },
   {
     path: "/login",
@@ -78,6 +82,7 @@ var routes = [
     requestedRoles: ['provider'],
     component: Login,
     layout: "/auth",
+    hidden: true
   },
   {
     path: "/register",
@@ -85,7 +90,8 @@ var routes = [
     icon: "ni ni-circle-08 text-blue",
     requestedRoles: ['provider'],
     component: Register,
-    layout: "/auth"
+    layout: "/auth",
+    hidden: true
   },
   {
     path: "/cadastrar-servico",
@@ -93,7 +99,8 @@ var routes = [
     icon: "ni ni-circle-08 text-blue",
     component: AuthenticatedRoute(ServicesRegister, ['provider']),
     requestedRoles: ['provider'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: true
   },
   //ROUTES FOR ADMIN
 
@@ -103,7 +110,8 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: AuthenticatedRoute(AdminDash, ['master-admin']),
     requestedRoles: ['master-admin'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
   },
   {
     path: "/admin/empresas",
@@ -119,7 +127,8 @@ var routes = [
     icon: "ni ni-briefcase-24 text-blue",
     component: AuthenticatedRoute(Categorys, ['master-admin']),
     requestedRoles: ['master-admin'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
   },
   {
     path: "/admin/aprovar-empresa/:id",
@@ -127,7 +136,17 @@ var routes = [
     icon: "ni ni-circle-08 text-blue",
     component: AuthenticatedRoute(Approval, ['master-admin']),
     requestedRoles: ['master-admin'],
-    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
+  },
+  {
+    path: "/",
+    name: "Home",
+    icon: "ni ni-tv-2 text-primary",
+    component: AuthenticatedRoute(Home, []),
+    requestedRoles: [],
+    layout: `/${AUTHENTICATED_ROUTE_PREFIX}`,
+    hidden: false
   },
 ];
 export default routes;

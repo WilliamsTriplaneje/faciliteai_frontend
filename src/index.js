@@ -34,6 +34,8 @@ import Success from "./views/website/success";
 import Cancel from "./views/website/cancel";
 import Register from "./views/website/register";
 import Service from "./views/website/Services/index";
+import Teste from "./views/app/teste";
+
 
 
 
@@ -77,9 +79,12 @@ ReactDOM.render(
       <Route from="/payment/:chargeId/cancel" render={(props) => <Cancel {...props} />} />
 
       <Route from="/services"  render={(props) => <Service {...props} />} />
+
+      <AuthenticatedRoute
+        path="/teste"
+        component={(props) => <Teste {...props} />}
+      />
       <Route from="/" render={(props) => <Website {...props} />} />
-      
-     
       
     </Switch>
   </BrowserRouter>,
