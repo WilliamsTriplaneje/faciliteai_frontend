@@ -37,6 +37,7 @@ api.interceptors.response.use(
       if (err.response.status === 401) {
         window.location = "/auth/login";
       }
+      throw err;
     } catch(e) {
       throw err;
     }

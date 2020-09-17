@@ -36,6 +36,8 @@ import Register from "./views/website/register";
 import Service from "./views/website/Services/index";
 import Teste from "./views/app/teste";
 import ConfirmationEmail from "./views/website/ConfirmationEmail";
+import RecoveryPassword from "./views/website/RecoveryPassword";
+
 
 
 
@@ -83,6 +85,7 @@ ReactDOM.render(
 
 
       <Route from="/confirmar-email/:confirmationId"  render={(props) => <ConfirmationEmail {...props} />} />
+      <Route from="/recuperar-senha/:recoveryId"  render={(props) => <RecoveryPassword {...props} />} />
 
       <AuthenticatedRoute
         path="/teste"
