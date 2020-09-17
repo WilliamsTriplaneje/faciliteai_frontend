@@ -35,6 +35,7 @@ import Cancel from "./views/website/cancel";
 import Register from "./views/website/register";
 import Service from "./views/website/Services/index";
 import Teste from "./views/app/teste";
+import ConfirmationEmail from "./views/website/ConfirmationEmail";
 
 
 
@@ -79,6 +80,9 @@ ReactDOM.render(
       <Route from="/payment/:chargeId/cancel" render={(props) => <Cancel {...props} />} />
 
       <Route from="/services"  render={(props) => <Service {...props} />} />
+
+
+      <Route from="/confirmar-email/:confirmationId"  render={(props) => <ConfirmationEmail {...props} />} />
 
       <AuthenticatedRoute
         path="/teste"
