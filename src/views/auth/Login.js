@@ -132,7 +132,7 @@ class Login extends React.Component {
   render() {    
     return (
       <>
-        <Col lg="10" md="7">
+        <Col lg="6" md="8">
           <Card className="bg-secondary shadow border-0">
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">

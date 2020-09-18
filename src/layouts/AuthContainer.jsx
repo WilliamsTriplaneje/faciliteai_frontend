@@ -26,14 +26,26 @@ import AuthFooter from "../components/Footers/AuthFooter.js";
 
 const AuthContainer = (props) => {
 
-    // useEffect(() => {
-    //     document.body.classList.add("bg-default");
-    // }, [])
+    useEffect(() => {
+        document.body.classList.add("bg-default");
+    }, [])
 
     return (
       <>
         <div className="main-content">
-          <div className="header bg-gradient-info py-7 py-lg-8">
+        <div className="header bg-gradient-info py-7 py-lg-8">
+            {/* <Container>
+              <div className="header-body text-center mb-7">
+                <Row className="justify-content-center">
+                  <Col lg="5" md="6">
+                    <h1 className="text-white">Bem-vindo!</h1>
+                    <p className="text-lead text-light">
+                      Utilize o formulário abaixo para acessar seu paínel administrativo.
+                    </p>
+                  </Col>
+                </Row>
+              </div>
+            </Container> */}
             <div className="separator separator-bottom separator-skew zindex-100">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -49,15 +61,17 @@ const AuthContainer = (props) => {
                 />
               </svg>
             </div>
+            
           </div>
           {/* Page content */}
           <Container className="mt--8 pb-5">
             <Row className="justify-content-center">
-                {props.children}
+            {props.children}
             </Row>
           </Container>
+          
         </div>
-        <AuthFooter />
+        {/* <AuthFooter /> */}
       </>
     );
 }

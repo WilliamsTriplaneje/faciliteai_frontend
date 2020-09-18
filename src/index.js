@@ -36,15 +36,7 @@ import Register from "./views/website/register";
 import Service from "./views/website/Services/index";
 import Teste from "./views/app/teste";
 import ConfirmationEmail from "./views/website/ConfirmationEmail";
-<<<<<<< HEAD
 import RecoveryPassword from "./views/website/RecoveryPassword";
-
-=======
->>>>>>> develop
-
-
-
-
 
 const history = createBrowserHistory()
 
