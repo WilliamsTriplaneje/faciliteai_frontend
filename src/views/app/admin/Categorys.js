@@ -62,8 +62,13 @@ function Category() {
   }
   async function loadSubcategorys() {
     await api
-      .get("/sub-categories")
+      .get("/sub-categories", {
+        params: {
+          includeCategory: 'true'
+        }
+      })
       .then((result) => {
+        console.log(result.data)
         setSubcategories(result.data);
       })
       .catch((err) => {
@@ -259,7 +264,7 @@ function Category() {
                   {subcategories.map((subcategories) => (
                     <tr key={subcategories._id}>
                       <th scope="row">{subcategories.name}</th>
-                      <td>{subcategories.categoryName}</td>
+                      <td>{subcategories.categoryId.name}</td>
                     </tr>
                   ))}
                 </tbody>
